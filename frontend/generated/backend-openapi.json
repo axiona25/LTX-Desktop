@@ -4,6 +4,39 @@
       "AppSettingsPatch": {
         "additionalProperties": false,
         "properties": {
+          "axModalApiKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Axmodalapikey"
+          },
+          "axModalEndpoint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Axmodalendpoint"
+          },
+          "axModalPromptOrchestrationEnabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Axmodalpromptorchestrationenabled"
+          },
           "falApiKey": {
             "anyOf": [
               {
@@ -47,6 +80,28 @@
               }
             ],
             "title": "Ltxapikey"
+          },
+          "modalFluxImageEndpoint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalfluximageendpoint"
+          },
+          "modalLlmPromptEndpoint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modalllmpromptendpoint"
           },
           "modelsDir": {
             "anyOf": [
@@ -138,6 +193,112 @@
           }
         },
         "title": "AppSettingsPatch",
+        "type": "object"
+      },
+      "AxCharacterGenerateRequest": {
+        "properties": {
+          "character_name": {
+            "default": "",
+            "title": "Character Name",
+            "type": "string"
+          },
+          "image_path": {
+            "title": "Image Path",
+            "type": "string"
+          },
+          "output_kind": {
+            "default": "profile",
+            "enum": [
+              "profile",
+              "image",
+              "video"
+            ],
+            "title": "Output Kind",
+            "type": "string"
+          },
+          "prompt": {
+            "default": "",
+            "title": "Prompt",
+            "type": "string"
+          }
+        },
+        "required": [
+          "image_path"
+        ],
+        "title": "AxCharacterGenerateRequest",
+        "type": "object"
+      },
+      "AxFaceSwapRequest": {
+        "properties": {
+          "media_type": {
+            "default": "image",
+            "enum": [
+              "image",
+              "video"
+            ],
+            "title": "Media Type",
+            "type": "string"
+          },
+          "prompt": {
+            "default": "",
+            "title": "Prompt",
+            "type": "string"
+          },
+          "source_media_path": {
+            "title": "Source Media Path",
+            "type": "string"
+          },
+          "target_face_path": {
+            "title": "Target Face Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_media_path",
+          "target_face_path"
+        ],
+        "title": "AxFaceSwapRequest",
+        "type": "object"
+      },
+      "AxModalAssetResponse": {
+        "properties": {
+          "metadata": {
+            "additionalProperties": true,
+            "title": "Metadata",
+            "type": "object"
+          },
+          "output_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Path"
+          },
+          "output_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Url"
+          },
+          "status": {
+            "const": "complete",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "AxModalAssetResponse",
         "type": "object"
       },
       "CancelCancellingResponse": {
@@ -1329,6 +1490,641 @@
         "title": "LtxUpgradeRecommendationResponse",
         "type": "object"
       },
+      "ModalFluxImageGenerateRequest": {
+        "properties": {
+          "aspect_ratio_overridden": {
+            "default": false,
+            "title": "Aspect Ratio Overridden",
+            "type": "boolean"
+          },
+          "aspect_ratio_override_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aspect Ratio Override Reason"
+          },
+          "backend_semantic_rewrite_after_generate": {
+            "default": false,
+            "title": "Backend Semantic Rewrite After Generate",
+            "type": "boolean"
+          },
+          "composition_intent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Composition Intent"
+          },
+          "custom_style_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Custom Style Text"
+          },
+          "descriptive_trait_lock_applied": {
+            "default": false,
+            "title": "Descriptive Trait Lock Applied",
+            "type": "boolean"
+          },
+          "effective_aspect_ratio": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effective Aspect Ratio"
+          },
+          "final_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Prompt"
+          },
+          "frontend_negative_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frontend Negative Prompt"
+          },
+          "guidance_scale": {
+            "default": 3.5,
+            "minimum": 0.0,
+            "title": "Guidance Scale",
+            "type": "number"
+          },
+          "height": {
+            "default": 1024,
+            "minimum": 16.0,
+            "title": "Height",
+            "type": "integer"
+          },
+          "idea_is_primary_guide": {
+            "default": false,
+            "title": "Idea Is Primary Guide",
+            "type": "boolean"
+          },
+          "llm_enhanced_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Enhanced Prompt"
+          },
+          "negative_prompt": {
+            "default": "",
+            "title": "Negative Prompt",
+            "type": "string"
+          },
+          "negative_prompt_final": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Negative Prompt Final"
+          },
+          "no_people_lock_applied": {
+            "default": false,
+            "title": "No People Lock Applied",
+            "type": "boolean"
+          },
+          "original_idea": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Idea"
+          },
+          "payload_prompt_sent_to_backend": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payload Prompt Sent To Backend"
+          },
+          "prompt": {
+            "minLength": 1,
+            "title": "Prompt",
+            "type": "string"
+          },
+          "prompt_source": {
+            "default": "manual",
+            "enum": [
+              "llm_enhanced",
+              "user_edited",
+              "manual"
+            ],
+            "title": "Prompt Source",
+            "type": "string"
+          },
+          "prompt_visibility_violation": {
+            "default": false,
+            "title": "Prompt Visibility Violation",
+            "type": "boolean"
+          },
+          "prompt_was_user_edited": {
+            "default": false,
+            "title": "Prompt Was User Edited",
+            "type": "boolean"
+          },
+          "quality_mode": {
+            "default": "balanced",
+            "enum": [
+              "preview",
+              "balanced",
+              "premium"
+            ],
+            "title": "Quality Mode",
+            "type": "string"
+          },
+          "removed_conflicting_prompt_terms": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Removed Conflicting Prompt Terms",
+            "type": "array"
+          },
+          "requested_aspect_ratio": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Aspect Ratio"
+          },
+          "required_traits": {
+            "additionalProperties": true,
+            "title": "Required Traits",
+            "type": "object"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "maximum": 2147483647.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "selected_style_category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Style Category"
+          },
+          "selected_style_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Style Id"
+          },
+          "selected_style_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Style Label"
+          },
+          "steps": {
+            "default": 28,
+            "minimum": 1.0,
+            "title": "Steps",
+            "type": "integer"
+          },
+          "style_negative_modifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Style Negative Modifier"
+          },
+          "style_prompt_modifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Style Prompt Modifier"
+          },
+          "style_was_applied": {
+            "default": false,
+            "title": "Style Was Applied",
+            "type": "boolean"
+          },
+          "subject_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subject Type"
+          },
+          "trait_lock_types_applied": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Trait Lock Types Applied",
+            "type": "array"
+          },
+          "visible_prompt_before_generate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visible Prompt Before Generate"
+          },
+          "width": {
+            "default": 1024,
+            "minimum": 16.0,
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "title": "ModalFluxImageGenerateRequest",
+        "type": "object"
+      },
+      "ModalFluxImageGenerateResponse": {
+        "properties": {
+          "actual_steps": {
+            "title": "Actual Steps",
+            "type": "integer"
+          },
+          "effective_height": {
+            "title": "Effective Height",
+            "type": "integer"
+          },
+          "effective_width": {
+            "title": "Effective Width",
+            "type": "integer"
+          },
+          "elapsed_ms": {
+            "title": "Elapsed Ms",
+            "type": "integer"
+          },
+          "guidance_scale": {
+            "title": "Guidance Scale",
+            "type": "number"
+          },
+          "height": {
+            "title": "Height",
+            "type": "integer"
+          },
+          "image_base64": {
+            "title": "Image Base64",
+            "type": "string"
+          },
+          "local_path": {
+            "title": "Local Path",
+            "type": "string"
+          },
+          "metadata_path": {
+            "title": "Metadata Path",
+            "type": "string"
+          },
+          "model": {
+            "const": "FLUX.1-dev",
+            "title": "Model",
+            "type": "string"
+          },
+          "negative_prompt_applied": {
+            "title": "Negative Prompt Applied",
+            "type": "boolean"
+          },
+          "provider": {
+            "const": "modal_flux",
+            "title": "Provider",
+            "type": "string"
+          },
+          "quality_mode": {
+            "enum": [
+              "preview",
+              "balanced",
+              "premium"
+            ],
+            "title": "Quality Mode",
+            "type": "string"
+          },
+          "requested_steps": {
+            "title": "Requested Steps",
+            "type": "integer"
+          },
+          "seed": {
+            "title": "Seed",
+            "type": "integer"
+          },
+          "width": {
+            "title": "Width",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "provider",
+          "model",
+          "image_base64",
+          "seed",
+          "width",
+          "height",
+          "requested_steps",
+          "actual_steps",
+          "guidance_scale",
+          "quality_mode",
+          "effective_width",
+          "effective_height",
+          "negative_prompt_applied",
+          "elapsed_ms",
+          "local_path",
+          "metadata_path"
+        ],
+        "title": "ModalFluxImageGenerateResponse",
+        "type": "object"
+      },
+      "ModalPromptEnhanceRequest": {
+        "properties": {
+          "aspect_ratio": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aspect Ratio"
+          },
+          "idea": {
+            "minLength": 1,
+            "title": "Idea",
+            "type": "string"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "style": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Style"
+          }
+        },
+        "required": [
+          "idea"
+        ],
+        "title": "ModalPromptEnhanceRequest",
+        "type": "object"
+      },
+      "ModalPromptEnhanceResponse": {
+        "properties": {
+          "composition_intent": {
+            "default": "generic",
+            "enum": [
+              "portrait",
+              "full_body",
+              "landscape_scene",
+              "product",
+              "architecture",
+              "generic"
+            ],
+            "title": "Composition Intent",
+            "type": "string"
+          },
+          "final_prompt": {
+            "title": "Final Prompt",
+            "type": "string"
+          },
+          "guidance_scale": {
+            "title": "Guidance Scale",
+            "type": "number"
+          },
+          "negative_prompt": {
+            "title": "Negative Prompt",
+            "type": "string"
+          },
+          "recommended_height": {
+            "title": "Recommended Height",
+            "type": "integer"
+          },
+          "recommended_width": {
+            "title": "Recommended Width",
+            "type": "integer"
+          },
+          "style_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Style Tags",
+            "type": "array"
+          },
+          "subject_type": {
+            "default": "generic",
+            "enum": [
+              "person",
+              "environment",
+              "object",
+              "product",
+              "architecture",
+              "mixed",
+              "generic"
+            ],
+            "title": "Subject Type",
+            "type": "string"
+          },
+          "suggested_steps": {
+            "title": "Suggested Steps",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "final_prompt",
+          "negative_prompt",
+          "style_tags",
+          "recommended_width",
+          "recommended_height",
+          "suggested_steps",
+          "guidance_scale"
+        ],
+        "title": "ModalPromptEnhanceResponse",
+        "type": "object"
+      },
+      "ModalPromptTranslateRequest": {
+        "properties": {
+          "kind": {
+            "default": "prompt",
+            "enum": [
+              "prompt",
+              "negative_prompt",
+              "style"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "source_language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Language"
+          },
+          "target_language": {
+            "enum": [
+              "en",
+              "it"
+            ],
+            "title": "Target Language",
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "target_language"
+        ],
+        "title": "ModalPromptTranslateRequest",
+        "type": "object"
+      },
+      "ModalPromptTranslateResponse": {
+        "properties": {
+          "kind": {
+            "default": "prompt",
+            "enum": [
+              "prompt",
+              "negative_prompt",
+              "style"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "source_language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Language"
+          },
+          "target_language": {
+            "enum": [
+              "en",
+              "it"
+            ],
+            "title": "Target Language",
+            "type": "string"
+          },
+          "translated_text": {
+            "title": "Translated Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "translated_text",
+          "target_language"
+        ],
+        "title": "ModalPromptTranslateResponse",
+        "type": "object"
+      },
       "ModelDeleteRequest": {
         "properties": {
           "cp_ids": {
@@ -1544,6 +2340,21 @@
       },
       "SettingsResponse": {
         "properties": {
+          "axModalEndpoint": {
+            "default": "",
+            "title": "Axmodalendpoint",
+            "type": "string"
+          },
+          "axModalPromptOrchestrationEnabled": {
+            "default": false,
+            "title": "Axmodalpromptorchestrationenabled",
+            "type": "boolean"
+          },
+          "hasAxModalApiKey": {
+            "default": false,
+            "title": "Hasaxmodalapikey",
+            "type": "boolean"
+          },
           "hasFalApiKey": {
             "default": false,
             "title": "Hasfalapikey",
@@ -1563,6 +2374,16 @@
             "default": 42,
             "title": "Lockedseed",
             "type": "integer"
+          },
+          "modalFluxImageEndpoint": {
+            "default": "",
+            "title": "Modalfluximageendpoint",
+            "type": "string"
+          },
+          "modalLlmPromptEndpoint": {
+            "default": "",
+            "title": "Modalllmpromptendpoint",
+            "type": "string"
           },
           "modelsDir": {
             "default": "",
@@ -1945,6 +2766,108 @@
         "summary": "Route Hf Auth Status",
         "tags": [
           "hf_auth"
+        ]
+      }
+    },
+    "/api/ax/character/generate": {
+      "post": {
+        "operationId": "route_generate_character_api_ax_character_generate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AxCharacterGenerateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AxModalAssetResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Client Error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Server Error"
+          }
+        },
+        "summary": "Route Generate Character",
+        "tags": [
+          "axstudio"
+        ]
+      }
+    },
+    "/api/ax/face-swap": {
+      "post": {
+        "operationId": "route_face_swap_api_ax_face_swap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AxFaceSwapRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AxModalAssetResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Client Error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Server Error"
+          }
+        },
+        "summary": "Route Face Swap",
+        "tags": [
+          "axstudio"
         ]
       }
     },
@@ -2360,6 +3283,159 @@
         "summary": "Route Ic Lora Generate",
         "tags": [
           "ic-lora"
+        ]
+      }
+    },
+    "/api/modal-image/enhance": {
+      "post": {
+        "operationId": "route_enhance_prompt_api_modal_image_enhance_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModalPromptEnhanceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModalPromptEnhanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Client Error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Server Error"
+          }
+        },
+        "summary": "Route Enhance Prompt",
+        "tags": [
+          "modal-image"
+        ]
+      }
+    },
+    "/api/modal-image/generate": {
+      "post": {
+        "operationId": "route_generate_flux_image_api_modal_image_generate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModalFluxImageGenerateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModalFluxImageGenerateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Client Error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Server Error"
+          }
+        },
+        "summary": "Route Generate Flux Image",
+        "tags": [
+          "modal-image"
+        ]
+      }
+    },
+    "/api/modal-image/translate": {
+      "post": {
+        "operationId": "route_translate_prompt_api_modal_image_translate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModalPromptTranslateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModalPromptTranslateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "4XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Client Error"
+          },
+          "5XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                }
+              }
+            },
+            "description": "Server Error"
+          }
+        },
+        "summary": "Route Translate Prompt",
+        "tags": [
+          "modal-image"
         ]
       }
     },

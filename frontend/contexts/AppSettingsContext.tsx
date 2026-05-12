@@ -15,6 +15,11 @@ export interface AppSettings {
   seedLocked: boolean
   lockedSeed: number
   modelsDir: string
+  axModalEndpoint: string
+  hasAxModalApiKey: boolean
+  axModalPromptOrchestrationEnabled: boolean
+  modalLlmPromptEndpoint: string
+  modalFluxImageEndpoint: string
 }
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
@@ -30,6 +35,11 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   seedLocked: false,
   lockedSeed: 42,
   modelsDir: '',
+  axModalEndpoint: '',
+  hasAxModalApiKey: false,
+  axModalPromptOrchestrationEnabled: false,
+  modalLlmPromptEndpoint: '',
+  modalFluxImageEndpoint: '',
 }
 
 type BackendProcessStatus = 'alive' | 'restarting' | 'dead'
@@ -43,6 +53,7 @@ interface AppSettingsContextValue {
   saveLtxApiKey: (value: string) => Promise<void>
   saveFalApiKey: (value: string) => Promise<void>
   saveGeminiApiKey: (value: string) => Promise<void>
+  saveAxModalApiKey: (value: string) => Promise<void>
   forceApiGenerations: boolean
   shouldVideoGenerateWithLtxApi: boolean
 }
@@ -75,6 +86,11 @@ function normalizeAppSettings(data: Partial<AppSettings>): AppSettings {
     seedLocked: data.seedLocked ?? DEFAULT_APP_SETTINGS.seedLocked,
     lockedSeed: data.lockedSeed ?? DEFAULT_APP_SETTINGS.lockedSeed,
     modelsDir: data.modelsDir ?? DEFAULT_APP_SETTINGS.modelsDir,
+    axModalEndpoint: data.axModalEndpoint ?? DEFAULT_APP_SETTINGS.axModalEndpoint,
+    hasAxModalApiKey: data.hasAxModalApiKey ?? DEFAULT_APP_SETTINGS.hasAxModalApiKey,
+    axModalPromptOrchestrationEnabled: data.axModalPromptOrchestrationEnabled ?? DEFAULT_APP_SETTINGS.axModalPromptOrchestrationEnabled,
+    modalLlmPromptEndpoint: data.modalLlmPromptEndpoint ?? DEFAULT_APP_SETTINGS.modalLlmPromptEndpoint,
+    modalFluxImageEndpoint: data.modalFluxImageEndpoint ?? DEFAULT_APP_SETTINGS.modalFluxImageEndpoint,
   }
 }
 
@@ -194,7 +210,7 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isLoaded || backendProcessStatus !== 'alive') return
     const syncTimer = setTimeout(async () => {
-      const { hasLtxApiKey: _a, hasFalApiKey: _b, hasGeminiApiKey: _c, modelsDir: _d, ...syncPayload } = settings
+      const { hasLtxApiKey: _a, hasFalApiKey: _b, hasGeminiApiKey: _c, hasAxModalApiKey: _e, modelsDir: _d, ...syncPayload } = settings
       const result = await ApiClient.updateSettings(syncPayload)
       if (!result.ok) {
         // Best-effort settings sync.
@@ -235,6 +251,14 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
     await refreshSettings()
   }, [refreshSettings])
 
+  const saveAxModalApiKey = useCallback(async (value: string) => {
+    const result = await ApiClient.updateSettings({ axModalApiKey: value } as never)
+    if (!result.ok) {
+      throw new Error(result.error.message)
+    }
+    await refreshSettings()
+  }, [refreshSettings])
+
   const shouldVideoGenerateWithLtxApi =
     forceApiGenerations || (settings.userPrefersLtxApiVideoGenerations && settings.hasLtxApiKey)
 
@@ -248,10 +272,11 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
       saveLtxApiKey,
       saveFalApiKey,
       saveGeminiApiKey,
+      saveAxModalApiKey,
       forceApiGenerations,
       shouldVideoGenerateWithLtxApi,
     }),
-    [forceApiGenerations, isLoaded, refreshSettings, runtimePolicyLoaded, saveFalApiKey, saveGeminiApiKey, saveLtxApiKey, settings, shouldVideoGenerateWithLtxApi, updateSettings],
+    [forceApiGenerations, isLoaded, refreshSettings, runtimePolicyLoaded, saveAxModalApiKey, saveFalApiKey, saveGeminiApiKey, saveLtxApiKey, settings, shouldVideoGenerateWithLtxApi, updateSettings],
   )
 
   return <AppSettingsContext.Provider value={contextValue}>{children}</AppSettingsContext.Provider>

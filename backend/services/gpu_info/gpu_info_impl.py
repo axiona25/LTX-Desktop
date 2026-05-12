@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import platform
+import shutil
 import subprocess
 import sys
 from typing import Protocol, cast
@@ -28,8 +29,9 @@ class GpuInfoImpl:
             return None
 
         try:
+            sysctl = shutil.which("sysctl") or "/usr/sbin/sysctl"
             result = subprocess.run(
-                ["sysctl", "-n", "machdep.cpu.brand_string"],
+                [sysctl, "-n", "machdep.cpu.brand_string"],
                 capture_output=True,
                 text=True,
                 timeout=5,

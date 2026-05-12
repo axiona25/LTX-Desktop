@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Loader2, AlertCircle, Settings, FileText } from 'lucide-react'
+import { Images, Loader2, AlertCircle, UserRound, Video } from 'lucide-react'
 import { ApiClient, type ApiSuccessOf } from './lib/api-client'
 import { ProjectProvider } from './contexts/ProjectContext'
 import { ViewProvider, useView } from './contexts/ViewContext'
@@ -10,20 +10,31 @@ import { useBackend } from './hooks/use-backend'
 import { logger } from './lib/logger'
 import { Home } from './views/Home'
 import { Project } from './views/Project'
+import { ModalImageStudio } from './views/ModalImageStudio'
+import { CharacterStudio } from './views/CharacterStudio'
+import { VideoStudio } from './views/VideoStudio'
+import { EditorStudio } from './views/EditorStudio'
 import { LaunchGate } from './components/FirstRunSetup'
 import { LtxUpgradePrompt } from './components/LtxUpgradePrompt'
 import { PythonSetup } from './components/PythonSetup'
+import { AxStudioLogo } from './components/AxStudioLogo'
 import { SettingsModal, type SettingsTabId } from './components/SettingsModal'
 import { LogViewer } from './components/LogViewer'
 import { ApiGatewayModal, type ApiGatewaySection } from './components/ApiGatewayModal'
 import { Button } from './components/ui/button'
+import { useItalianUi } from './lib/italian-ui'
+import { ImageGallerySidebar } from './components/ImageGallerySidebar'
+import { MediaLibrarySidebar } from './components/MediaLibrarySidebar'
 
 type SetupState = 'loading' | { needsSetup: boolean; needsLicense: boolean }
 type RequiredModelsGateState = 'checking' | 'missing' | 'ready'
 type LtxRecommendation = ApiSuccessOf<'getLtxRecommendation'>
 type LtxUpgradeRecommendation = Extract<LtxRecommendation, { status: 'upgrade' }>
+type LibraryPanel = 'images' | 'characters' | 'videos'
 
 function AppContent() {
+  useItalianUi()
+
   const { currentView } = useView()
   const { connected, processStatus, isLoading: backendLoading } = useBackend()
   const { settings, saveLtxApiKey, saveFalApiKey, forceApiGenerations, isLoaded, runtimePolicyLoaded } = useAppSettings()
@@ -34,6 +45,7 @@ function AppContent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [settingsInitialTab, setSettingsInitialTab] = useState<SettingsTabId | undefined>(undefined)
   const [isLogViewerOpen, setIsLogViewerOpen] = useState(false)
+  const [activeLibraryPanel, setActiveLibraryPanel] = useState<LibraryPanel | null>(null)
   const [isFinalizingFirstRun, setIsFinalizingFirstRun] = useState(false)
   const [firstRunFinalizeError, setFirstRunFinalizeError] = useState<string | null>(null)
   const [requiredModelsGate, setRequiredModelsGate] = useState<RequiredModelsGateState>('checking')
@@ -56,6 +68,7 @@ function AppContent() {
   const isBackendRestarting = processStatus === 'restarting'
   const isBackendDead = processStatus === 'dead'
   const waitingForRuntimePolicy = processStatus === 'alive' && !runtimePolicyLoaded
+  const isLibraryOpen = activeLibraryPanel !== null
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -182,7 +195,7 @@ function AppContent() {
     setupState !== 'loading' && setupState.needsSetup && !setupState.needsLicense && forceApiGenerations
 
   const shouldAutoFinalizeForcedFirstRun =
-    isForcedFirstRun && isLoaded && settings.hasLtxApiKey && !isFinalizingFirstRun && !firstRunFinalizeError
+    isForcedFirstRun && isLoaded && !isFinalizingFirstRun && !firstRunFinalizeError
 
   const areRequiredModelsDownloaded = useCallback(async () => {
     const [ltxResult, imgGenResult] = await Promise.all([
@@ -342,24 +355,7 @@ function AppContent() {
     </div>
   ) : null
 
-  const showGlobalControls = currentView !== 'home' && connected && setupState !== 'loading' && !setupState.needsSetup
   const shouldBlockUntilSettingsLoaded = forceApiGenerations && !isLoaded
-  const shouldShowForcedFirstRunUpsell = isForcedFirstRun && isLoaded && !settings.hasLtxApiKey
-  const shouldShowGlobalForcedUpsell = forceApiGenerations && setupState !== 'loading' && !setupState.needsSetup && isLoaded && !settings.hasLtxApiKey
-  const shouldBlockForLtxKey = shouldShowForcedFirstRunUpsell || shouldShowGlobalForcedUpsell
-
-  useEffect(() => {
-    if (shouldBlockForLtxKey && apiGatewayRequest === null) {
-      setApiGatewayRequest({
-        requiredKeys: ['ltx'],
-        title: 'Connect API Keys',
-        description: 'This app is configured for API-only generation. Add your API key to continue.',
-        blocking: true,
-        includeOptionalMissing: true,
-      })
-    }
-  }, [shouldBlockForLtxKey, apiGatewayRequest])
-
   const shouldShowGateway = apiGatewayRequest !== null
 
   const gatewaySections: ApiGatewaySection[] = useMemo(() => {
@@ -460,7 +456,8 @@ function AppContent() {
         <div className="h-screen bg-background flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="h-12 w-12 text-primary animate-spin mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-foreground mb-2">Starting LTX Desktop...</h2>
+            <AxStudioLogo imageClassName="h-10 w-auto" className="mx-auto mb-3" />
+            <h2 className="text-xl font-semibold text-foreground mb-2">Avvio di AXSTUDIO...</h2>
             <p className="text-muted-foreground">Initializing the inference engine</p>
           </div>
         </div>
@@ -503,7 +500,15 @@ function AppContent() {
       case 'home':
         return <Home />
       case 'project':
-        return <Project />
+        return <Project isGalleryOpen={isLibraryOpen} />
+      case 'modal-image-studio':
+        return <ModalImageStudio />
+      case 'character-studio':
+        return <CharacterStudio />
+      case 'video-studio':
+        return <VideoStudio />
+      case 'editor-studio':
+        return <EditorStudio />
       default:
         return <Home />
     }
@@ -511,26 +516,55 @@ function AppContent() {
 
   return (
     <div className="relative h-screen w-screen">
-      {renderView()}
+      <div
+        className="h-full min-w-0 transition-[margin] duration-300"
+        style={{ marginRight: isLibraryOpen ? 380 : 0 }}
+      >
+        {renderView()}
+      </div>
 
-      {showGlobalControls && (
-        <div className="fixed top-[18px] right-3 z-50 flex items-center gap-1">
-          <button
-            onClick={() => setIsLogViewerOpen(true)}
-            className="h-8 w-8 flex items-center justify-center rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-            title="View Backend Logs"
+      {(() => {
+        if (isLibraryOpen) return null
+
+        const buttons: Array<{ id: LibraryPanel; title: string; icon: typeof Images }> = []
+        if (currentView === 'project' || currentView === 'modal-image-studio') {
+          buttons.push({ id: 'images', title: 'Galleria immagini', icon: Images })
+        }
+        if (currentView === 'project' || currentView === 'character-studio') {
+          buttons.push({ id: 'characters', title: 'Personaggi', icon: UserRound })
+        }
+        if (currentView === 'project' || currentView === 'video-studio') {
+          buttons.push({ id: 'videos', title: 'Video', icon: Video })
+        }
+        if (buttons.length === 0) return null
+
+        return (
+          <div
+            className="fixed top-4 z-50 flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/80 p-1 shadow-lg"
+            style={{ right: 16 }}
           >
-            <FileText className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setIsSettingsOpen(true)}
-            className="h-8 w-8 flex items-center justify-center rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
-            title="Settings"
-          >
-            <Settings className="h-4 w-4" />
-          </button>
-        </div>
-      )}
+            {buttons.map(({ id, title, icon: Icon }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActiveLibraryPanel((current) => current === id ? null : id)}
+                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors ${
+                  activeLibraryPanel === id
+                    ? 'bg-blue-500/20 text-blue-100'
+                    : 'text-zinc-400 hover:bg-zinc-800 hover:text-white'
+                }`}
+                title={title}
+              >
+                <Icon className="h-5 w-5" />
+              </button>
+            ))}
+          </div>
+        )
+      })()}
+
+      <ImageGallerySidebar open={activeLibraryPanel === 'images'} onClose={() => setActiveLibraryPanel(null)} />
+      <MediaLibrarySidebar kind="characters" open={activeLibraryPanel === 'characters'} onClose={() => setActiveLibraryPanel(null)} />
+      <MediaLibrarySidebar kind="videos" open={activeLibraryPanel === 'videos'} onClose={() => setActiveLibraryPanel(null)} />
 
       <LogViewer isOpen={isLogViewerOpen} onClose={() => setIsLogViewerOpen(false)} />
       <SettingsModal
@@ -566,7 +600,7 @@ function AppContent() {
         </div>
       )}
 
-      {isForcedFirstRun && isLoaded && settings.hasLtxApiKey && isFinalizingFirstRun && (
+      {isForcedFirstRun && isLoaded && isFinalizingFirstRun && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm">
           <div className="flex items-center gap-2 text-sm text-zinc-200">
             <Loader2 className="h-4 w-4 animate-spin" />

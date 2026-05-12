@@ -1,23 +1,54 @@
-import { useCallback, useEffect, useState } from 'react'
-import { ArrowLeft, Sparkles, Film } from 'lucide-react'
+import { useCallback, useEffect, useState, type DragEvent } from 'react'
+import { ArrowLeft, X } from 'lucide-react'
 import { useProjects } from '../contexts/ProjectContext'
 import { useView } from '../contexts/ViewContext'
-import { LtxLogo } from '../components/LtxLogo'
 import { Button } from '../components/ui/button'
-import { GenSpace } from './GenSpace'
+import { ImageGenerationWorkspace } from '../components/ImageGenerationWorkspace'
+import { WorkspaceSidebar } from '../components/WorkspaceSidebar'
 import { VideoEditor } from './VideoEditor'
-import type { ProjectTab } from '../types/project-model'
+import { addVisualAssetToProject } from '../lib/asset-copy'
+import { pathToFileUrl } from '../lib/file-url'
+import { GALLERY_DRAG_MIME, type SavedGalleryImage } from '../lib/image-gallery-storage'
+import type { Asset } from '../types/project-model'
 import {
   hasVisualAssetMetadataForMigration,
   runVisualAssetMetadataMigration,
 } from '../lib/project-asset-metadata-migration'
 
-export function Project() {
+function formatProjectDate(timestamp: number): string {
+  return new Date(timestamp).toLocaleDateString('it-IT', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  })
+}
+
+function parseGalleryDropPayload(value: string): SavedGalleryImage[] {
+  try {
+    const parsed = JSON.parse(value) as unknown
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter((item): item is SavedGalleryImage => (
+      typeof item === 'object'
+      && item !== null
+      && typeof (item as SavedGalleryImage).id === 'string'
+      && typeof (item as SavedGalleryImage).path === 'string'
+    ))
+  } catch {
+    return []
+  }
+}
+
+type ProjectProps = {
+  isGalleryOpen?: boolean
+}
+
+export function Project({ isGalleryOpen = false }: ProjectProps) {
   const {
     activeProject,
     currentTab,
     setProject,
-    setCurrentTab,
+    addAsset,
+    deleteAsset,
     updateAsset,
     pendingRetakeUpdate,
     setPendingRetakeUpdate,
@@ -27,8 +58,18 @@ export function Project() {
   const { goHome } = useView()
   const [assetMetadataMigrationProgress, setAssetMetadataMigrationProgress] = useState({ running: false, total: 0, completed: 0 })
   const [upgradePassProjectId, setUpgradePassProjectId] = useState<string | null>(null)
+  const [selectedProjectImagePath, setSelectedProjectImagePath] = useState<string | null>(null)
+  const [assetPendingDelete, setAssetPendingDelete] = useState<Asset | null>(null)
+  const [deleteError, setDeleteError] = useState('')
+  const [galleryImportItems, setGalleryImportItems] = useState<SavedGalleryImage[]>([])
+  const [galleryImportError, setGalleryImportError] = useState('')
+  const [isGalleryImporting, setIsGalleryImporting] = useState(false)
+  const [isGalleryDragOver, setIsGalleryDragOver] = useState(false)
   const activeProjectId = activeProject?.id ?? null
   const activeProjectAssets = activeProject?.assets ?? null
+  const projectImageAssets = activeProject?.assets.filter((asset) => (
+    asset.type === 'image' && asset.generationParams?.mode === 'text-to-image'
+  )) ?? []
   const needsAssetMetadataMigration = activeProjectAssets
     ? hasVisualAssetMetadataForMigration(activeProjectAssets)
     : false
@@ -79,6 +120,119 @@ export function Project() {
     pendingIcLoraUpdate,
     setPendingIcLoraUpdate,
   ])
+
+  useEffect(() => {
+    if (selectedProjectImagePath || projectImageAssets.length === 0) return
+    setSelectedProjectImagePath(projectImageAssets[0].path)
+  }, [projectImageAssets, selectedProjectImagePath])
+
+  const handleConfirmDeleteAsset = useCallback(async () => {
+    if (!activeProjectId || !assetPendingDelete) return
+
+    setDeleteError('')
+    const filePaths = [
+      assetPendingDelete.path,
+      assetPendingDelete.bigThumbnailPath,
+      assetPendingDelete.smallThumbnailPath,
+      ...(assetPendingDelete.takes ?? []).flatMap((take) => [
+        take.path,
+        take.bigThumbnailPath,
+        take.smallThumbnailPath,
+      ]),
+    ].filter((path): path is string => Boolean(path))
+
+    const result = await window.electronAPI.deleteProjectAssetFiles({ filePaths })
+    if (!result.success) {
+      setDeleteError('Non sono riuscito a cancellare i file locali dell’immagine. Riprova.')
+      return
+    }
+
+    deleteAsset(activeProjectId, assetPendingDelete.id)
+    const nextAsset = projectImageAssets.find((asset) => asset.id !== assetPendingDelete.id) ?? null
+    setSelectedProjectImagePath(nextAsset?.path ?? null)
+    setAssetPendingDelete(null)
+  }, [activeProjectId, assetPendingDelete, deleteAsset, projectImageAssets])
+
+  const handleGalleryDragOver = useCallback((event: DragEvent<HTMLElement>) => {
+    if (!isGalleryOpen || currentTab !== 'gen-space' || !event.dataTransfer.types.includes(GALLERY_DRAG_MIME)) return
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'copy'
+    setIsGalleryDragOver(true)
+  }, [currentTab, isGalleryOpen])
+
+  const handleGalleryDragLeave = useCallback((event: DragEvent<HTMLElement>) => {
+    const relatedTarget = event.relatedTarget
+    if (relatedTarget instanceof Node && event.currentTarget.contains(relatedTarget)) return
+    setIsGalleryDragOver(false)
+  }, [])
+
+  const handleGalleryDrop = useCallback((event: DragEvent<HTMLElement>) => {
+    if (!isGalleryOpen || currentTab !== 'gen-space') return
+    const payload = event.dataTransfer.getData(GALLERY_DRAG_MIME)
+    const droppedItems = parseGalleryDropPayload(payload)
+    if (droppedItems.length === 0) return
+
+    event.preventDefault()
+    setIsGalleryDragOver(false)
+    setGalleryImportError('')
+    setGalleryImportItems(droppedItems)
+  }, [currentTab, isGalleryOpen])
+
+  const handleConfirmGalleryImport = useCallback(async () => {
+    if (!activeProjectId || galleryImportItems.length === 0) return
+
+    setIsGalleryImporting(true)
+    setGalleryImportError('')
+    try {
+      let lastImportedPath: string | null = null
+
+      for (const item of galleryImportItems) {
+        const copied = await addVisualAssetToProject(item.path, activeProjectId, 'image')
+        if (!copied) {
+          setGalleryImportError('Non sono riuscito ad assegnare una o più immagini al progetto.')
+          return
+        }
+
+        addAsset(activeProjectId, {
+          type: 'image',
+          path: copied.path,
+          bigThumbnailPath: copied.bigThumbnailPath,
+          smallThumbnailPath: copied.smallThumbnailPath,
+          width: copied.width,
+          height: copied.height,
+          prompt: item.prompt,
+          resolution: item.resolution,
+          generationParams: {
+            mode: 'text-to-image',
+            prompt: item.prompt,
+            model: item.model,
+            duration: 5,
+            resolution: item.resolution,
+            fps: 24,
+            audio: false,
+            cameraMotion: 'none',
+            imageAspectRatio: item.aspectRatio,
+          },
+          takes: [{
+            path: copied.path,
+            bigThumbnailPath: copied.bigThumbnailPath,
+            smallThumbnailPath: copied.smallThumbnailPath,
+            width: copied.width,
+            height: copied.height,
+            createdAt: Date.now(),
+          }],
+          activeTakeIndex: 0,
+        })
+
+        lastImportedPath = copied.path
+      }
+
+      setSelectedProjectImagePath(lastImportedPath)
+      setGalleryImportItems([])
+    } finally {
+      setIsGalleryImporting(false)
+    }
+  }, [activeProjectId, addAsset, galleryImportItems])
   
   if (!activeProject) {
     return (
@@ -91,10 +245,6 @@ export function Project() {
     )
   }
   
-  const tabs: { id: ProjectTab; label: string; icon: React.ReactNode }[] = [
-    { id: 'gen-space', label: 'Gen Space', icon: <Sparkles className="h-4 w-4" /> },
-    { id: 'video-editor', label: 'Video Editor', icon: <Film className="h-4 w-4" /> },
-  ]
   const shouldShowAssetMetadataMigrationProgressScreen = assetMetadataMigrationProgress.running
     || (upgradePassProjectId !== activeProjectId && needsAssetMetadataMigration)
 
@@ -121,49 +271,102 @@ export function Project() {
   }
   
   return (
-    <div className="h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="flex items-center px-4 py-3 border-b border-zinc-800">
-        <div className="flex-1 flex items-center gap-4">
-          {/* Back button and logo */}
-          <button 
-            onClick={goHome}
-            className="p-2 rounded-lg hover:bg-zinc-800 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5 text-zinc-400" />
-          </button>
-          
-          <LtxLogo className="h-5 w-auto text-white" />
-          
-          {/* Project name */}
-          <span className="text-white font-medium">{activeProject.name}</span>
-        </div>
-        
-        {/* Center - Tabs */}
-        <div className="flex items-center gap-1 bg-zinc-900 rounded-lg p-1">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setCurrentTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                currentTab === tab.id
-                  ? 'bg-zinc-800 text-white'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              {tab.icon}
-              {tab.label}
-            </button>
-          ))}
-        </div>
-        
-        {/* Right spacer - equal to left to keep tabs centered */}
-        <div className="flex-1" />
-      </header>
-      
-      <main className="flex-1 overflow-hidden relative">
+    <div className="flex h-screen bg-background text-white">
+      <WorkspaceSidebar active="projects" />
+      <main
+        className="relative min-w-0 flex-1 overflow-hidden"
+        onDragOver={handleGalleryDragOver}
+        onDragLeave={handleGalleryDragLeave}
+        onDrop={handleGalleryDrop}
+      >
         {currentTab === 'gen-space' ? (
-          <GenSpace />
+          <div className="flex h-full min-h-0 flex-col">
+            <header className="relative h-24 shrink-0 border-b border-zinc-900 bg-zinc-950">
+              <div className={`absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-3 transition-opacity ${
+                isGalleryOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
+              }`}>
+                <button
+                  type="button"
+                  onClick={goHome}
+                  className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </button>
+                <div className="min-w-0">
+                  <h1 className="max-w-[260px] truncate text-xl font-semibold text-white">{activeProject.name}</h1>
+                  <p className="mt-0.5 text-xs text-zinc-500">
+                    {formatProjectDate(activeProject.createdAt)}
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-[width] duration-300"
+                style={{ width: 'min(1280px, calc(100% - 2rem))' }}
+              >
+                <div className="flex min-h-16 items-center gap-3 overflow-x-auto rounded-xl border border-zinc-900 bg-black/20 px-3 py-2">
+                  {projectImageAssets.length > 0 ? (
+                    projectImageAssets.map((asset) => {
+                      const thumb = asset.smallThumbnailPath || asset.bigThumbnailPath || asset.path
+                      return (
+                        <button
+                          key={asset.id}
+                          type="button"
+                          onClick={() => setSelectedProjectImagePath(asset.path)}
+                          className={`group relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border bg-zinc-900 transition-colors ${
+                            selectedProjectImagePath === asset.path
+                              ? 'border-blue-400'
+                              : 'border-zinc-800 hover:border-zinc-600'
+                          }`}
+                        >
+                          <img src={pathToFileUrl(thumb)} alt="" className="h-full w-full object-cover" />
+                          <span className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20" />
+                          <span
+                            role="button"
+                            tabIndex={0}
+                            onClick={(event) => {
+                              event.stopPropagation()
+                              setDeleteError('')
+                              setAssetPendingDelete(asset)
+                            }}
+                            onKeyDown={(event) => {
+                              if (event.key !== 'Enter' && event.key !== ' ') return
+                              event.preventDefault()
+                              event.stopPropagation()
+                              setDeleteError('')
+                              setAssetPendingDelete(asset)
+                            }}
+                            className={`absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/70 text-zinc-300 transition-opacity hover:bg-red-500 hover:text-white ${
+                              isGalleryOpen ? 'pointer-events-none opacity-0' : 'opacity-0 group-hover:opacity-100'
+                            }`}
+                            title="Elimina immagine"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </span>
+                        </button>
+                      )
+                    })
+                  ) : (
+                    <div className="px-3 text-sm text-zinc-600">Le immagini generate appariranno qui.</div>
+                  )}
+                </div>
+              </div>
+            </header>
+
+            <div className="min-h-0 flex-1">
+              <ImageGenerationWorkspace
+                scope="project"
+                showProjectStrip={false}
+                selectedImagePath={selectedProjectImagePath}
+                onSelectedImagePathChange={setSelectedProjectImagePath}
+              />
+            </div>
+            {isGalleryDragOver && (
+              <div className="pointer-events-none absolute inset-4 z-20 flex items-center justify-center rounded-2xl border border-dashed border-blue-400 bg-blue-500/10 text-sm font-medium text-blue-100 backdrop-blur-sm">
+                Rilascia qui per assegnare le immagini al progetto
+              </div>
+            )}
+          </div>
         ) : (
           <VideoEditor
             key={activeProject.id}
@@ -174,6 +377,112 @@ export function Project() {
           />
         )}
       </main>
+
+      {assetPendingDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+              <div>
+                <h2 className="text-lg font-semibold text-white">Eliminare questa immagine?</h2>
+                <p className="mt-1 text-sm text-zinc-500">
+                  Verrà rimossa dal progetto e cancellata dallo storage locale dell’app.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAssetPendingDelete(null)}
+                className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-5">
+              <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+                <img
+                  src={pathToFileUrl(assetPendingDelete.smallThumbnailPath || assetPendingDelete.bigThumbnailPath || assetPendingDelete.path)}
+                  alt=""
+                  className="h-44 w-full object-cover"
+                />
+              </div>
+              {deleteError && (
+                <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                  {deleteError}
+                </p>
+              )}
+            </div>
+            <div className="flex items-center justify-end gap-2 border-t border-zinc-800 px-5 py-4">
+              <button
+                type="button"
+                onClick={() => setAssetPendingDelete(null)}
+                className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white"
+              >
+                Annulla
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleConfirmDeleteAsset()}
+                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500"
+              >
+                Elimina
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {galleryImportItems.length > 0 && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-zinc-800 px-5 py-4">
+              <div>
+                <h2 className="text-lg font-semibold text-white">Assegnare immagini al progetto?</h2>
+                <p className="mt-1 text-sm text-zinc-500">
+                  Le immagini selezionate verranno copiate nello storage locale del progetto.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setGalleryImportItems([])}
+                className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-5">
+              <div className="grid max-h-72 grid-cols-3 gap-2 overflow-y-auto">
+                {galleryImportItems.map((item) => (
+                  <div key={item.id} className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-900">
+                    <img src={pathToFileUrl(item.path)} alt="" className="aspect-square w-full object-cover" />
+                  </div>
+                ))}
+              </div>
+              {galleryImportError && (
+                <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                  {galleryImportError}
+                </p>
+              )}
+            </div>
+            <div className="flex items-center justify-end gap-2 border-t border-zinc-800 px-5 py-4">
+              <button
+                type="button"
+                onClick={() => setGalleryImportItems([])}
+                disabled={isGalleryImporting}
+                className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white disabled:opacity-50"
+              >
+                Annulla
+              </button>
+              <button
+                type="button"
+                onClick={() => void handleConfirmGalleryImport()}
+                disabled={isGalleryImporting}
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-50"
+              >
+                {isGalleryImporting ? 'Assegnazione...' : 'Conferma'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

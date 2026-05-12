@@ -1,0 +1,62 @@
+{
+  "prompt": {
+    "1": {
+      "inputs": { "ckpt_name": "cyberrealisticXL_v100.safetensors" },
+      "class_type": "CheckpointLoaderSimple"
+    },
+    "2": {
+      "inputs": { 
+        "text": "masterpiece, best quality, extremely beautiful 28 year old caucasian woman, perfect symmetrical face, stunning detailed realistic eyes with catchlight, long eyelashes, flawless skin, long wavy dark brown hair, voluptuous body, large natural breasts, slim waist, wide hips, completely nude, standing frontal pose facing camera, legs slightly apart, shaved smooth pussy with visible delicate labia, trimmed short pubic hair, elegant sensual pose, soft cinematic studio lighting, premium glamour nude photography, highly detailed skin texture and pores, perfect anatomy, sharp focus, 8k photorealistic, ultra detailed",
+        "clip": ["1", 1] 
+      },
+      "class_type": "CLIPTextEncode"
+    },
+    "3": {
+      "inputs": { 
+        "text": "low quality, blurry, bad eyes, deformed eyes, deformed hands, extra fingers, missing fingers, bad anatomy, deformed body, censored, mosaic, blur, covered pussy, underwear, young-looking, plastic skin, cartoon",
+        "clip": ["1", 1] 
+      },
+      "class_type": "CLIPTextEncode"
+    },
+    "4": {
+      "inputs": { 
+        "model": ["1", 0],
+        "clip": ["1", 1],
+        "lora_name": "EyesXL_v3.safetensors",
+        "strength_model": 0.85,
+        "strength_clip": 0.85
+      },
+      "class_type": "LoraLoader"
+    },
+    "5": {
+      "inputs": { "width": 1216, "height": 1664, "batch_size": 1 },
+      "class_type": "EmptyLatentImage"
+    },
+    "6": {
+      "inputs": { 
+        "seed": 999999999,
+        "steps": 75,
+        "cfg": 5.0,
+        "sampler_name": "dpmpp_2m_sde",
+        "scheduler": "karras",
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["5", 0],
+        "denoise": 1.0,
+        "model": ["4", 0]
+      },
+      "class_type": "KSampler"
+    },
+    "7": {
+      "inputs": { "samples": ["6", 0], "vae": ["1", 2] },
+      "class_type": "VAEDecode"
+    },
+    "8": {
+      "inputs": { 
+        "images": ["7", 0],
+        "filename_prefix": "cyberrealistic_hd"
+      },
+      "class_type": "SaveImage"
+    }
+  }
+}

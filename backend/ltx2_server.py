@@ -11,13 +11,14 @@ if os.environ.get("BACKEND_DEBUG") == "1":
         import debugpy  # type: ignore[reportMissingImports]
 
         if not bool(debugpy.is_client_connected()):  # type: ignore[reportUnknownMemberType]
-            try:
-                # Connect to an already-listening IDE debugger (compound launch)
+            if os.environ.get("BACKEND_DEBUG_CONNECT") == "1":
+                # Opt-in only: debugpy.connect can block startup when no IDE is listening.
                 debugpy.connect(("127.0.0.1", 5678))  # type: ignore[reportUnknownMemberType]
-            except (ConnectionRefusedError, ConnectionError, OSError):
-                # IDE not listening — start a debug server for manual attach
+            else:
                 debugpy.listen(("127.0.0.1", 5678))  # type: ignore[reportUnknownMemberType]
-    except (ImportError, RuntimeError) as exc:
+            if os.environ.get("BACKEND_DEBUG_WAIT") == "1":
+                debugpy.wait_for_client()  # type: ignore[reportUnknownMemberType]
+    except (ImportError, RuntimeError, OSError) as exc:
         print(f"Debugpy setup failed: {exc}", file=sys.stderr)
 
 import logging

@@ -1,6 +1,6 @@
-appId: com.lightricks.ltx-desktop
-productName: LTX Desktop
-copyright: Copyright © 2026 Lightricks
+appId: ai.axstudio.desktop
+productName: AXSTUDIO
+copyright: Copyright © 2026 AXSTUDIO
 
 directories:
   output: release
@@ -55,7 +55,7 @@ nsis:
   installerHeaderIcon: resources/icon.ico
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: LTX Desktop
+  shortcutName: AXSTUDIO
 
 mac:
   hardenedRuntime: true

@@ -1,0 +1,64 @@
+{
+  "engine": "comfyui",
+  "endpoint": "https://axiona2025--axstudio-comfyui-clean-comfyui-server.modal.run",
+  "default_checkpoint": "cyberrealisticXL_v100.safetensors",
+  "default_lora": "EyesXL_v3.safetensors",
+  "default_lora_strength": 0.95,
+  "presets": {
+    "realistic_glamour_adult": {
+      "name": "Glamour Adult",
+      "width": 832,
+      "height": 1216,
+      "steps": 65,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "masterpiece, best quality, extremely beautiful 28 year old woman, perfect symmetrical face, ultra detailed realistic eyes with catchlight, flawless skin, perfect lips and teeth, long wavy dark hair, voluptuous body, large natural breasts, slim waist, wide hips, ",
+      "negative": "bad eyes, deformed eyes, crossed eyes, blurry eyes, bad teeth, deformed mouth, bad anatomy, deformed hands, extra fingers, censored, mosaic, blur, young-looking, plastic skin"
+    },
+    "realistic_erotic_adult": {
+      "name": "Erotic Adult",
+      "width": 832,
+      "height": 1216,
+      "steps": 70,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "masterpiece, best quality, seductive 28 year old woman, perfect face, detailed realistic eyes, flawless skin, perfect lips, voluptuous body, large natural breasts, completely nude, sensual pose, ",
+      "negative": "bad eyes, deformed eyes, bad anatomy, deformed hands, extra fingers, censored, mosaic, blur, young-looking"
+    },
+    "boudoir_adult": {
+      "name": "Boudoir Adult",
+      "width": 832,
+      "height": 1216,
+      "steps": 60,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "masterpiece, soft cinematic lighting, luxury bedroom, beautiful 28 year old woman, perfect face, detailed eyes, flawless skin, sensual boudoir pose, elegant, ",
+      "negative": "bad eyes, harsh lighting, deformed, low quality, bad anatomy"
+    },
+    "editorial_lingerie_adult": {
+      "name": "Editorial Lingerie",
+      "width": 1216,
+      "height": 832,
+      "steps": 55,
+      "cfg": 6.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "high fashion editorial, beautiful woman in luxury lingerie, studio lighting, magazine style, perfect face, detailed eyes, elegant pose, ",
+      "negative": "bad eyes, deformed, low quality, bad anatomy"
+    },
+    "cinematic_adult_portrait": {
+      "name": "Cinematic Portrait",
+      "width": 1024,
+      "height": 1024,
+      "steps": 65,
+      "cfg": 5.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "cinematic portrait, dramatic lighting, extremely beautiful woman, perfect symmetrical face, stunning detailed eyes, emotional expression, flawless skin, ",
+      "negative": "bad eyes, deformed face, low quality"
+    }
+  }
+}

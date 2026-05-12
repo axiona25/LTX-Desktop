@@ -15,12 +15,14 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.responses import Response as StarletteResponse
 
 from _routes._errors import HTTPError, build_http_error_response
+from _routes.ax import router as ax_router
 from _routes.generation import router as generation_router
 from _routes.hf_auth import router as hf_auth_router
 from _routes.health import router as health_router
 from _routes.ic_lora import router as ic_lora_router
 from _routes.image_gen import router as image_gen_router
 from _routes.models import router as models_router
+from _routes.modal_image import router as modal_image_router
 from _routes.suggest_gap_prompt import router as suggest_gap_prompt_router
 from _routes.retake import router as retake_router
 from _routes.runtime_policy import router as runtime_policy_router
@@ -152,8 +154,10 @@ def create_app(
     app.add_exception_handler(Exception, _route_generic_error_handler)
 
     app.include_router(health_router)
+    app.include_router(ax_router)
     app.include_router(generation_router)
     app.include_router(models_router)
+    app.include_router(modal_image_router)
     app.include_router(settings_router)
     app.include_router(image_gen_router)
     app.include_router(suggest_gap_prompt_router)

@@ -13,6 +13,7 @@ import { stopPythonBackend } from './python-backend'
 import { initAutoUpdater } from './updater'
 import { createWindow, getMainWindow } from './window'
 import { sendAnalyticsEvent } from './analytics'
+import { installItalianAppMenu } from './menu'
 
 function logAppVersion(): void {
   if (!app.isPackaged) {
@@ -55,6 +56,7 @@ if (!gotLock) {
 
   app.whenReady().then(async () => {
     setupCSP()
+    installItalianAppMenu()
     createWindow()
     initAutoUpdater()
     // Python setup + backend start are now driven by the renderer via IPC

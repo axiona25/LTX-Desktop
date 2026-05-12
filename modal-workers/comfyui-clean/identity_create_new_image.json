@@ -1,0 +1,241 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "cyberrealisticXL_v100.safetensors"
+    },
+    "_meta": {
+      "title": "Load base checkpoint"
+    }
+  },
+  "2": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "same exact person as the master reference, consistent identity, realistic portrait photo, natural skin texture, detailed eyes, elegant studio lighting, sharp focus, high detail, photorealistic"
+    },
+    "_meta": {
+      "title": "Manual positive prompt"
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "1",
+        1
+      ],
+      "text": "different person, changed identity, changed face, deformed face, distorted eyes, bad anatomy, extra limbs, plastic skin, waxy skin, overprocessed skin, blurry, low quality, watermark, text, cartoon, painting"
+    },
+    "_meta": {
+      "title": "Manual negative prompt"
+    }
+  },
+  "4": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "master_final.png"
+    },
+    "_meta": {
+      "title": "Load master character"
+    }
+  },
+  "5": {
+    "class_type": "IPAdapterUnifiedLoaderFaceID",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "preset": "FACEID PLUS V2",
+      "lora_strength": 0.8,
+      "provider": "CUDA"
+    },
+    "_meta": {
+      "title": "Load FaceID adapter"
+    }
+  },
+  "6": {
+    "class_type": "IPAdapterInsightFaceLoader",
+    "inputs": {
+      "provider": "CUDA",
+      "model_name": "antelopev2"
+    },
+    "_meta": {
+      "title": "Load InsightFace"
+    }
+  },
+  "7": {
+    "class_type": "IPAdapterFaceID",
+    "inputs": {
+      "model": [
+        "5",
+        0
+      ],
+      "ipadapter": [
+        "5",
+        1
+      ],
+      "image": [
+        "4",
+        0
+      ],
+      "weight": 0.85,
+      "weight_faceidv2": 1.1,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0.0,
+      "end_at": 1.0,
+      "embeds_scaling": "V only",
+      "insightface": [
+        "6",
+        0
+      ]
+    },
+    "_meta": {
+      "title": "Apply master identity with IPAdapter"
+    }
+  },
+  "8": {
+    "class_type": "InstantIDModelLoader",
+    "inputs": {
+      "instantid_file": "ip-adapter.bin"
+    },
+    "_meta": {
+      "title": "Load InstantID model"
+    }
+  },
+  "9": {
+    "class_type": "InstantIDFaceAnalysis",
+    "inputs": {
+      "provider": "CUDA"
+    },
+    "_meta": {
+      "title": "Load InstantID face analysis"
+    }
+  },
+  "10": {
+    "class_type": "ControlNetLoader",
+    "inputs": {
+      "control_net_name": "InstantID-ControlNet/diffusion_pytorch_model.safetensors"
+    },
+    "_meta": {
+      "title": "Load InstantID ControlNet"
+    }
+  },
+  "11": {
+    "class_type": "ApplyInstantIDAdvanced",
+    "inputs": {
+      "instantid": [
+        "8",
+        0
+      ],
+      "insightface": [
+        "9",
+        0
+      ],
+      "control_net": [
+        "10",
+        0
+      ],
+      "image": [
+        "4",
+        0
+      ],
+      "model": [
+        "7",
+        0
+      ],
+      "positive": [
+        "2",
+        0
+      ],
+      "negative": [
+        "3",
+        0
+      ],
+      "ip_weight": 0.35,
+      "cn_strength": 0.35,
+      "start_at": 0.0,
+      "end_at": 1.0,
+      "noise": 0.0,
+      "combine_embeds": "average"
+    },
+    "_meta": {
+      "title": "Apply master identity with InstantID"
+    }
+  },
+  "12": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 832,
+      "height": 1216,
+      "batch_size": 1
+    },
+    "_meta": {
+      "title": "New image latent"
+    }
+  },
+  "13": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "11",
+        0
+      ],
+      "seed": 231134700,
+      "steps": 36,
+      "cfg": 4.8,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive": [
+        "11",
+        1
+      ],
+      "negative": [
+        "11",
+        2
+      ],
+      "latent_image": [
+        "12",
+        0
+      ],
+      "denoise": 1.0
+    },
+    "_meta": {
+      "title": "Sample new identity image"
+    }
+  },
+  "14": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "13",
+        0
+      ],
+      "vae": [
+        "1",
+        2
+      ]
+    },
+    "_meta": {
+      "title": "Decode image"
+    }
+  },
+  "15": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ],
+      "filename_prefix": "identity_create_new_test"
+    },
+    "_meta": {
+      "title": "Save real history output"
+    }
+  }
+}

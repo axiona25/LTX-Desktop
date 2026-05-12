@@ -14,8 +14,10 @@ from handlers import (
     IcLoraHandler,
     ImageGenerationHandler,
     ModelsHandler,
+    ModalImageHandler,
     PipelinesHandler,
     SuggestGapPromptHandler,
+    AxModalHandler,
     RetakeHandler,
     RuntimePolicyHandler,
     SettingsHandler,
@@ -152,12 +154,28 @@ class AppHandler:
 
         self.generation = GenerationHandler(state=self.state, lock=self._lock, config=config)
 
+        self.ax_modal = AxModalHandler(
+            state=self.state,
+            lock=self._lock,
+            http=http,
+            config=config,
+        )
+
+        self.modal_image = ModalImageHandler(
+            state=self.state,
+            lock=self._lock,
+            http=http,
+            config=config,
+        )
+        self.modal_image.ensure_output_dirs()
+
         self.video_generation = VideoGenerationHandler(
             state=self.state,
             lock=self._lock,
             generation_handler=self.generation,
             pipelines_handler=self.pipelines,
             text_handler=self.text,
+            ax_modal_handler=self.ax_modal,
             ltx_api_client=ltx_api_client,
             config=config,
         )
@@ -168,7 +186,6 @@ class AppHandler:
             generation_handler=self.generation,
             pipelines_handler=self.pipelines,
             config=config,
-            zit_api_client=zit_api_client,
         )
 
         self.health = HealthHandler(

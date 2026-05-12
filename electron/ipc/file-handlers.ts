@@ -342,6 +342,32 @@ export function registerFileHandlers(): void {
     }
   })
 
+  handle('deleteProjectAssetFiles', ({ filePaths }) => {
+    try {
+      const deletedPaths: string[] = []
+      const missingPaths: string[] = []
+      const uniquePaths = [...new Set(filePaths.filter(Boolean))]
+
+      for (const filePath of uniquePaths) {
+        const normalizedPath = validatePath(filePath, getAllowedRoots())
+        if (!fs.existsSync(normalizedPath)) {
+          missingPaths.push(normalizedPath)
+          continue
+        }
+        if (!fs.statSync(normalizedPath).isFile()) {
+          throw new Error(`Path is not a file: ${normalizedPath}`)
+        }
+        fs.unlinkSync(normalizedPath)
+        deletedPaths.push(normalizedPath)
+      }
+
+      return { success: true, deletedPaths, missingPaths }
+    } catch (error) {
+      logger.error(`Error deleting project asset files: ${error}`)
+      return { success: false, error: String(error) }
+    }
+  })
+
   handle('getProjectAssetsPath', () => {
     return getProjectAssetsPath()
   })

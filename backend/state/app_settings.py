@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any, TypeGuard, TypeVar, cast, get_args
 
 from pydantic import BaseModel, ConfigDict, Field, create_model, field_validator
@@ -52,12 +53,19 @@ class AppSettings(SettingsBaseModel):
     fal_api_key: str = ""
     use_local_text_encoder: bool = False
     prompt_cache_size: int = 100
-    prompt_enhancer_enabled_t2v: bool = True
+    prompt_enhancer_enabled_t2v: bool = False
     prompt_enhancer_enabled_i2v: bool = False
     gemini_api_key: str = ""
     seed_locked: bool = False
     locked_seed: int = 42
     models_dir: str = ""
+    ax_modal_endpoint: str = Field(default_factory=lambda: os.getenv("AX_MODAL_ENDPOINT", ""))
+    ax_modal_api_key: str = Field(default_factory=lambda: os.getenv("AX_MODAL_API_KEY", ""))
+    ax_modal_prompt_orchestration_enabled: bool = (
+        os.getenv("AX_MODAL_PROMPT_ORCHESTRATION_ENABLED", "").lower() in {"1", "true", "yes", "on"}
+    )
+    modal_llm_prompt_endpoint: str = Field(default_factory=lambda: os.getenv("MODAL_LLM_PROMPT_ENDPOINT", ""))
+    modal_flux_image_endpoint: str = Field(default_factory=lambda: os.getenv("MODAL_FLUX_IMAGE_ENDPOINT", ""))
 
     @field_validator("prompt_cache_size", mode="before")
     @classmethod
@@ -127,6 +135,11 @@ class SettingsResponse(SettingsBaseModel):
     seed_locked: bool = False
     locked_seed: int = 42
     models_dir: str = ""
+    ax_modal_endpoint: str = ""
+    has_ax_modal_api_key: bool = False
+    ax_modal_prompt_orchestration_enabled: bool = False
+    modal_llm_prompt_endpoint: str = ""
+    modal_flux_image_endpoint: str = ""
 
 
 def to_settings_response(settings: AppSettings) -> SettingsResponse:
@@ -134,9 +147,11 @@ def to_settings_response(settings: AppSettings) -> SettingsResponse:
     ltx_key = data.pop("ltx_api_key", "")
     fal_key = data.pop("fal_api_key", "")
     gemini_key = data.pop("gemini_api_key", "")
+    ax_modal_key = data.pop("ax_modal_api_key", "")
     data["has_ltx_api_key"] = bool(ltx_key)
     data["has_fal_api_key"] = bool(fal_key)
     data["has_gemini_api_key"] = bool(gemini_key)
+    data["has_ax_modal_api_key"] = bool(ax_modal_key)
     # models_dir passes through as-is (not secret)
     return SettingsResponse.model_validate(data)
 

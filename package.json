@@ -1,14 +1,13 @@
 {
-  "name": "ltx-desktop",
-  "version": "1.0.5",
-  "description": "LTX-2 Video Generation - Desktop App",
+  "name": "axstudio",
+  "version": "1.0.6",
+  "description": "AXSTUDIO - LTX Desktop fork with AX Modal LLM orchestration",
   "type": "module",
   "main": "dist-electron/main.js",
   "author": {
-    "name": "Lightricks",
-    "email": "ltx-desktop-dev@lightricks.com"
+    "name": "AXSTUDIO"
   },
-  "homepage": "https://github.com/Lightricks/LTX-Desktop",
+  "homepage": "",
   "license": "Apache-2.0",
   "private": true,
   "packageManager": "pnpm@10.30.3",
@@ -29,8 +28,9 @@
     "build:fast": "node scripts/run-script.js scripts/local-build --unpack --skip-python",
     "prepare:python": "node scripts/run-script.js scripts/prepare-python",
     "build:frontend": "vite build",
-    "start:unpacked:mac": "open release/mac-arm64/LTX\\ Desktop.app",
-    "start:unpacked:win": "powershell -Command \"& '.\\release\\win-unpacked\\LTX Desktop.exe'\""
+    "start:unpacked:mac": "open release/mac-arm64/AXSTUDIO.app",
+    "start:unpacked:win": "powershell -Command \"& '.\\release\\win-unpacked\\AXSTUDIO.exe'\"",
+    "style-previews:download": "backend/.venv/bin/python scripts/download_style_previews.py"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",

@@ -145,11 +145,11 @@ def get_model_cp_spec(cp_id: ModelCheckpointID) -> ModelCheckpointSpec:
             )
         case "z-image-turbo":
             return ModelCheckpointSpec(
-                relative_path=Path("Z-Image-Turbo"),
-                expected_size_bytes=31_000_000_000,
+                relative_path=Path("Z-Image-Turbo-FP8"),
+                expected_size_bytes=10_500_000_000,
                 is_folder=True,
-                repo_id="Tongyi-MAI/Z-Image-Turbo",
-                description="Z-Image-Turbo model for text-to-image generation",
+                repo_id="rootlocalghost/Z-Image-Turbo-FP8",
+                description="Z-Image-Turbo FP8 model for local text-to-image generation",
             )
         case _:
             assert_never(cp_id)

@@ -23,9 +23,14 @@ class TestGetSettings:
         assert data["hasFalApiKey"] is False
         assert data["useLocalTextEncoder"] is False
         assert data["promptCacheSize"] == 100
-        assert data["promptEnhancerEnabledT2V"] is True
+        assert data["promptEnhancerEnabledT2V"] is False
         assert data["promptEnhancerEnabledI2V"] is False
         assert data["hasGeminiApiKey"] is False
+        assert data["axModalEndpoint"] == ""
+        assert data["hasAxModalApiKey"] is False
+        assert data["axModalPromptOrchestrationEnabled"] is False
+        assert data["modalLlmPromptEndpoint"] == ""
+        assert data["modalFluxImageEndpoint"] == ""
         assert data["seedLocked"] is False
         assert data["lockedSeed"] == 42
         # When no custom path is set, the response surfaces the runtime default
@@ -36,6 +41,7 @@ class TestGetSettings:
         assert "ltxApiKey" not in data
         assert "falApiKey" not in data
         assert "geminiApiKey" not in data
+        assert "axModalApiKey" not in data
 
     def test_reflects_changed_settings(self, client, test_state):
         test_state.state.app_settings.use_torch_compile = True

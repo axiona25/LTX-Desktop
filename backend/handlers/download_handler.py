@@ -27,6 +27,7 @@ from handlers.hf_auth_utils import require_hf_token
 from handlers.models_handler import ModelsHandler
 from runtime_config.model_download_specs import (
     ALL_MODEL_CP_IDS,
+    IMG_GEN_MODEL_CP_ID,
     get_model_cp_spec,
     is_cp_downloaded,
     resolve_downloading_dir,
@@ -300,7 +301,9 @@ class DownloadHandler(StateHandlerBase):
         self.finish_download()
 
     def start_model_download(self, *, download_type: str, cp_ids: set[ModelCheckpointID]) -> DownloadSessionId:
-        if self.config.force_api_generations:
+        # AXSTUDIO allows local image generation on macOS even when video
+        # generation remains API-only/unsupported by the upstream policy.
+        if self.config.force_api_generations and cp_ids != {IMG_GEN_MODEL_CP_ID}:
             raise HTTPError(409, "LOCAL_MODEL_DOWNLOADS_DISABLED_IN_FORCE_API_MODE")
 
         with self._lock:

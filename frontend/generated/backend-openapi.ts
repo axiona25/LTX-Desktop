@@ -72,6 +72,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/ax/character/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Route Generate Character */
+        post: operations["route_generate_character_api_ax_character_generate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ax/face-swap": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Route Face Swap */
+        post: operations["route_face_swap_api_ax_face_swap_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/generate": {
         parameters: {
             query?: never;
@@ -217,6 +251,57 @@ export interface paths {
         put?: never;
         /** Route Ic Lora Generate */
         post: operations["route_ic_lora_generate_api_ic_lora_generate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/modal-image/enhance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Route Enhance Prompt */
+        post: operations["route_enhance_prompt_api_modal_image_enhance_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/modal-image/generate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Route Generate Flux Image */
+        post: operations["route_generate_flux_image_api_modal_image_generate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/modal-image/translate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Route Translate Prompt */
+        post: operations["route_translate_prompt_api_modal_image_translate_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -468,6 +553,12 @@ export interface components {
     schemas: {
         /** AppSettingsPatch */
         AppSettingsPatch: {
+            /** Axmodalapikey */
+            axModalApiKey?: string | null;
+            /** Axmodalendpoint */
+            axModalEndpoint?: string | null;
+            /** Axmodalpromptorchestrationenabled */
+            axModalPromptOrchestrationEnabled?: boolean | null;
             /** Falapikey */
             falApiKey?: string | null;
             /** Geminiapikey */
@@ -476,6 +567,10 @@ export interface components {
             lockedSeed?: number | null;
             /** Ltxapikey */
             ltxApiKey?: string | null;
+            /** Modalfluximageendpoint */
+            modalFluxImageEndpoint?: string | null;
+            /** Modalllmpromptendpoint */
+            modalLlmPromptEndpoint?: string | null;
             /** Modelsdir */
             modelsDir?: string | null;
             /** Promptcachesize */
@@ -492,6 +587,61 @@ export interface components {
             useTorchCompile?: boolean | null;
             /** Userprefersltxapivideogenerations */
             userPrefersLtxApiVideoGenerations?: boolean | null;
+        };
+        /** AxCharacterGenerateRequest */
+        AxCharacterGenerateRequest: {
+            /**
+             * Character Name
+             * @default
+             */
+            character_name: string;
+            /** Image Path */
+            image_path: string;
+            /**
+             * Output Kind
+             * @default profile
+             * @enum {string}
+             */
+            output_kind: "profile" | "image" | "video";
+            /**
+             * Prompt
+             * @default
+             */
+            prompt: string;
+        };
+        /** AxFaceSwapRequest */
+        AxFaceSwapRequest: {
+            /**
+             * Media Type
+             * @default image
+             * @enum {string}
+             */
+            media_type: "image" | "video";
+            /**
+             * Prompt
+             * @default
+             */
+            prompt: string;
+            /** Source Media Path */
+            source_media_path: string;
+            /** Target Face Path */
+            target_face_path: string;
+        };
+        /** AxModalAssetResponse */
+        AxModalAssetResponse: {
+            /** Metadata */
+            metadata?: {
+                [key: string]: unknown;
+            };
+            /** Output Path */
+            output_path?: string | null;
+            /** Output Url */
+            output_url?: string | null;
+            /**
+             * Status
+             * @constant
+             */
+            status: "complete";
         };
         /** CancelCancellingResponse */
         CancelCancellingResponse: {
@@ -973,6 +1123,254 @@ export interface components {
             /** Upgrade Message */
             upgrade_message?: string | null;
         };
+        /** ModalFluxImageGenerateRequest */
+        ModalFluxImageGenerateRequest: {
+            /**
+             * Aspect Ratio Overridden
+             * @default false
+             */
+            aspect_ratio_overridden: boolean;
+            /** Aspect Ratio Override Reason */
+            aspect_ratio_override_reason?: string | null;
+            /**
+             * Backend Semantic Rewrite After Generate
+             * @default false
+             */
+            backend_semantic_rewrite_after_generate: boolean;
+            /** Composition Intent */
+            composition_intent?: string | null;
+            /** Custom Style Text */
+            custom_style_text?: string | null;
+            /**
+             * Descriptive Trait Lock Applied
+             * @default false
+             */
+            descriptive_trait_lock_applied: boolean;
+            /** Effective Aspect Ratio */
+            effective_aspect_ratio?: string | null;
+            /** Final Prompt */
+            final_prompt?: string | null;
+            /** Frontend Negative Prompt */
+            frontend_negative_prompt?: string | null;
+            /**
+             * Guidance Scale
+             * @default 3.5
+             */
+            guidance_scale: number;
+            /**
+             * Height
+             * @default 1024
+             */
+            height: number;
+            /**
+             * Idea Is Primary Guide
+             * @default false
+             */
+            idea_is_primary_guide: boolean;
+            /** Llm Enhanced Prompt */
+            llm_enhanced_prompt?: string | null;
+            /**
+             * Negative Prompt
+             * @default
+             */
+            negative_prompt: string;
+            /** Negative Prompt Final */
+            negative_prompt_final?: string | null;
+            /**
+             * No People Lock Applied
+             * @default false
+             */
+            no_people_lock_applied: boolean;
+            /** Original Idea */
+            original_idea?: string | null;
+            /** Payload Prompt Sent To Backend */
+            payload_prompt_sent_to_backend?: string | null;
+            /** Prompt */
+            prompt: string;
+            /**
+             * Prompt Source
+             * @default manual
+             * @enum {string}
+             */
+            prompt_source: "llm_enhanced" | "user_edited" | "manual";
+            /**
+             * Prompt Visibility Violation
+             * @default false
+             */
+            prompt_visibility_violation: boolean;
+            /**
+             * Prompt Was User Edited
+             * @default false
+             */
+            prompt_was_user_edited: boolean;
+            /**
+             * Quality Mode
+             * @default balanced
+             * @enum {string}
+             */
+            quality_mode: "preview" | "balanced" | "premium";
+            /** Removed Conflicting Prompt Terms */
+            removed_conflicting_prompt_terms?: string[];
+            /** Requested Aspect Ratio */
+            requested_aspect_ratio?: string | null;
+            /** Required Traits */
+            required_traits?: {
+                [key: string]: unknown;
+            };
+            /** Seed */
+            seed?: number | null;
+            /** Selected Style Category */
+            selected_style_category?: string | null;
+            /** Selected Style Id */
+            selected_style_id?: string | null;
+            /** Selected Style Label */
+            selected_style_label?: string | null;
+            /**
+             * Steps
+             * @default 28
+             */
+            steps: number;
+            /** Style Negative Modifier */
+            style_negative_modifier?: string | null;
+            /** Style Prompt Modifier */
+            style_prompt_modifier?: string | null;
+            /**
+             * Style Was Applied
+             * @default false
+             */
+            style_was_applied: boolean;
+            /** Subject Type */
+            subject_type?: string | null;
+            /** Trait Lock Types Applied */
+            trait_lock_types_applied?: string[];
+            /** Visible Prompt Before Generate */
+            visible_prompt_before_generate?: string | null;
+            /**
+             * Width
+             * @default 1024
+             */
+            width: number;
+        };
+        /** ModalFluxImageGenerateResponse */
+        ModalFluxImageGenerateResponse: {
+            /** Actual Steps */
+            actual_steps: number;
+            /** Effective Height */
+            effective_height: number;
+            /** Effective Width */
+            effective_width: number;
+            /** Elapsed Ms */
+            elapsed_ms: number;
+            /** Guidance Scale */
+            guidance_scale: number;
+            /** Height */
+            height: number;
+            /** Image Base64 */
+            image_base64: string;
+            /** Local Path */
+            local_path: string;
+            /** Metadata Path */
+            metadata_path: string;
+            /**
+             * Model
+             * @constant
+             */
+            model: "FLUX.1-dev";
+            /** Negative Prompt Applied */
+            negative_prompt_applied: boolean;
+            /**
+             * Provider
+             * @constant
+             */
+            provider: "modal_flux";
+            /**
+             * Quality Mode
+             * @enum {string}
+             */
+            quality_mode: "preview" | "balanced" | "premium";
+            /** Requested Steps */
+            requested_steps: number;
+            /** Seed */
+            seed: number;
+            /** Width */
+            width: number;
+        };
+        /** ModalPromptEnhanceRequest */
+        ModalPromptEnhanceRequest: {
+            /** Aspect Ratio */
+            aspect_ratio?: string | null;
+            /** Idea */
+            idea: string;
+            /** Language */
+            language?: string | null;
+            /** Style */
+            style?: string | null;
+        };
+        /** ModalPromptEnhanceResponse */
+        ModalPromptEnhanceResponse: {
+            /**
+             * Composition Intent
+             * @default generic
+             * @enum {string}
+             */
+            composition_intent: "portrait" | "full_body" | "landscape_scene" | "product" | "architecture" | "generic";
+            /** Final Prompt */
+            final_prompt: string;
+            /** Guidance Scale */
+            guidance_scale: number;
+            /** Negative Prompt */
+            negative_prompt: string;
+            /** Recommended Height */
+            recommended_height: number;
+            /** Recommended Width */
+            recommended_width: number;
+            /** Style Tags */
+            style_tags: string[];
+            /**
+             * Subject Type
+             * @default generic
+             * @enum {string}
+             */
+            subject_type: "person" | "environment" | "object" | "product" | "architecture" | "mixed" | "generic";
+            /** Suggested Steps */
+            suggested_steps: number;
+        };
+        /** ModalPromptTranslateRequest */
+        ModalPromptTranslateRequest: {
+            /**
+             * Kind
+             * @default prompt
+             * @enum {string}
+             */
+            kind: "prompt" | "negative_prompt" | "style";
+            /** Source Language */
+            source_language?: string | null;
+            /**
+             * Target Language
+             * @enum {string}
+             */
+            target_language: "en" | "it";
+            /** Text */
+            text: string;
+        };
+        /** ModalPromptTranslateResponse */
+        ModalPromptTranslateResponse: {
+            /**
+             * Kind
+             * @default prompt
+             * @enum {string}
+             */
+            kind: "prompt" | "negative_prompt" | "style";
+            /** Source Language */
+            source_language?: string | null;
+            /**
+             * Target Language
+             * @enum {string}
+             */
+            target_language: "en" | "it";
+            /** Translated Text */
+            translated_text: string;
+        };
         /** ModelDeleteRequest */
         ModelDeleteRequest: {
             /** Cp Ids */
@@ -1070,6 +1468,21 @@ export interface components {
         /** SettingsResponse */
         SettingsResponse: {
             /**
+             * Axmodalendpoint
+             * @default
+             */
+            axModalEndpoint: string;
+            /**
+             * Axmodalpromptorchestrationenabled
+             * @default false
+             */
+            axModalPromptOrchestrationEnabled: boolean;
+            /**
+             * Hasaxmodalapikey
+             * @default false
+             */
+            hasAxModalApiKey: boolean;
+            /**
              * Hasfalapikey
              * @default false
              */
@@ -1089,6 +1502,16 @@ export interface components {
              * @default 42
              */
             lockedSeed: number;
+            /**
+             * Modalfluximageendpoint
+             * @default
+             */
+            modalFluxImageEndpoint: string;
+            /**
+             * Modalllmpromptendpoint
+             * @default
+             */
+            modalLlmPromptEndpoint: string;
             /**
              * Modelsdir
              * @default
@@ -1328,6 +1751,90 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HuggingFaceAuthStatusResponse"];
+                };
+            };
+            /** @description Client Error */
+            "4XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+            /** @description Server Error */
+            "5XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+        };
+    };
+    route_generate_character_api_ax_character_generate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AxCharacterGenerateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AxModalAssetResponse"];
+                };
+            };
+            /** @description Client Error */
+            "4XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+            /** @description Server Error */
+            "5XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+        };
+    };
+    route_face_swap_api_ax_face_swap_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AxFaceSwapRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AxModalAssetResponse"];
                 };
             };
             /** @description Client Error */
@@ -1657,6 +2164,132 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["IcLoraGenerateCompleteResponse"] | components["schemas"]["IcLoraGenerateCancelledResponse"];
+                };
+            };
+            /** @description Client Error */
+            "4XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+            /** @description Server Error */
+            "5XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+        };
+    };
+    route_enhance_prompt_api_modal_image_enhance_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ModalPromptEnhanceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModalPromptEnhanceResponse"];
+                };
+            };
+            /** @description Client Error */
+            "4XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+            /** @description Server Error */
+            "5XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+        };
+    };
+    route_generate_flux_image_api_modal_image_generate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ModalFluxImageGenerateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModalFluxImageGenerateResponse"];
+                };
+            };
+            /** @description Client Error */
+            "4XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+            /** @description Server Error */
+            "5XX": {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPErrorResponse"];
+                };
+            };
+        };
+    };
+    route_translate_prompt_api_modal_image_translate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ModalPromptTranslateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ModalPromptTranslateResponse"];
                 };
             };
             /** @description Client Error */

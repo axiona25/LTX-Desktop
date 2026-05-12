@@ -192,6 +192,13 @@ export const electronAPISchemas = {
       height: z.number(),
     }),
   },
+  deleteProjectAssetFiles: {
+    input: z.object({ filePaths: z.array(z.string()) }),
+    output: ipcResult({
+      deletedPaths: z.array(z.string()),
+      missingPaths: z.array(z.string()),
+    }),
+  },
   getProjectAssetsPath: {
     input: z.object({}),
     output: z.string(),

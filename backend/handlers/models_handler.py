@@ -180,7 +180,6 @@ class ModelsHandler(StateHandlerBase):
         )
 
     def get_img_gen_recommendation(self) -> ImageGenRecommendationResponse:
-        self._ensure_local_model_mode()
         cp_to_download = None if self.is_cp_downloaded(IMG_GEN_MODEL_CP_ID) else IMG_GEN_MODEL_CP_ID
         return ImageGenRecommendationResponse(cp_to_download=cp_to_download)
 

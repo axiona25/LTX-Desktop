@@ -17,7 +17,7 @@ interface SettingsModalProps {
 type TabId = 'general' | 'apiKeys' | 'promptEnhancer' | 'about'
 
 export function SettingsModal({ isOpen, onClose, initialTab }: SettingsModalProps) {
-  const { settings, updateSettings, saveLtxApiKey, saveFalApiKey, saveGeminiApiKey, forceApiGenerations } = useAppSettings()
+  const { settings, updateSettings, saveLtxApiKey, saveFalApiKey, saveGeminiApiKey, saveAxModalApiKey, forceApiGenerations } = useAppSettings()
   const onSettingsChange = (next: AppSettings) => updateSettings(next)
   const [activeTab, setActiveTab] = useState<TabId>('general')
   const [ltxApiKeyInput, setLtxApiKeyInput] = useState('')
@@ -27,6 +27,8 @@ export function SettingsModal({ isOpen, onClose, initialTab }: SettingsModalProp
   const falApiKeyInputRef = useRef<HTMLInputElement>(null)
   const [geminiApiKeyInput, setGeminiApiKeyInput] = useState('')
   const geminiApiKeyInputRef = useRef<HTMLInputElement>(null)
+  const [axModalApiKeyInput, setAxModalApiKeyInput] = useState('')
+  const axModalApiKeyInputRef = useRef<HTMLInputElement>(null)
   const [textEncoderRecommendation, setTextEncoderRecommendation] = useState<ApiSuccessOf<'getTextEncoderRecommendation'> | null>(null)
   const [isDownloading, setIsDownloading] = useState(false)
   const [downloadError, setDownloadError] = useState<string | null>(null)
@@ -217,6 +219,34 @@ export function SettingsModal({ isOpen, onClose, initialTab }: SettingsModalProp
     onSettingsChange({
       ...settings,
       lockedSeed: Math.floor(Math.random() * 2147483647),
+    })
+  }
+
+  const handleAxModalEndpointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSettingsChange({
+      ...settings,
+      axModalEndpoint: e.target.value,
+    })
+  }
+
+  const handleToggleAxModalOrchestration = () => {
+    onSettingsChange({
+      ...settings,
+      axModalPromptOrchestrationEnabled: !settings.axModalPromptOrchestrationEnabled,
+    })
+  }
+
+  const handleModalLlmPromptEndpointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSettingsChange({
+      ...settings,
+      modalLlmPromptEndpoint: e.target.value,
+    })
+  }
+
+  const handleModalFluxImageEndpointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSettingsChange({
+      ...settings,
+      modalFluxImageEndpoint: e.target.value,
     })
   }
 
@@ -761,6 +791,139 @@ export function SettingsModal({ isOpen, onClose, initialTab }: SettingsModalProp
                         </>
                       )}
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* AX Modal Section */}
+              <div className="space-y-4 pt-4 border-t border-zinc-800">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-emerald-400" />
+                  <h3 className="text-sm font-semibold text-white">AX Modal LLM</h3>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">AX</span>
+                </div>
+
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  AX Modal owns prompt planning, character generation, and face swap. LTX only receives the final prompt and renders the media.
+                </p>
+
+                <div className="bg-zinc-800/50 rounded-lg p-4 space-y-3">
+                  <input
+                    type="url"
+                    value={settings.axModalEndpoint}
+                    onChange={handleAxModalEndpointChange}
+                    placeholder="https://your-modal-endpoint.modal.run"
+                    onKeyDown={(e) => e.stopPropagation()}
+                    className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <div className="flex gap-2">
+                    <input
+                      ref={axModalApiKeyInputRef}
+                      type="password"
+                      value={axModalApiKeyInput}
+                      onChange={(e) => setAxModalApiKeyInput(e.target.value)}
+                      placeholder={settings.hasAxModalApiKey ? 'Enter new key to replace...' : 'Optional AX Modal bearer token...'}
+                      onKeyDown={(e) => e.stopPropagation()}
+                      className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <button
+                      onClick={() => {
+                        const trimmed = axModalApiKeyInput.trim()
+                        if (!trimmed) return
+                        void saveAxModalApiKey(trimmed)
+                        setAxModalApiKeyInput('')
+                      }}
+                      disabled={!axModalApiKeyInput.trim()}
+                      className="px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-500 disabled:bg-zinc-700 disabled:text-zinc-500 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+                    >
+                      Save Key
+                    </button>
+                  </div>
+                  <button
+                    onClick={handleToggleAxModalOrchestration}
+                    className={`w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
+                      settings.axModalPromptOrchestrationEnabled
+                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-300'
+                        : 'border-zinc-700 bg-zinc-900/60 text-zinc-400 hover:border-zinc-600'
+                    }`}
+                  >
+                    {settings.axModalPromptOrchestrationEnabled
+                      ? 'Prompt orchestration enabled: AX Modal will rewrite/plan before LTX generation.'
+                      : 'Prompt orchestration disabled: LTX receives the UI prompt directly.'}
+                  </button>
+                  <div className="flex items-center justify-between">
+                    <div className={`text-xs px-2 py-1 rounded inline-flex items-center gap-1.5 ${
+                      settings.axModalEndpoint
+                        ? 'bg-green-500/10 text-green-400'
+                        : 'bg-amber-500/10 text-amber-400'
+                    }`}>
+                      {settings.axModalEndpoint ? (
+                        <>
+                          <Check className="h-3 w-3" />
+                          Endpoint configured
+                        </>
+                      ) : (
+                        <>
+                          <AlertCircle className="h-3 w-3" />
+                          Endpoint required for AX features
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Image Pipeline Section */}
+              <div className="space-y-4 pt-4 border-t border-zinc-800">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-blue-400" />
+                  <h3 className="text-sm font-semibold text-white">Modal Image Pipeline</h3>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400">Images</span>
+                </div>
+
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Dedicated AX endpoints for image prompt enhancement and FLUX generation. These replace LTX/FAL image API usage in the AX image flow.
+                </p>
+
+                <div className="bg-zinc-800/50 rounded-lg p-4 space-y-3">
+                  <label className="block space-y-1.5">
+                    <span className="text-xs font-medium text-zinc-400">Prompt enhancer endpoint</span>
+                    <input
+                      type="url"
+                      value={settings.modalLlmPromptEndpoint}
+                      onChange={handleModalLlmPromptEndpointChange}
+                      placeholder="https://your-llm-worker.modal.run/enhance"
+                      onKeyDown={(e) => e.stopPropagation()}
+                      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </label>
+                  <label className="block space-y-1.5">
+                    <span className="text-xs font-medium text-zinc-400">FLUX image endpoint</span>
+                    <input
+                      type="url"
+                      value={settings.modalFluxImageEndpoint}
+                      onChange={handleModalFluxImageEndpointChange}
+                      placeholder="https://your-flux-worker.modal.run/generate"
+                      onKeyDown={(e) => e.stopPropagation()}
+                      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </label>
+                  <div className={`text-xs px-2 py-1 rounded inline-flex items-center gap-1.5 ${
+                    settings.modalLlmPromptEndpoint && settings.modalFluxImageEndpoint
+                      ? 'bg-green-500/10 text-green-400'
+                      : 'bg-amber-500/10 text-amber-400'
+                  }`}>
+                    {settings.modalLlmPromptEndpoint && settings.modalFluxImageEndpoint ? (
+                      <>
+                        <Check className="h-3 w-3" />
+                        Modal image endpoints configured
+                      </>
+                    ) : (
+                      <>
+                        <AlertCircle className="h-3 w-3" />
+                        Configure both endpoints to use AX image generation
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

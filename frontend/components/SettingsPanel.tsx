@@ -21,6 +21,12 @@ export interface GenerationSettings {
   imageResolution: string
   imageAspectRatio: string
   imageSteps: number
+  imageStyleId?: string
+  imageStyleLabel?: string | null
+  imageStyleCategory?: string | null
+  imageStylePromptModifier?: string | null
+  imageStyleNegativeModifier?: string | null
+  imageCustomStyleText?: string | null
   variations?: number  // Number of image variations to generate
 }
 
@@ -112,13 +118,13 @@ export function SettingsPanel({
 
           <Select
             label="Quality"
-            value={settings.imageSteps || 4}
+            value={settings.imageSteps || 36}
             onChange={(e) => handleChange('imageSteps', parseInt(e.target.value))}
             disabled={disabled}
           >
-            <option value={4}>Fast</option>
-            <option value={8}>Balanced</option>
-            <option value={12}>High</option>
+            <option value={12}>Preview</option>
+            <option value={24}>Balanced</option>
+            <option value={36}>Premium</option>
           </Select>
         </div>
       </div>

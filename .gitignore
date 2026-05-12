@@ -54,6 +54,7 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+credentials.txt
 
 # Testing
 coverage/
@@ -83,6 +84,7 @@ backend/generated/
 
 # Build artifacts
 release/
+release-dev/
 python-embed/
 
 # Downloaded during CI for Windows NSIS installer

@@ -1,0 +1,822 @@
+[
+  {
+    "style_id": "realistic",
+    "file": "./style-previews/realistic.webp",
+    "source": "Pexels",
+    "author": "Eric QUINONES",
+    "source_url": "https://www.pexels.com/photo/artistic-portrait-of-a-woman-with-contemplative-expression-35721584/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "realistic portrait studio photography adult model neutral background"
+  },
+  {
+    "style_id": "photorealistic",
+    "file": "./style-previews/photorealistic.webp",
+    "source": "Pexels",
+    "author": "Eric QUINONES",
+    "source_url": "https://www.pexels.com/photo/close-up-portrait-of-woman-with-curly-hair-35721587/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "photorealistic studio portrait natural light"
+  },
+  {
+    "style_id": "ultra_realistic",
+    "file": "./style-previews/ultra_realistic.webp",
+    "source": "Pexels",
+    "author": "Dong Le",
+    "source_url": "https://www.pexels.com/photo/close-up-portrait-of-a-young-girl-outdoors-33782879/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "ultra realistic portrait photography high detail"
+  },
+  {
+    "style_id": "hyper_realistic",
+    "file": "./style-previews/hyper_realistic.webp",
+    "source": "Pexels",
+    "author": "Dong Le",
+    "source_url": "https://www.pexels.com/photo/close-up-portrait-of-a-young-girl-outdoors-33782879/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "hyper realistic portrait close detail"
+  },
+  {
+    "style_id": "studio_photography",
+    "file": "./style-previews/studio_photography.webp",
+    "source": "Pexels",
+    "author": "Tural Huseyn",
+    "source_url": "https://www.pexels.com/photo/a-woman-in-a-dress-19198604/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "professional studio photography portrait softbox lighting"
+  },
+  {
+    "style_id": "portrait_photography",
+    "file": "./style-previews/portrait_photography.webp",
+    "source": "Pexels",
+    "author": "Eric QUINONES",
+    "source_url": "https://www.pexels.com/photo/elegant-black-and-white-portrait-of-a-woman-35725753/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "portrait photography adult studio natural light"
+  },
+  {
+    "style_id": "fashion_photography",
+    "file": "./style-previews/fashion_photography.webp",
+    "source": "Pexels",
+    "author": "Davide De Giovanni",
+    "source_url": "https://www.pexels.com/photo/woman-sitting-on-chair-1649673/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "fashion photography editorial model studio"
+  },
+  {
+    "style_id": "product_photography",
+    "file": "./style-previews/product_photography.webp",
+    "source": "Pexels",
+    "author": "Brett Sayles",
+    "source_url": "https://www.pexels.com/photo/black-and-white-photography-studio-setting-2445781/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "premium product photography studio lighting"
+  },
+  {
+    "style_id": "architectural_photography",
+    "file": "./style-previews/architectural_photography.webp",
+    "source": "Pexels",
+    "author": "Bilal Mansuri",
+    "source_url": "https://www.pexels.com/photo/a-3d-rendering-of-a-modern-house-with-a-swimming-pool-13203179/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "modern architecture photography luxury villa exterior"
+  },
+  {
+    "style_id": "documentary_style",
+    "file": "./style-previews/documentary_style.webp",
+    "source": "Pexels",
+    "author": "Eduardo HernandezSoto",
+    "source_url": "https://www.pexels.com/photo/street-performer-with-organ-grinder-on-busy-street-28560512/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "documentary photography street scene realistic"
+  },
+  {
+    "style_id": "cinematic",
+    "file": "./style-previews/cinematic.webp",
+    "source": "Pexels",
+    "author": "WENCHENG JIANG",
+    "source_url": "https://www.pexels.com/photo/anonymous-woman-with-umbrella-near-road-with-vehicles-at-night-6635767/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "cinematic city night neon rain"
+  },
+  {
+    "style_id": "cinematic_dramatic",
+    "file": "./style-previews/cinematic_dramatic.webp",
+    "source": "Pexels",
+    "author": "Anastasia  Latunova",
+    "source_url": "https://www.pexels.com/photo/silhouette-of-a-person-8917456/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "dramatic cinematic lighting silhouette"
+  },
+  {
+    "style_id": "movie_still",
+    "file": "./style-previews/movie_still.webp",
+    "source": "Pexels",
+    "author": "Yiğit  KARAALİOĞLU",
+    "source_url": "https://www.pexels.com/photo/reflection-of-a-hand-sculpture-on-water-surface-14674521/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "movie still cinematic scene"
+  },
+  {
+    "style_id": "high_end_film_look",
+    "file": "./style-previews/high_end_film_look.webp",
+    "source": "Pexels",
+    "author": "Guillermo Berlin",
+    "source_url": "https://www.pexels.com/photo/a-man-in-a-suit-sitting-in-a-chair-27972375/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "cinematic film still luxury scene"
+  },
+  {
+    "style_id": "noir_cinematic",
+    "file": "./style-previews/noir_cinematic.webp",
+    "source": "Pexels",
+    "author": "J.S. McDuff",
+    "source_url": "https://www.pexels.com/photo/moody-night-shot-of-a-cottage-in-illinois-31683057/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "film noir black and white cinematic street"
+  },
+  {
+    "style_id": "epic_cinematic",
+    "file": "./style-previews/epic_cinematic.webp",
+    "source": "Pexels",
+    "author": "Damien Snyers",
+    "source_url": "https://www.pexels.com/photo/storm-above-mountain-valley-19407046/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "epic cinematic landscape dramatic light"
+  },
+  {
+    "style_id": "sci_fi_cinematic",
+    "file": "./style-previews/sci_fi_cinematic.webp",
+    "source": "Pexels",
+    "author": "Oluwatoki  Sayf Al-Fattah",
+    "source_url": "https://www.pexels.com/photo/neon-faces-on-wall-6842724/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "science fiction cinematic city neon"
+  },
+  {
+    "style_id": "fantasy_cinematic",
+    "file": "./style-previews/fantasy_cinematic.webp",
+    "source": "Pexels",
+    "author": "Никола Станојковић",
+    "source_url": "https://www.pexels.com/photo/majestic-bran-castle-in-winter-sunlight-30736792/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "fantasy cinematic castle dramatic light"
+  },
+  {
+    "style_id": "illustration",
+    "file": "./style-previews/illustration.webp",
+    "source": "Pexels",
+    "author": "Steve A Johnson",
+    "source_url": "https://www.pexels.com/photo/abstract-3d-render-of-a-human-likeness-and-geometrical-shapes-8669792/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "digital illustration character landscape"
+  },
+  {
+    "style_id": "digital_painting",
+    "file": "./style-previews/digital_painting.webp",
+    "source": "Pexels",
+    "author": "Steve A Johnson",
+    "source_url": "https://www.pexels.com/photo/wave-of-shining-liquid-9977648/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "digital painting fantasy landscape"
+  },
+  {
+    "style_id": "concept_art",
+    "file": "./style-previews/concept_art.webp",
+    "source": "Pexels",
+    "author": "Steve A Johnson",
+    "source_url": "https://www.pexels.com/photo/3d-geometric-shapes-9789217/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "concept art environment character"
+  },
+  {
+    "style_id": "matte_painting",
+    "file": "./style-previews/matte_painting.webp",
+    "source": "Pexels",
+    "author": "Marius Schmidt",
+    "source_url": "https://www.pexels.com/photo/a-house-on-an-island-surrounded-by-trees-3011823/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "matte painting cinematic landscape"
+  },
+  {
+    "style_id": "comic_book",
+    "file": "./style-previews/comic_book.webp",
+    "source": "Pexels",
+    "author": "Keenan Constance",
+    "source_url": "https://www.pexels.com/photo/man-in-black-leather-jacket-wearing-spiderman-costume-5691359/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "comic book illustration hero style"
+  },
+  {
+    "style_id": "graphic_novel",
+    "file": "./style-previews/graphic_novel.webp",
+    "source": "Pexels",
+    "author": "Steve A Johnson",
+    "source_url": "https://www.pexels.com/photo/abstract-painting-13312407/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "graphic novel illustration dramatic"
+  },
+  {
+    "style_id": "western_comic",
+    "file": "./style-previews/western_comic.webp",
+    "source": "Pexels",
+    "author": "Heather Green",
+    "source_url": "https://www.pexels.com/photo/ink-on-a-paper-19582307/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "western comic art illustration"
+  },
+  {
+    "style_id": "line_art",
+    "file": "./style-previews/line_art.webp",
+    "source": "Pexels",
+    "author": "Frank Cone",
+    "source_url": "https://www.pexels.com/photo/abstract-art-spiral-4727190/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "line art illustration black white"
+  },
+  {
+    "style_id": "ink_drawing",
+    "file": "./style-previews/ink_drawing.webp",
+    "source": "Pexels",
+    "author": "Sofya Borboris",
+    "source_url": "https://www.pexels.com/photo/drawing-of-barn-12261025/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "ink drawing illustration"
+  },
+  {
+    "style_id": "sketch",
+    "file": "./style-previews/sketch.webp",
+    "source": "Pexels",
+    "author": "Sutej Arts",
+    "source_url": "https://www.pexels.com/photo/sketches-of-female-eyes-pencils-and-an-old-cell-phone-lying-on-blue-background-6002182/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "pencil sketch drawing"
+  },
+  {
+    "style_id": "pencil_drawing",
+    "file": "./style-previews/pencil_drawing.webp",
+    "source": "Pexels",
+    "author": "Two Dreamers",
+    "source_url": "https://www.pexels.com/photo/photo-of-man-drawing-a-portrait-of-a-woman-2716895/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "pencil drawing portrait"
+  },
+  {
+    "style_id": "charcoal_drawing",
+    "file": "./style-previews/charcoal_drawing.webp",
+    "source": "Pexels",
+    "author": "Two Dreamers",
+    "source_url": "https://www.pexels.com/photo/photo-of-man-drawing-a-portrait-of-a-woman-2716895/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "charcoal drawing portrait"
+  },
+  {
+    "style_id": "manga",
+    "file": "./style-previews/manga.webp",
+    "source": "Pexels",
+    "author": "Gallery BY IMAN",
+    "source_url": "https://www.pexels.com/photo/cosplay-characters-in-baku-park-setting-37105393/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "manga illustration character black white"
+  },
+  {
+    "style_id": "anime",
+    "file": "./style-previews/anime.webp",
+    "source": "Pexels",
+    "author": "Gallery BY IMAN",
+    "source_url": "https://www.pexels.com/photo/cosplay-duo-in-baku-park-setting-37105395/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "anime style illustration character"
+  },
+  {
+    "style_id": "anime_cinematic",
+    "file": "./style-previews/anime_cinematic.webp",
+    "source": "Pexels",
+    "author": "Adam Borkowski",
+    "source_url": "https://www.pexels.com/photo/an-aerial-shot-of-buildings-in-the-city-at-night-4389265/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "cinematic anime city background"
+  },
+  {
+    "style_id": "anime_90s",
+    "file": "./style-previews/anime_90s.webp",
+    "source": "Pexels",
+    "author": "Gallery BY IMAN",
+    "source_url": "https://www.pexels.com/photo/cosplay-duo-in-baku-park-setting-37105395/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "90s anime style illustration"
+  },
+  {
+    "style_id": "chibi",
+    "file": "./style-previews/chibi.webp",
+    "source": "Pexels",
+    "author": "Tunahan KALAYCI",
+    "source_url": "https://www.pexels.com/photo/yellow-robot-character-on-orange-background-36847299/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "chibi character illustration"
+  },
+  {
+    "style_id": "cartoon",
+    "file": "./style-previews/cartoon.webp",
+    "source": "Pexels",
+    "author": "Tunahan KALAYCI",
+    "source_url": "https://www.pexels.com/photo/yellow-robot-character-on-orange-background-36847299/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "cartoon illustration character"
+  },
+  {
+    "style_id": "kids_illustration",
+    "file": "./style-previews/kids_illustration.webp",
+    "source": "Pexels",
+    "author": "betül nur akyürek",
+    "source_url": "https://www.pexels.com/photo/cozy-reading-scene-with-poetry-book-34299322/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "children book illustration"
+  },
+  {
+    "style_id": "storybook_illustration",
+    "file": "./style-previews/storybook_illustration.webp",
+    "source": "Pexels",
+    "author": "Gönül Atasayar",
+    "source_url": "https://www.pexels.com/photo/flatlay-photography-of-orange-juice-in-a-cup-near-a-book-11124786/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "storybook illustration fantasy"
+  },
+  {
+    "style_id": "fairy_tale_animation",
+    "file": "./style-previews/fairy_tale_animation.webp",
+    "source": "Pexels",
+    "author": "Christian Marohn",
+    "source_url": "https://www.pexels.com/photo/neuschwanstein-castle-in-summer-on-gloomy-day-17906099/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "fairy tale illustration castle"
+  },
+  {
+    "style_id": "classic_animated_film",
+    "file": "./style-previews/classic_animated_film.webp",
+    "source": "Pexels",
+    "author": "Tunahan KALAYCI",
+    "source_url": "https://www.pexels.com/photo/yellow-robot-character-on-orange-background-36847299/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "classic animation illustration character"
+  },
+  {
+    "style_id": "storybook_princess_animation",
+    "file": "./style-previews/storybook_princess_animation.webp",
+    "source": "Pexels",
+    "author": "frank minjarez",
+    "source_url": "https://www.pexels.com/photo/moody-picture-of-fantasy-princess-in-the-woods-17628951/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "storybook princess style illustration generic"
+  },
+  {
+    "style_id": "family_3d_animation",
+    "file": "./style-previews/family_3d_animation.webp",
+    "source": "Pexels",
+    "author": "Tunahan KALAYCI",
+    "source_url": "https://www.pexels.com/photo/yellow-robot-character-on-orange-background-36847299/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "family friendly 3d animation character"
+  },
+  {
+    "style_id": "clay_animation",
+    "file": "./style-previews/clay_animation.webp",
+    "source": "Pexels",
+    "author": "cottonbro CG studio",
+    "source_url": "https://www.pexels.com/photo/hand-doing-thumbs-up-sign-8831809/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "clay animation character"
+  },
+  {
+    "style_id": "3d_render",
+    "file": "./style-previews/3d_render.webp",
+    "source": "Pexels",
+    "author": "Pușcaș Adryan",
+    "source_url": "https://www.pexels.com/photo/beige-armchair-on-a-white-stand-in-front-of-the-white-background-25857376/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "3d render object studio"
+  },
+  {
+    "style_id": "realistic_3d",
+    "file": "./style-previews/realistic_3d.webp",
+    "source": "Pexels",
+    "author": "Rodion Kutsaiev",
+    "source_url": "https://www.pexels.com/photo/white-and-brown-round-frame-7911758/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "realistic 3d render product studio"
+  },
+  {
+    "style_id": "stylized_3d",
+    "file": "./style-previews/stylized_3d.webp",
+    "source": "Pexels",
+    "author": "Paul Seling",
+    "source_url": "https://www.pexels.com/photo/flowers-trees-metal-grass-20488675/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "stylized 3d character render"
+  },
+  {
+    "style_id": "clay_render",
+    "file": "./style-previews/clay_render.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-the-role-of-ai-in-computer-optimisation-for-reduced-energy-consumption-it-was-created-by-linus-zoll-as-part-18069082/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "clay render 3d object"
+  },
+  {
+    "style_id": "toy_style",
+    "file": "./style-previews/toy_style.webp",
+    "source": "Pexels",
+    "author": "Connor Kelley",
+    "source_url": "https://www.pexels.com/photo/close-up-view-of-a-yoda-figurine-7499839/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "toy photography vinyl figure"
+  },
+  {
+    "style_id": "isometric",
+    "file": "./style-previews/isometric.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-a-look-inside-how-ai-microchips-are-designed-it-was-created-by-champ-panupong-techawongthawon-as-part-of-the-v-17483850/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "isometric illustration city"
+  },
+  {
+    "style_id": "low_poly",
+    "file": "./style-previews/low_poly.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-the-process-used-by-text-to-image-diffusion-models-it-was-created-by-linus-zoll-as-part-of-the-visualising-ai-18069160/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "low poly 3d landscape"
+  },
+  {
+    "style_id": "game_art",
+    "file": "./style-previews/game_art.webp",
+    "source": "Pexels",
+    "author": "Bilal Mansuri",
+    "source_url": "https://www.pexels.com/photo/a-wooden-house-near-green-trees-11539579/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "game art environment"
+  },
+  {
+    "style_id": "cgi",
+    "file": "./style-previews/cgi.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-explores-how-humans-can-creatively-collaborate-with-artificial-general-intelligence-agi-in-the-future-and-how-it-can-18069861/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "cgi render futuristic object"
+  },
+  {
+    "style_id": "vector_art",
+    "file": "./style-previews/vector_art.webp",
+    "source": "Pexels",
+    "author": "cottonbro CG studio",
+    "source_url": "https://www.pexels.com/photo/hand-holding-a-cellphone-in-white-background-8833423/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "vector art illustration"
+  },
+  {
+    "style_id": "flat_illustration",
+    "file": "./style-previews/flat_illustration.webp",
+    "source": "Pexels",
+    "author": "cottonbro CG studio",
+    "source_url": "https://www.pexels.com/photo/emoji-of-a-hand-using-a-phone-on-pink-background-8833420/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "flat illustration modern"
+  },
+  {
+    "style_id": "minimal",
+    "file": "./style-previews/minimal.webp",
+    "source": "Pexels",
+    "author": "byMALENS",
+    "source_url": "https://www.pexels.com/photo/geometrical-artwork-2268543/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "minimal design abstract"
+  },
+  {
+    "style_id": "poster_style",
+    "file": "./style-previews/poster_style.webp",
+    "source": "Pexels",
+    "author": "Marco Sebastian Mueller",
+    "source_url": "https://www.pexels.com/photo/nein-text-cutout-on-red-background-6288281/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "poster design graphic"
+  },
+  {
+    "style_id": "advertising_style",
+    "file": "./style-previews/advertising_style.webp",
+    "source": "Pexels",
+    "author": "XT7 Core",
+    "source_url": "https://www.pexels.com/photo/view-of-a-beer-bottle-during-a-product-photography-shooting-18904411/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "advertising photography product"
+  },
+  {
+    "style_id": "editorial_layout",
+    "file": "./style-previews/editorial_layout.webp",
+    "source": "Pexels",
+    "author": "Stacey Koenitz",
+    "source_url": "https://www.pexels.com/photo/man-model-in-magazine-4204834/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "editorial magazine layout design"
+  },
+  {
+    "style_id": "luxury_brand",
+    "file": "./style-previews/luxury_brand.webp",
+    "source": "Pexels",
+    "author": "Roman Koval",
+    "source_url": "https://www.pexels.com/photo/wristwatch-in-close-up-photography-15210883/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "luxury brand photography"
+  },
+  {
+    "style_id": "infographic_style",
+    "file": "./style-previews/infographic_style.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-was-inspired-by-ai-chip-design-and-computer-vision-it-was-created-by-champ-panupong-techawongthawon-as-part-of-the-vis-17483849/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "infographic design illustration"
+  },
+  {
+    "style_id": "fantasy_art",
+    "file": "./style-previews/fantasy_art.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-the-process-used-by-text-to-image-diffusion-models-it-was-created-by-linus-zoll-as-part-of-the-visualising-ai-18069161/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "fantasy art landscape"
+  },
+  {
+    "style_id": "dark_fantasy",
+    "file": "./style-previews/dark_fantasy.webp",
+    "source": "Pexels",
+    "author": "Никола Станојковић",
+    "source_url": "https://www.pexels.com/photo/majestic-bran-castle-in-winter-sunlight-30736792/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "dark fantasy art castle"
+  },
+  {
+    "style_id": "surreal",
+    "file": "./style-previews/surreal.webp",
+    "source": "Pexels",
+    "author": "Pixabay",
+    "source_url": "https://www.pexels.com/photo/grey-abstract-painting-52514/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "surreal art landscape"
+  },
+  {
+    "style_id": "dreamlike",
+    "file": "./style-previews/dreamlike.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-the-process-used-by-text-to-image-diffusion-models-it-was-created-by-linus-zoll-as-part-of-the-visualising-ai-18069161/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "dreamlike landscape ethereal"
+  },
+  {
+    "style_id": "cyberpunk",
+    "file": "./style-previews/cyberpunk.webp",
+    "source": "Pexels",
+    "author": "Oluwatoki  Sayf Al-Fattah",
+    "source_url": "https://www.pexels.com/photo/neon-faces-on-wall-6842724/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "cyberpunk city neon"
+  },
+  {
+    "style_id": "steampunk",
+    "file": "./style-previews/steampunk.webp",
+    "source": "Pexels",
+    "author": "Snapwire",
+    "source_url": "https://www.pexels.com/photo/red-metallic-vintage-machine-589684/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "steampunk machinery illustration"
+  },
+  {
+    "style_id": "gothic",
+    "file": "./style-previews/gothic.webp",
+    "source": "Pexels",
+    "author": "Bingqian Li",
+    "source_url": "https://www.pexels.com/photo/facade-of-the-eglise-saint-antoine-de-compiegne-church-26627616/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "gothic architecture dark"
+  },
+  {
+    "style_id": "sci_fi_art",
+    "file": "./style-previews/sci_fi_art.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/an-artist-s-illustration-of-artificial-intelligence-ai-this-image-depicts-the-process-used-by-text-to-image-diffusion-models-it-was-created-by-linus-zoll-as-part-of-the-visualising-ai-18069158/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "sci fi art futuristic city"
+  },
+  {
+    "style_id": "watercolor",
+    "file": "./style-previews/watercolor.webp",
+    "source": "Pexels",
+    "author": "mrvphoto.",
+    "source_url": "https://www.pexels.com/photo/cozy-art-workspace-with-coffee-and-painting-supplies-35466720/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "watercolor painting landscape"
+  },
+  {
+    "style_id": "oil_painting",
+    "file": "./style-previews/oil_painting.webp",
+    "source": "Pexels",
+    "author": "Анастасия Триббиани",
+    "source_url": "https://www.pexels.com/photo/close-up-photo-of-a-woman-looking-at-the-camera-with-paint-on-her-face-9534280/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "oil painting portrait"
+  },
+  {
+    "style_id": "acrylic_painting",
+    "file": "./style-previews/acrylic_painting.webp",
+    "source": "Pexels",
+    "author": "Steve A Johnson",
+    "source_url": "https://www.pexels.com/photo/red-and-teal-abstract-painting-1247591/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "acrylic painting abstract"
+  },
+  {
+    "style_id": "pastel_art",
+    "file": "./style-previews/pastel_art.webp",
+    "source": "Pexels",
+    "author": "Zaksheuskaya",
+    "source_url": "https://www.pexels.com/photo/pink-blue-and-white-abstract-painting-4391611/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "pastel art landscape"
+  },
+  {
+    "style_id": "renaissance_painting",
+    "file": "./style-previews/renaissance_painting.webp",
+    "source": "Pexels",
+    "author": "Анастасия Триббиани",
+    "source_url": "https://www.pexels.com/photo/close-up-photo-of-a-woman-looking-at-the-camera-with-paint-on-her-face-9534280/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "renaissance painting portrait"
+  },
+  {
+    "style_id": "baroque_painting",
+    "file": "./style-previews/baroque_painting.webp",
+    "source": "Pexels",
+    "author": "Gary Moore",
+    "source_url": "https://www.pexels.com/photo/brown-and-white-ceiling-with-paintings-8586114/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "baroque painting dramatic"
+  },
+  {
+    "style_id": "impressionist",
+    "file": "./style-previews/impressionist.webp",
+    "source": "Pexels",
+    "author": "Paul Blenkhorn @SensoryArtHouse",
+    "source_url": "https://www.pexels.com/photo/abstract-painting-3014407/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "impressionist painting landscape"
+  },
+  {
+    "style_id": "retro",
+    "file": "./style-previews/retro.webp",
+    "source": "Pexels",
+    "author": "Hannu Rainio",
+    "source_url": "https://www.pexels.com/photo/vintage-konica-camera-on-colorful-background-31415793/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "retro design photography"
+  },
+  {
+    "style_id": "vaporwave",
+    "file": "./style-previews/vaporwave.webp",
+    "source": "Pexels",
+    "author": "Xanx1et Raw",
+    "source_url": "https://www.pexels.com/photo/stunning-pink-sunset-on-soviet-style-apartment-32193382/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "vaporwave aesthetic city"
+  },
+  {
+    "style_id": "synthwave",
+    "file": "./style-previews/synthwave.webp",
+    "source": "Pexels",
+    "author": "Nugroho  Wahyu",
+    "source_url": "https://www.pexels.com/photo/green-palm-plant-in-white-pot-3010775/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "synthwave neon landscape"
+  },
+  {
+    "style_id": "pixel_art",
+    "file": "./style-previews/pixel_art.webp",
+    "source": "Pexels",
+    "author": "Google DeepMind",
+    "source_url": "https://www.pexels.com/photo/a-colorful-texture-25626510/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "pixel art landscape"
+  },
+  {
+    "style_id": "pop_art",
+    "file": "./style-previews/pop_art.webp",
+    "source": "Pexels",
+    "author": "Elīna Arāja",
+    "source_url": "https://www.pexels.com/photo/pop-art-in-orange-background-10073856/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "pop art portrait"
+  },
+  {
+    "style_id": "abstract",
+    "file": "./style-previews/abstract.webp",
+    "source": "Pexels",
+    "author": "Steve A Johnson",
+    "source_url": "https://www.pexels.com/photo/photo-of-an-abstract-painting-8725223/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "abstract art colorful"
+  },
+  {
+    "style_id": "custom",
+    "file": "./style-previews/custom.webp",
+    "source": "Pexels",
+    "author": "Luzi PDPaula",
+    "source_url": "https://www.pexels.com/photo/fashion-design-sketch-with-tools-on-table-33761244/",
+    "license_url": "https://www.pexels.com/license/",
+    "downloaded_at": "2026-05-10T15:38:49.871294+00:00",
+    "query": "custom style placeholder design"
+  }
+]

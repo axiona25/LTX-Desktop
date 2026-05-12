@@ -1,0 +1,43 @@
+{
+  "name": "identity_inpaint_v1",
+  "description": "TEST 1 default profile: apply project master identity to an existing image using ComfyUI local inpaint. Promoted default: nose-focused identity LoRA at 0.65.",
+  "engine": "ComfyUI local identity inpaint",
+  "endpoint": "https://axiona2025--axstudio-comfyui-clean-comfyui-server.modal.run",
+  "checkpoint": "realvisxlV50_v50Bakedvae.safetensors",
+  "identity_models": {
+    "ip_adapter": "FACEID PLUS V2",
+    "instantid": "ip-adapter.bin",
+    "instantid_controlnet": "InstantID-ControlNet/diffusion_pytorch_model.safetensors",
+    "insightface": "antelopev2"
+  },
+  "detail_lora": {
+    "name": "EyesXL_v3.safetensors",
+    "strength_model": 0.35,
+    "strength_clip": 0.0
+  },
+  "parameters": {
+    "denoise": 0.5,
+    "steps": 30,
+    "cfg": 4.0,
+    "ip_weight": 1.05,
+    "faceid_weight": 1.65,
+    "instantid_weight": 0.45,
+    "instantid_controlnet_weight": 0.35,
+    "lora_strength": 0.78,
+    "mask_expand": 64,
+    "mask_feather": 110,
+    "identity_lora_strength": 0.65,
+    "identity_lora_clip_strength": 0.0,
+    "detail_lora_strength": 0.35
+  },
+  "positive_prompt": "same person as the master reference, matching facial identity, natural realistic face, sharp detailed eyes, realistic symmetrical eyes, natural skin texture, preserve target pose, preserve target body, preserve target lighting, preserve target scene, photorealistic",
+  "negative_prompt": "different person, changed identity, distorted eyes, red eyes, cross eyed, deformed iris, bad pupils, asymmetrical eyes, deformed face, plastic skin, waxy skin, overprocessed skin, blurry, low quality, extra face, watermark, text",
+  "identity_lora": {
+    "name": "LoRA_NOSE0.65.safetensors",
+    "strength_model": 0.65,
+    "strength_clip": 0.0,
+    "source": "promoted default LoRA alias for AXSTUDIO identity inpaint; selected as NOSE 0.65",
+    "estimated_total_train_steps": 750
+  },
+  "selected_output_reference": "PROGETTO_TEST_identity_inpaint_nose065_1778573968_00001_.png"
+}

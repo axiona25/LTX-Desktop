@@ -422,7 +422,7 @@ export function VideoEditorTimelineEditingPanel(props: VideoEditorTimelineEditin
     cameraMotion: 'none',
     imageResolution: '1080p',
     imageAspectRatio: '16:9',
-    imageSteps: 30,
+    imageSteps: 36,
   })
   const [gapImageFile, setGapImageFile] = useState<File | null>(null)
   const gapImageInputRef = useRef<HTMLInputElement>(null)

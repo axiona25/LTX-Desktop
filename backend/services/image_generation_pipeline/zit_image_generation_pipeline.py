@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any, cast
@@ -11,6 +12,8 @@ from diffusers.pipelines.auto_pipeline import ZImagePipeline  # type: ignore[rep
 from PIL.Image import Image as PILImage
 
 from services.services_utils import ImagePipelineOutputLike, PILImageType, get_device_type
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(slots=True)
@@ -38,6 +41,8 @@ class ZitImageGenerationPipeline:
 
     def _resolve_generator_device(self) -> str:
         if self._cpu_offload_active:
+            if self._device == "mps":
+                return "mps"
             return "cuda"
         if self._device is not None:
             return self._device
@@ -89,6 +94,14 @@ class ZitImageGenerationPipeline:
     def to(self, device: str) -> None:
         runtime_device = get_device_type(device)
         if runtime_device in ("cuda", "mps"):
+            if runtime_device == "mps":
+                # Apple MPS cannot execute float8 weights. FP8 checkpoints are
+                # still useful on disk, but must be expanded before offload.
+                for component_name in ("text_encoder", "transformer", "vae"):
+                    component = getattr(self.pipeline, component_name, None)
+                    if component is not None:
+                        logger.info("Casting Z-Image %s to bfloat16 for MPS", component_name)
+                        component.to(dtype=torch.bfloat16)
             self.pipeline.enable_model_cpu_offload()  # type: ignore[reportUnknownMemberType]
             self._cpu_offload_active = True
         else:

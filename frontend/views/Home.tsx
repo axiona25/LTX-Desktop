@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Plus, Folder, MoreVertical, Trash2, Pencil } from 'lucide-react'
 import { useProjects } from '../contexts/ProjectContext'
 import { useView } from '../contexts/ViewContext'
-import { LtxLogo } from '../components/LtxLogo'
+import { AxStudioLogo } from '../components/AxStudioLogo'
+import { WorkspaceSidebar } from '../components/WorkspaceSidebar'
 import { Button } from '../components/ui/button'
 import { pathToFileUrl } from '../lib/file-url'
 import type { Project } from '../types/project-model'
@@ -107,14 +108,14 @@ function ProjectCard({ project, onOpen, onDelete, onRename }: {
             className="w-full px-3 py-2 text-left text-sm text-zinc-300 hover:bg-zinc-700 flex items-center gap-2"
           >
             <Pencil className="h-4 w-4" />
-            Rename
+            Rinomina
           </button>
           <button
             onClick={() => { onDelete(); setShowMenu(false) }}
             className="w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-zinc-700 flex items-center gap-2"
           >
             <Trash2 className="h-4 w-4" />
-            Delete
+            Elimina
           </button>
         </div>
       )}
@@ -190,47 +191,7 @@ export function Home() {
   
   return (
     <div className="h-screen bg-background flex">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-zinc-800 flex flex-col">
-        <div className="p-6">
-          <LtxLogo className="h-6 w-auto text-white" />
-        </div>
-        
-        <nav className="flex-1 px-3">
-          <button className="w-full px-3 py-2 rounded-lg bg-zinc-800 text-white text-left text-sm font-medium flex items-center gap-2">
-            <Folder className="h-4 w-4" />
-            Home
-          </button>
-          
-          {projects.length > 0 && (
-            <div className="mt-6">
-              <h4 className="px-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">
-                Recent Projects
-              </h4>
-              {projects.slice(0, 5).map(project => (
-                <button
-                  key={project.id}
-                  onClick={() => openProject(project.id)}
-                  className="w-full px-3 py-2 rounded-lg text-zinc-400 hover:bg-zinc-800 hover:text-white text-left text-sm flex items-center gap-2 transition-colors truncate"
-                >
-                  <Folder className="h-4 w-4 flex-shrink-0" />
-                  <span className="truncate">{project.name}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </nav>
-        
-        <div className="p-4 border-t border-zinc-800">
-          <button
-            onClick={() => setIsCreating(true)}
-            className="w-full px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium flex items-center justify-center gap-2 transition-colors"
-          >
-            <Plus className="h-4 w-4" />
-            New Project
-          </button>
-        </div>
-      </aside>
+      <WorkspaceSidebar active="projects" />
       
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
@@ -247,7 +208,7 @@ export function Home() {
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
           <div className="absolute bottom-6 left-8 z-10">
-            <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">LTX Desktop</h1>
+            <AxStudioLogo imageClassName="h-12 w-auto" className="mb-3 drop-shadow-lg" />
             <p className="text-zinc-200 drop-shadow-md">Create and manage your video projects</p>
           </div>
         </div>
@@ -279,7 +240,7 @@ export function Home() {
                   project={project}
                   onOpen={() => openProject(project.id)}
                   onDelete={() => {
-                    if (confirm(`Delete "${project.name}"?`)) {
+                    if (confirm(`Eliminare "${project.name}"?`)) {
                       deleteProject(project.id)
                     }
                   }}

@@ -1201,7 +1201,7 @@ class TestGenerateImage:
 
 
 class TestForcedApiGenerateImage:
-    def test_generate_image_routes_to_zit_api(self, client, test_state, fake_services):
+    def test_generate_image_rejects_api_fallback(self, client, test_state, fake_services):
         test_state.config.local_generations_mode = "unsupported"
         test_state.state.app_settings.fal_api_key = "fal-key"
 
@@ -1210,30 +1210,44 @@ class TestForcedApiGenerateImage:
             json={"prompt": "A cat", "width": 1024, "height": 1024, "numSteps": 4, "numImages": 2},
         )
 
-        assert r.status_code == 200
-        data = r.json()
-        assert data["status"] == "complete"
-        assert len(data["image_paths"]) == 2
-        assert len(fake_services.zit_api_client.text_to_image_calls) == 2
+        assert_http_error(
+            r,
+            status_code=409,
+            code="HTTP_409",
+            message="Local image model is not installed. Use Modal Images for cloud FLUX generation.",
+        )
+        assert len(fake_services.zit_api_client.text_to_image_calls) == 0
         assert len(fake_services.image_generation_pipeline.generate_calls) == 0
 
-    def test_generate_image_missing_fal_key(self, client, test_state, fake_services):
+    def test_generate_image_missing_local_model_never_requires_fal_key(self, client, test_state, fake_services):
         test_state.config.local_generations_mode = "unsupported"
         test_state.state.app_settings.fal_api_key = ""
 
         r = client.post("/api/generate-image", json={"prompt": "A cat"})
 
-        assert_http_error(r, status_code=500, code="FAL_API_KEY_NOT_CONFIGURED")
+        assert_http_error(
+            r,
+            status_code=409,
+            code="HTTP_409",
+            message="Local image model is not installed. Use Modal Images for cloud FLUX generation.",
+        )
+        assert len(fake_services.zit_api_client.text_to_image_calls) == 0
 
-    def test_generate_image_cancelled(self, client, test_state, fake_services):
+    def test_generate_image_missing_local_model_does_not_start_api_generation(self, client, test_state, fake_services):
         test_state.config.local_generations_mode = "unsupported"
         test_state.state.app_settings.fal_api_key = "fal-key"
-        fake_services.zit_api_client.raise_on_text_to_image = RuntimeError("cancelled")
 
         r = client.post("/api/generate-image", json={"prompt": "A cat"})
 
-        assert r.status_code == 200
-        assert r.json()["status"] == "cancelled"
+        assert_http_error(
+            r,
+            status_code=409,
+            code="HTTP_409",
+            message="Local image model is not installed. Use Modal Images for cloud FLUX generation.",
+        )
+        progress = client.get("/api/generation/progress")
+        assert progress.status_code == 200
+        assert progress.json()["status"] == "idle"
 
 
 class TestEmptyPromptRejected:

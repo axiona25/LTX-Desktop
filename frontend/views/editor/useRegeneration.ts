@@ -209,7 +209,7 @@ export function useRegeneration(params: UseRegenerationParams) {
         cameraMotion: generationParams.cameraMotion,
         imageResolution: normalizeImageResolution(generationParams.resolution),
         imageAspectRatio: generationParams.imageAspectRatio || '16:9',
-        imageSteps: generationParams.imageSteps || 4,
+        imageSteps: generationParams.imageSteps || 36,
         variations: 1,
       })
       return
@@ -227,7 +227,7 @@ export function useRegeneration(params: UseRegenerationParams) {
       cameraMotion: generationParams.cameraMotion,
       imageResolution: '1080p',
       imageAspectRatio: generationParams.imageAspectRatio || '16:9',
-      imageSteps: generationParams.imageSteps || 4,
+      imageSteps: generationParams.imageSteps || 36,
     }
     void regenGenerate(generationParams.prompt, imagePath, rawVideoSettings)
   }, [

@@ -2,7 +2,8 @@ import { useState, useCallback, useRef } from 'react'
 import type { GenerationSettings } from '../components/SettingsPanel'
 import { ApiClient, type ApiRequestBodyOf } from '../lib/api-client'
 import { createLocalGenerationError, type GenerationError } from '../lib/generation-errors'
-import { useAppSettings } from '../contexts/AppSettingsContext'
+import { FluxImageService } from '../services/fluxImageService'
+import type { FluxQualityMode } from '../types/image'
 
 interface GenerationState {
   isGenerating: boolean
@@ -15,7 +16,6 @@ interface GenerationState {
 }
 
 type GenerateVideoRequest = ApiRequestBodyOf<'generateVideo'>
-type GenerateImageRequest = ApiRequestBodyOf<'generateImage'>
 
 interface UseGenerationReturn extends GenerationState {
   generate: (prompt: string, imagePath: string | null, settings: GenerationSettings, audioPath?: string | null) => Promise<void>
@@ -24,36 +24,31 @@ interface UseGenerationReturn extends GenerationState {
   reset: () => void
 }
 
-const IMAGE_SHORT_SIDE_BY_RESOLUTION: Record<string, number> = {
-  '1080p': 1080,
-  '1440p': 1440,
-  '2048p': 2048,
+function getFluxQualityMode(settings: GenerationSettings): FluxQualityMode {
+  if (settings.imageSteps >= 36) return 'premium'
+  if (settings.imageSteps >= 24) return 'balanced'
+  return 'preview'
 }
 
-const IMAGE_ASPECT_RATIO_VALUE: Record<string, number> = {
-  '1:1': 1,
-  '16:9': 16 / 9,
-  '9:16': 9 / 16,
-  '4:3': 4 / 3,
-  '3:4': 3 / 4,
-  '21:9': 21 / 9,
+function resolveImageAspectRatio(_prompt: string, settings: GenerationSettings): string {
+  return settings.imageAspectRatio || settings.aspectRatio || '16:9'
 }
 
-function getImageDimensions(settings: GenerationSettings): { width: number; height: number } {
-  const shortSide = IMAGE_SHORT_SIDE_BY_RESOLUTION[settings.imageResolution]
-  if (!shortSide) {
-    throw new Error(`Unsupported image resolution mapping: ${settings.imageResolution}`)
+function dimensionsForAspectRatio(aspectRatio: string): { width: number; height: number } {
+  switch (aspectRatio) {
+    case '1:1': return { width: 1024, height: 1024 }
+    case '9:16': return { width: 768, height: 1344 }
+    case '4:3': return { width: 1152, height: 896 }
+    case '3:4': return { width: 896, height: 1152 }
+    case '16:9':
+    default: return { width: 1344, height: 768 }
   }
+}
 
-  const ratio = IMAGE_ASPECT_RATIO_VALUE[settings.imageAspectRatio]
-  if (!ratio) {
-    throw new Error(`Unsupported image aspect ratio mapping: ${settings.imageAspectRatio}`)
-  }
-
-  if (ratio >= 1) {
-    return { width: Math.round(shortSide * ratio), height: shortSide }
-  }
-  return { width: shortSide, height: Math.round(shortSide / ratio) }
+function stepsForQuality(qualityMode: FluxQualityMode): number {
+  if (qualityMode === 'premium') return 36
+  if (qualityMode === 'balanced') return 24
+  return 12
 }
 
 // Map phase to user-friendly message
@@ -83,7 +78,6 @@ function getPhaseMessage(phase: string): string {
 }
 
 export function useGeneration(): UseGenerationReturn {
-  const { settings: appSettings, forceApiGenerations, refreshSettings } = useAppSettings()
   const [state, setState] = useState<GenerationState>({
     isGenerating: false,
     progress: 0,
@@ -95,6 +89,7 @@ export function useGeneration(): UseGenerationReturn {
   })
 
   const abortControllerRef = useRef<AbortController | null>(null)
+  const imageGenerationInFlightRef = useRef(false)
 
   const generate = useCallback(async (
     prompt: string,
@@ -259,42 +254,15 @@ export function useGeneration(): UseGenerationReturn {
     prompt: string,
     settings: GenerationSettings
   ) => {
-    if (forceApiGenerations) {
-      const settingsResult = await ApiClient.getSettings()
-      if (settingsResult.ok) {
-        if (!settingsResult.data.hasFalApiKey) {
-          void refreshSettings()
-          window.dispatchEvent(new CustomEvent('open-api-gateway', {
-            detail: {
-              requiredKeys: ['fal'],
-              title: 'Connect FAL AI',
-              description: 'FAL AI is required for generating images with Z Image Turbo when API generations are enabled.',
-              blocking: false,
-            },
-          }))
-          return
-        }
-      } else {
-        if (!appSettings.hasFalApiKey) {
-          window.dispatchEvent(new CustomEvent('open-api-gateway', {
-            detail: {
-              requiredKeys: ['fal'],
-              title: 'Connect FAL AI',
-              description: 'FAL AI is required for generating images with Z Image Turbo when API generations are enabled.',
-              blocking: false,
-            },
-          }))
-          return
-        }
-      }
-    }
-
-    const numImages = settings.variations || 1
+    if (imageGenerationInFlightRef.current) return
+    imageGenerationInFlightRef.current = true
+    const numImages = 1
+    const qualityMode = getFluxQualityMode(settings)
     
     setState({
       isGenerating: true,
       progress: 0,
-      statusMessage: numImages > 1 ? `Generating ${numImages} images...` : 'Generating image...',
+      statusMessage: 'Generating FLUX image on Modal...',
       videoPath: null,
       imagePath: null,
       imagePaths: [],
@@ -304,83 +272,61 @@ export function useGeneration(): UseGenerationReturn {
     abortControllerRef.current = new AbortController()
 
     try {
-      // Skip prompt enhancement for T2I - use original prompt directly
-      const finalPrompt = prompt
-
-      const dims = getImageDimensions(settings)
-      const numSteps = settings.imageSteps || 4
-
-      // Poll for progress
-      const pollProgress = async () => {
-        const result = await ApiClient.getGenerationProgress()
-        if (!result.ok) return
-
-        const data = result.data
-        const currentImage = data.currentStep || 0
-        const totalImages = data.totalSteps || numImages
+      const imageAspectRatio = resolveImageAspectRatio(prompt, settings)
+      const dimensions = dimensionsForAspectRatio(imageAspectRatio)
+      const steps = Math.max(settings.imageSteps || 0, stepsForQuality(qualityMode))
+      const imagePaths: string[] = []
+      for (let index = 0; index < numImages; index += 1) {
         setState(prev => ({
           ...prev,
-          progress: data.progress,
-          statusMessage: data.phase === 'loading_model'
-            ? 'Loading Z-Image Turbo model...'
-            : data.phase === 'inference'
-              ? numImages > 1
-                ? `Generating image ${currentImage + 1}/${totalImages}...`
-                : 'Generating image...'
-              : data.phase === 'complete'
-                ? 'Complete!'
-                : 'Generating...',
+          progress: 35 + Math.floor((index / numImages) * 55),
+          statusMessage: numImages > 1
+            ? `Generating FLUX image ${index + 1}/${numImages} on Modal...`
+            : 'Generating FLUX image on Modal...',
         }))
-      }
-      
-      const progressInterval = setInterval(pollProgress, 500)
 
-      const imageRequest: GenerateImageRequest = {
-        prompt: finalPrompt,
-        width: dims.width,
-        height: dims.height,
-        numSteps,
-        numImages,
-      }
-      const result = await ApiClient.generateImage(imageRequest, {
-        signal: abortControllerRef.current.signal,
-      })
-
-      clearInterval(progressInterval)
-      if (!result.ok) {
-        setState(prev => ({
-          ...prev,
-          isGenerating: false,
-          error: result,
-        }))
-        return
-      }
-
-      const payload = result.data
-      if (payload.status === 'complete') {
-        const rawPaths = payload.image_paths
-        if (rawPaths.length === 0) {
-          throw new Error('Image generation completed without output images')
-        }
-
-        setState({
-          isGenerating: false,
-          progress: 100,
-          statusMessage: 'Complete!',
-          videoPath: null,
-          imagePath: rawPaths[0],
-          imagePaths: rawPaths,
-          error: null,
+        const result = await FluxImageService.generate({
+          prompt,
+          negative_prompt: '',
+          width: dimensions.width,
+          height: dimensions.height,
+          steps,
+          guidance_scale: 3.5,
+          seed: null,
+          quality_mode: qualityMode,
+          original_idea: prompt,
+          llm_enhanced_prompt: null,
+          final_prompt: prompt,
+          prompt_was_user_edited: false,
+          prompt_source: 'manual',
+          selected_style_id: settings.imageStyleId || null,
+          selected_style_label: settings.imageStyleLabel ?? null,
+          selected_style_category: settings.imageStyleCategory ?? null,
+          custom_style_text: settings.imageCustomStyleText ?? null,
+          style_prompt_modifier: settings.imageStylePromptModifier ?? null,
+          style_negative_modifier: settings.imageStyleNegativeModifier ?? null,
+          style_was_applied: Boolean(settings.imageStylePromptModifier),
+          negative_prompt_final: settings.imageStyleNegativeModifier || null,
+          visible_prompt_before_generate: prompt,
+          payload_prompt_sent_to_backend: prompt,
+          frontend_negative_prompt: settings.imageStyleNegativeModifier || null,
         })
-      } else if (payload.status === 'cancelled') {
-        setState(prev => ({
-          ...prev,
-          isGenerating: false,
-          statusMessage: 'Cancelled',
-        }))
-      } else {
-        throw new Error('Unexpected response from /api/generate-image')
+        imagePaths.push(result.local_path)
       }
+
+      if (imagePaths.length === 0) {
+        throw new Error('Modal FLUX generation completed without output images')
+      }
+
+      setState({
+        isGenerating: false,
+        progress: 100,
+        statusMessage: 'Complete!',
+        videoPath: null,
+        imagePath: imagePaths[0],
+        imagePaths,
+        error: null,
+      })
 
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
@@ -396,8 +342,10 @@ export function useGeneration(): UseGenerationReturn {
           error: createLocalGenerationError(error instanceof Error ? error.message : 'Unknown error'),
         }))
       }
+    } finally {
+      imageGenerationInFlightRef.current = false
     }
-  }, [appSettings.hasFalApiKey, forceApiGenerations, refreshSettings])
+  }, [])
 
   const reset = useCallback(() => {
     setState({

@@ -1,0 +1,412 @@
+{
+  "realistic": {
+    "file": "./style-previews/realistic.webp",
+    "source": "Pexels",
+    "query": "realistic portrait studio photography adult model neutral background"
+  },
+  "photorealistic": {
+    "file": "./style-previews/photorealistic.webp",
+    "source": "Pexels",
+    "query": "photorealistic studio portrait natural light"
+  },
+  "ultra_realistic": {
+    "file": "./style-previews/ultra_realistic.webp",
+    "source": "Pexels",
+    "query": "ultra realistic portrait photography high detail"
+  },
+  "hyper_realistic": {
+    "file": "./style-previews/hyper_realistic.webp",
+    "source": "Pexels",
+    "query": "hyper realistic portrait close detail"
+  },
+  "studio_photography": {
+    "file": "./style-previews/studio_photography.webp",
+    "source": "Pexels",
+    "query": "professional studio photography portrait softbox lighting"
+  },
+  "portrait_photography": {
+    "file": "./style-previews/portrait_photography.webp",
+    "source": "Pexels",
+    "query": "portrait photography adult studio natural light"
+  },
+  "fashion_photography": {
+    "file": "./style-previews/fashion_photography.webp",
+    "source": "Pexels",
+    "query": "fashion photography editorial model studio"
+  },
+  "product_photography": {
+    "file": "./style-previews/product_photography.webp",
+    "source": "Pexels",
+    "query": "premium product photography studio lighting"
+  },
+  "architectural_photography": {
+    "file": "./style-previews/architectural_photography.webp",
+    "source": "Pexels",
+    "query": "modern architecture photography luxury villa exterior"
+  },
+  "documentary_style": {
+    "file": "./style-previews/documentary_style.webp",
+    "source": "Pexels",
+    "query": "documentary photography street scene realistic"
+  },
+  "cinematic": {
+    "file": "./style-previews/cinematic.webp",
+    "source": "Pexels",
+    "query": "cinematic city night neon rain"
+  },
+  "cinematic_dramatic": {
+    "file": "./style-previews/cinematic_dramatic.webp",
+    "source": "Pexels",
+    "query": "dramatic cinematic lighting silhouette"
+  },
+  "movie_still": {
+    "file": "./style-previews/movie_still.webp",
+    "source": "Pexels",
+    "query": "movie still cinematic scene"
+  },
+  "high_end_film_look": {
+    "file": "./style-previews/high_end_film_look.webp",
+    "source": "Pexels",
+    "query": "cinematic film still luxury scene"
+  },
+  "noir_cinematic": {
+    "file": "./style-previews/noir_cinematic.webp",
+    "source": "Pexels",
+    "query": "film noir black and white cinematic street"
+  },
+  "epic_cinematic": {
+    "file": "./style-previews/epic_cinematic.webp",
+    "source": "Pexels",
+    "query": "epic cinematic landscape dramatic light"
+  },
+  "sci_fi_cinematic": {
+    "file": "./style-previews/sci_fi_cinematic.webp",
+    "source": "Pexels",
+    "query": "science fiction cinematic city neon"
+  },
+  "fantasy_cinematic": {
+    "file": "./style-previews/fantasy_cinematic.webp",
+    "source": "Pexels",
+    "query": "fantasy cinematic castle dramatic light"
+  },
+  "illustration": {
+    "file": "./style-previews/illustration.webp",
+    "source": "Pexels",
+    "query": "digital illustration character landscape"
+  },
+  "digital_painting": {
+    "file": "./style-previews/digital_painting.webp",
+    "source": "Pexels",
+    "query": "digital painting fantasy landscape"
+  },
+  "concept_art": {
+    "file": "./style-previews/concept_art.webp",
+    "source": "Pexels",
+    "query": "concept art environment character"
+  },
+  "matte_painting": {
+    "file": "./style-previews/matte_painting.webp",
+    "source": "Pexels",
+    "query": "matte painting cinematic landscape"
+  },
+  "comic_book": {
+    "file": "./style-previews/comic_book.webp",
+    "source": "Pexels",
+    "query": "comic book illustration hero style"
+  },
+  "graphic_novel": {
+    "file": "./style-previews/graphic_novel.webp",
+    "source": "Pexels",
+    "query": "graphic novel illustration dramatic"
+  },
+  "western_comic": {
+    "file": "./style-previews/western_comic.webp",
+    "source": "Pexels",
+    "query": "western comic art illustration"
+  },
+  "line_art": {
+    "file": "./style-previews/line_art.webp",
+    "source": "Pexels",
+    "query": "line art illustration black white"
+  },
+  "ink_drawing": {
+    "file": "./style-previews/ink_drawing.webp",
+    "source": "Pexels",
+    "query": "ink drawing illustration"
+  },
+  "sketch": {
+    "file": "./style-previews/sketch.webp",
+    "source": "Pexels",
+    "query": "pencil sketch drawing"
+  },
+  "pencil_drawing": {
+    "file": "./style-previews/pencil_drawing.webp",
+    "source": "Pexels",
+    "query": "pencil drawing portrait"
+  },
+  "charcoal_drawing": {
+    "file": "./style-previews/charcoal_drawing.webp",
+    "source": "Pexels",
+    "query": "charcoal drawing portrait"
+  },
+  "manga": {
+    "file": "./style-previews/manga.webp",
+    "source": "Pexels",
+    "query": "manga illustration character black white"
+  },
+  "anime": {
+    "file": "./style-previews/anime.webp",
+    "source": "Pexels",
+    "query": "anime style illustration character"
+  },
+  "anime_cinematic": {
+    "file": "./style-previews/anime_cinematic.webp",
+    "source": "Pexels",
+    "query": "cinematic anime city background"
+  },
+  "anime_90s": {
+    "file": "./style-previews/anime_90s.webp",
+    "source": "Pexels",
+    "query": "90s anime style illustration"
+  },
+  "chibi": {
+    "file": "./style-previews/chibi.webp",
+    "source": "Pexels",
+    "query": "chibi character illustration"
+  },
+  "cartoon": {
+    "file": "./style-previews/cartoon.webp",
+    "source": "Pexels",
+    "query": "cartoon illustration character"
+  },
+  "kids_illustration": {
+    "file": "./style-previews/kids_illustration.webp",
+    "source": "Pexels",
+    "query": "children book illustration"
+  },
+  "storybook_illustration": {
+    "file": "./style-previews/storybook_illustration.webp",
+    "source": "Pexels",
+    "query": "storybook illustration fantasy"
+  },
+  "fairy_tale_animation": {
+    "file": "./style-previews/fairy_tale_animation.webp",
+    "source": "Pexels",
+    "query": "fairy tale illustration castle"
+  },
+  "classic_animated_film": {
+    "file": "./style-previews/classic_animated_film.webp",
+    "source": "Pexels",
+    "query": "classic animation illustration character"
+  },
+  "storybook_princess_animation": {
+    "file": "./style-previews/storybook_princess_animation.webp",
+    "source": "Pexels",
+    "query": "storybook princess style illustration generic"
+  },
+  "family_3d_animation": {
+    "file": "./style-previews/family_3d_animation.webp",
+    "source": "Pexels",
+    "query": "family friendly 3d animation character"
+  },
+  "clay_animation": {
+    "file": "./style-previews/clay_animation.webp",
+    "source": "Pexels",
+    "query": "clay animation character"
+  },
+  "3d_render": {
+    "file": "./style-previews/3d_render.webp",
+    "source": "Pexels",
+    "query": "3d render object studio"
+  },
+  "realistic_3d": {
+    "file": "./style-previews/realistic_3d.webp",
+    "source": "Pexels",
+    "query": "realistic 3d render product studio"
+  },
+  "stylized_3d": {
+    "file": "./style-previews/stylized_3d.webp",
+    "source": "Pexels",
+    "query": "stylized 3d character render"
+  },
+  "clay_render": {
+    "file": "./style-previews/clay_render.webp",
+    "source": "Pexels",
+    "query": "clay render 3d object"
+  },
+  "toy_style": {
+    "file": "./style-previews/toy_style.webp",
+    "source": "Pexels",
+    "query": "toy photography vinyl figure"
+  },
+  "isometric": {
+    "file": "./style-previews/isometric.webp",
+    "source": "Pexels",
+    "query": "isometric illustration city"
+  },
+  "low_poly": {
+    "file": "./style-previews/low_poly.webp",
+    "source": "Pexels",
+    "query": "low poly 3d landscape"
+  },
+  "game_art": {
+    "file": "./style-previews/game_art.webp",
+    "source": "Pexels",
+    "query": "game art environment"
+  },
+  "cgi": {
+    "file": "./style-previews/cgi.webp",
+    "source": "Pexels",
+    "query": "cgi render futuristic object"
+  },
+  "vector_art": {
+    "file": "./style-previews/vector_art.webp",
+    "source": "Pexels",
+    "query": "vector art illustration"
+  },
+  "flat_illustration": {
+    "file": "./style-previews/flat_illustration.webp",
+    "source": "Pexels",
+    "query": "flat illustration modern"
+  },
+  "minimal": {
+    "file": "./style-previews/minimal.webp",
+    "source": "Pexels",
+    "query": "minimal design abstract"
+  },
+  "poster_style": {
+    "file": "./style-previews/poster_style.webp",
+    "source": "Pexels",
+    "query": "poster design graphic"
+  },
+  "advertising_style": {
+    "file": "./style-previews/advertising_style.webp",
+    "source": "Pexels",
+    "query": "advertising photography product"
+  },
+  "editorial_layout": {
+    "file": "./style-previews/editorial_layout.webp",
+    "source": "Pexels",
+    "query": "editorial magazine layout design"
+  },
+  "luxury_brand": {
+    "file": "./style-previews/luxury_brand.webp",
+    "source": "Pexels",
+    "query": "luxury brand photography"
+  },
+  "infographic_style": {
+    "file": "./style-previews/infographic_style.webp",
+    "source": "Pexels",
+    "query": "infographic design illustration"
+  },
+  "fantasy_art": {
+    "file": "./style-previews/fantasy_art.webp",
+    "source": "Pexels",
+    "query": "fantasy art landscape"
+  },
+  "dark_fantasy": {
+    "file": "./style-previews/dark_fantasy.webp",
+    "source": "Pexels",
+    "query": "dark fantasy art castle"
+  },
+  "surreal": {
+    "file": "./style-previews/surreal.webp",
+    "source": "Pexels",
+    "query": "surreal art landscape"
+  },
+  "dreamlike": {
+    "file": "./style-previews/dreamlike.webp",
+    "source": "Pexels",
+    "query": "dreamlike landscape ethereal"
+  },
+  "cyberpunk": {
+    "file": "./style-previews/cyberpunk.webp",
+    "source": "Pexels",
+    "query": "cyberpunk city neon"
+  },
+  "steampunk": {
+    "file": "./style-previews/steampunk.webp",
+    "source": "Pexels",
+    "query": "steampunk machinery illustration"
+  },
+  "gothic": {
+    "file": "./style-previews/gothic.webp",
+    "source": "Pexels",
+    "query": "gothic architecture dark"
+  },
+  "sci_fi_art": {
+    "file": "./style-previews/sci_fi_art.webp",
+    "source": "Pexels",
+    "query": "sci fi art futuristic city"
+  },
+  "watercolor": {
+    "file": "./style-previews/watercolor.webp",
+    "source": "Pexels",
+    "query": "watercolor painting landscape"
+  },
+  "oil_painting": {
+    "file": "./style-previews/oil_painting.webp",
+    "source": "Pexels",
+    "query": "oil painting portrait"
+  },
+  "acrylic_painting": {
+    "file": "./style-previews/acrylic_painting.webp",
+    "source": "Pexels",
+    "query": "acrylic painting abstract"
+  },
+  "pastel_art": {
+    "file": "./style-previews/pastel_art.webp",
+    "source": "Pexels",
+    "query": "pastel art landscape"
+  },
+  "renaissance_painting": {
+    "file": "./style-previews/renaissance_painting.webp",
+    "source": "Pexels",
+    "query": "renaissance painting portrait"
+  },
+  "baroque_painting": {
+    "file": "./style-previews/baroque_painting.webp",
+    "source": "Pexels",
+    "query": "baroque painting dramatic"
+  },
+  "impressionist": {
+    "file": "./style-previews/impressionist.webp",
+    "source": "Pexels",
+    "query": "impressionist painting landscape"
+  },
+  "retro": {
+    "file": "./style-previews/retro.webp",
+    "source": "Pexels",
+    "query": "retro design photography"
+  },
+  "vaporwave": {
+    "file": "./style-previews/vaporwave.webp",
+    "source": "Pexels",
+    "query": "vaporwave aesthetic city"
+  },
+  "synthwave": {
+    "file": "./style-previews/synthwave.webp",
+    "source": "Pexels",
+    "query": "synthwave neon landscape"
+  },
+  "pixel_art": {
+    "file": "./style-previews/pixel_art.webp",
+    "source": "Pexels",
+    "query": "pixel art landscape"
+  },
+  "pop_art": {
+    "file": "./style-previews/pop_art.webp",
+    "source": "Pexels",
+    "query": "pop art portrait"
+  },
+  "abstract": {
+    "file": "./style-previews/abstract.webp",
+    "source": "Pexels",
+    "query": "abstract art colorful"
+  },
+  "custom": {
+    "file": "./style-previews/custom.webp",
+    "source": "Pexels",
+    "query": "custom style placeholder design"
+  }
+}

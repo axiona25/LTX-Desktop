@@ -43,7 +43,7 @@ export const effectTypeValues = [
 ] as const
 export const effectMaskShapeValues = ['rectangle', 'ellipse'] as const
 export const letterboxAspectRatioValues = ['2.35:1', '2.39:1', '2.76:1', '1.85:1', '4:3', 'custom'] as const
-export const viewTypeValues = ['home', 'project'] as const
+export const viewTypeValues = ['home', 'project', 'modal-image-studio', 'character-studio', 'video-studio', 'editor-studio'] as const
 export const projectTabValues = ['gen-space', 'video-editor'] as const
 
 export const transitionTypeSchema = z.enum(transitionTypeValues)

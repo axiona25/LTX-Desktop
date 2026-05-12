@@ -44,6 +44,7 @@ from state.app_settings import should_video_generate_with_ltx_api
 
 if TYPE_CHECKING:
     from runtime_config.runtime_config import RuntimeConfig
+    from handlers.ax_modal_handler import AxModalHandler
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +69,7 @@ class VideoGenerationHandler(StateHandlerBase):
         generation_handler: GenerationHandler,
         pipelines_handler: PipelinesHandler,
         text_handler: TextHandler,
+        ax_modal_handler: AxModalHandler,
         ltx_api_client: LTXAPIClient,
         config: RuntimeConfig,
     ) -> None:
@@ -75,12 +77,14 @@ class VideoGenerationHandler(StateHandlerBase):
         self._generation = generation_handler
         self._pipelines = pipelines_handler
         self._text = text_handler
+        self._ax_modal = ax_modal_handler
         self._ltx_api_client = ltx_api_client
 
     def get_model_specs(self) -> GenerateVideoModelsSpecsResponse:
         return build_generate_video_model_specs_response()
 
     def generate(self, req: GenerateVideoRequest) -> GenerateVideoResponse:
+        req = self._apply_ax_orchestration(req)
         use_api_specs = should_video_generate_with_ltx_api(
             force_api_generations=self.config.force_api_generations,
             settings=self.state.app_settings,
@@ -167,6 +171,40 @@ class VideoGenerationHandler(StateHandlerBase):
                 return GenerateVideoCancelledResponse(status="cancelled")
 
             raise HTTPError(500, str(e)) from e
+
+    def _apply_ax_orchestration(self, req: GenerateVideoRequest) -> GenerateVideoRequest:
+        settings = self.state.app_settings
+        if not settings.ax_modal_prompt_orchestration_enabled:
+            return req
+
+        mode = "audio_to_video" if req.audioPath else "image_to_video" if req.imagePath else "text_to_video"
+        logger.info("[ax] Requesting Modal prompt plan for %s", mode)
+        plan = self._ax_modal.plan_generation(req, mode=mode)
+
+        patch: dict[str, object] = {}
+        if plan.prompt:
+            patch["prompt"] = plan.prompt
+        if plan.negativePrompt is not None:
+            patch["negativePrompt"] = plan.negativePrompt
+        if plan.cameraMotion is not None:
+            patch["cameraMotion"] = plan.cameraMotion
+        if plan.resolution is not None:
+            patch["resolution"] = plan.resolution
+        if plan.model is not None:
+            patch["model"] = plan.model
+        if plan.duration is not None:
+            patch["duration"] = plan.duration
+        if plan.fps is not None:
+            patch["fps"] = plan.fps
+        if plan.audio is not None:
+            patch["audio"] = plan.audio
+        if plan.aspectRatio is not None:
+            patch["aspectRatio"] = plan.aspectRatio
+
+        if not patch:
+            raise HTTPError(502, "AX Modal returned an empty prompt plan")
+
+        return req.model_copy(update=patch)
 
     def generate_video(
         self,

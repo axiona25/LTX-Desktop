@@ -1,0 +1,62 @@
+{
+  "prompt": {
+    "1": {
+      "inputs": { "ckpt_name": "Juggernaut-XL_v9_RunDiffusionPhoto_v2.safetensors" },
+      "class_type": "CheckpointLoaderSimple"
+    },
+    "2": {
+      "inputs": { 
+        "text": "beautiful 28 year old woman, perfect symmetrical face, detailed realistic eyes with natural iris, long eyelashes, full body frontal view, standing facing camera, legs slightly apart, completely nude, large natural breasts, slim waist, wide hips, shaved smooth pussy visible, elegant sensual pose, soft studio lighting, premium glamour nude photography, highly detailed skin, perfect anatomy, sharp focus, 8k photorealistic",
+        "clip": ["1", 1] 
+      },
+      "class_type": "CLIPTextEncode"
+    },
+    "3": {
+      "inputs": { 
+        "text": "bad eyes, deformed eyes, crossed eyes, blurry eyes, bad anatomy, deformed body, extra limbs, mutated hands, censored, mosaic, blur, covered pussy, underwear, young-looking, plastic skin, low quality",
+        "clip": ["1", 1] 
+      },
+      "class_type": "CLIPTextEncode"
+    },
+    "4": {
+      "inputs": { 
+        "model": ["1", 0],
+        "clip": ["1", 1],
+        "lora_name": "nsfw_unlock_xl.safetensors",
+        "strength_model": 0.8,
+        "strength_clip": 0.8
+      },
+      "class_type": "LoraLoader"
+    },
+    "5": {
+      "inputs": { "width": 832, "height": 1216, "batch_size": 1 },
+      "class_type": "EmptyLatentImage"
+    },
+    "6": {
+      "inputs": { 
+        "seed": 111111111,
+        "steps": 50,
+        "cfg": 7.0,
+        "sampler_name": "dpmpp_2m_sde",
+        "scheduler": "karras",
+        "positive": ["2", 0],
+        "negative": ["3", 0],
+        "latent_image": ["5", 0],
+        "denoise": 1.0,
+        "model": ["4", 0]
+      },
+      "class_type": "KSampler"
+    },
+    "7": {
+      "inputs": { "samples": ["6", 0], "vae": ["1", 2] },
+      "class_type": "VAEDecode"
+    },
+    "8": {
+      "inputs": { 
+        "images": ["7", 0],
+        "filename_prefix": "corrected_fullbody_frontal"
+      },
+      "class_type": "SaveImage"
+    }
+  }
+}

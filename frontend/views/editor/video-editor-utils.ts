@@ -69,7 +69,7 @@ export const DEFAULT_DISSOLVE_DURATION = 0.5
 
 // ── Resizable layout constants ───────────────────────────────────────
 
-export const LAYOUT_STORAGE_KEY = 'ltx-video-editor-layout'
+export const LAYOUT_STORAGE_KEY = 'ltx-video-editor-layout-v2'
 
 export interface EditorLayout {
   leftPanelWidth: number   // px
@@ -81,14 +81,14 @@ export interface EditorLayout {
 export const DEFAULT_LAYOUT: EditorLayout = {
   leftPanelWidth: 288,   // w-72
   rightPanelWidth: 256,   // w-64
-  timelineHeight: 224,    // h-56
-  assetsHeight: 0,        // 0 = auto (use flex proportions)
+  timelineHeight: 392,    // keep video/audio tracks exposed on first open
+  assetsHeight: 560,      // keep assets above timelines in the left rail
 }
 
 export const LAYOUT_LIMITS = {
   leftPanelWidth:  { min: 180, max: 480 },
   rightPanelWidth: { min: 200, max: 480 },
-  timelineHeight:  { min: 120, max: 600 },
+  timelineHeight:  { min: 260, max: 640 },
   assetsHeight:    { min: 120, max: 800 },
 }
 

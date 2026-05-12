@@ -1,0 +1,16 @@
+{
+  "prompt": {
+    "1": { "inputs": { "ckpt_name": "cyberrealisticXL_v100.safetensors" }, "class_type": "CheckpointLoaderSimple" },
+    "2": { "inputs": { "text": "masterpiece, best quality, the same woman as reference, extremely beautiful 28 year old woman, perfect symmetrical face, ultra detailed realistic eyes, flawless skin, long wavy dark hair, voluptuous body, large natural breasts, slim waist, wide hips, completely nude, elegant standing frontal pose, legs slightly apart, shaved smooth pussy visible, sensual pose, soft cinematic studio lighting, premium glamour photography, highly detailed skin texture, sharp focus, 8k photorealistic", "clip": ["1", 1] }, "class_type": "CLIPTextEncode" },
+    "3": { "inputs": { "text": "bad eyes, deformed eyes, bad anatomy, deformed hands, extra fingers, censored, mosaic, blur, young-looking, plastic skin", "clip": ["1", 1] }, "class_type": "CLIPTextEncode" },
+    "4": { "inputs": { "model": ["1", 0], "clip": ["1", 1], "lora_name": "EyesXL_v3.safetensors", "strength_model": 1.0, "strength_clip": 1.0 }, "class_type": "LoraLoader" },
+    "5": { "inputs": { "image": "face_reference.png" }, "class_type": "LoadImage" },
+    "6": { "inputs": { "preset": "FACEID PLUS V2" }, "class_type": "IPAdapterUnifiedLoaderFaceID" },
+    "7": { "inputs": { "provider": "CUDA" }, "class_type": "IPAdapterInsightFaceLoader" },
+    "8": { "inputs": { "image": ["5", 0], "ipadapter": ["6", 0], "insightface": ["7", 0], "weight": 0.95, "weight_faceidv2": 1.2, "weight_type": "linear", "combine_embeds": "concat", "start_at": 0.0, "end_at": 1.0 }, "class_type": "IPAdapterFaceID" },
+    "9": { "inputs": { "width": 832, "height": 1216, "batch_size": 1 }, "class_type": "EmptyLatentImage" },
+    "10": { "inputs": { "seed": -1, "steps": 60, "cfg": 5.0, "sampler_name": "dpmpp_2m_sde", "scheduler": "karras", "positive": ["2", 0], "negative": ["3", 0], "latent_image": ["9", 0], "denoise": 1.0, "model": ["4", 0] }, "class_type": "KSampler" },
+    "11": { "inputs": { "samples": ["10", 0], "vae": ["1", 2] }, "class_type": "VAEDecode" },
+    "12": { "inputs": { "images": ["11", 0], "filename_prefix": "faceid_strong_" }, "class_type": "SaveImage" }
+  }
+}

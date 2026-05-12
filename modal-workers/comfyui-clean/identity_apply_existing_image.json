@@ -1,0 +1,304 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "PROGETTO_TEST_target_identity_inpaint.png"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "PROGETTO_TEST_master_identity_inpaint.png"
+    }
+  },
+  "3": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "same person as the master reference, matching facial identity, natural realistic face, sharp detailed eyes, realistic symmetrical eyes, natural skin texture, preserve target pose, preserve target body, preserve target lighting, preserve target scene, photorealistic"
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "3",
+        1
+      ],
+      "text": "different person, changed identity, distorted eyes, red eyes, cross eyed, deformed iris, bad pupils, asymmetrical eyes, deformed face, plastic skin, waxy skin, overprocessed skin, blurry, low quality, extra face, watermark, text"
+    }
+  },
+  "6": {
+    "class_type": "UltralyticsDetectorProvider",
+    "inputs": {
+      "model_name": "bbox/face_yolov8m.pt"
+    }
+  },
+  "7": {
+    "class_type": "BboxDetectorSEGS",
+    "inputs": {
+      "bbox_detector": [
+        "6",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ],
+      "threshold": 0.45,
+      "dilation": 12,
+      "crop_factor": 1.45,
+      "drop_size": 10,
+      "labels": "face"
+    }
+  },
+  "8": {
+    "class_type": "SegsToCombinedMask",
+    "inputs": {
+      "segs": [
+        "7",
+        0
+      ]
+    }
+  },
+  "9": {
+    "class_type": "GrowMask",
+    "inputs": {
+      "mask": [
+        "8",
+        0
+      ],
+      "expand": 12,
+      "tapered_corners": true
+    }
+  },
+  "10": {
+    "class_type": "FeatherMask",
+    "inputs": {
+      "mask": [
+        "9",
+        0
+      ],
+      "left": 18,
+      "top": 18,
+      "right": 18,
+      "bottom": 18
+    }
+  },
+  "11": {
+    "class_type": "MaskToImage",
+    "inputs": {
+      "mask": [
+        "10",
+        0
+      ]
+    }
+  },
+  "12": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "11",
+        0
+      ],
+      "filename_prefix": "identity_apply_existing_image_mask"
+    }
+  },
+  "13": {
+    "class_type": "IPAdapterUnifiedLoaderFaceID",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "preset": "FACEID PLUS V2",
+      "lora_strength": 0.65,
+      "provider": "CUDA"
+    }
+  },
+  "14": {
+    "class_type": "IPAdapterInsightFaceLoader",
+    "inputs": {
+      "provider": "CUDA",
+      "model_name": "antelopev2"
+    }
+  },
+  "15": {
+    "class_type": "IPAdapterFaceID",
+    "inputs": {
+      "model": [
+        "13",
+        0
+      ],
+      "ipadapter": [
+        "13",
+        1
+      ],
+      "image": [
+        "2",
+        0
+      ],
+      "weight": 0.82,
+      "weight_faceidv2": 1.15,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0.0,
+      "end_at": 0.9,
+      "embeds_scaling": "V only",
+      "attn_mask": [
+        "10",
+        0
+      ],
+      "insightface": [
+        "14",
+        0
+      ]
+    }
+  },
+  "16": {
+    "class_type": "InstantIDModelLoader",
+    "inputs": {
+      "instantid_file": "ip-adapter.bin"
+    }
+  },
+  "17": {
+    "class_type": "InstantIDFaceAnalysis",
+    "inputs": {
+      "provider": "CUDA"
+    }
+  },
+  "18": {
+    "class_type": "ControlNetLoader",
+    "inputs": {
+      "control_net_name": "InstantID-ControlNet/diffusion_pytorch_model.safetensors"
+    }
+  },
+  "19": {
+    "class_type": "ApplyInstantIDAdvanced",
+    "inputs": {
+      "instantid": [
+        "16",
+        0
+      ],
+      "insightface": [
+        "17",
+        0
+      ],
+      "control_net": [
+        "18",
+        0
+      ],
+      "image": [
+        "2",
+        0
+      ],
+      "model": [
+        "15",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "ip_weight": 0.35,
+      "cn_strength": 0.35,
+      "start_at": 0.0,
+      "end_at": 0.75,
+      "noise": 0.0,
+      "combine_embeds": "average",
+      "mask": [
+        "10",
+        0
+      ]
+    }
+  },
+  "20": {
+    "class_type": "InpaintModelConditioning",
+    "inputs": {
+      "positive": [
+        "19",
+        1
+      ],
+      "negative": [
+        "19",
+        2
+      ],
+      "vae": [
+        "3",
+        2
+      ],
+      "pixels": [
+        "1",
+        0
+      ],
+      "mask": [
+        "10",
+        0
+      ],
+      "noise_mask": true
+    }
+  },
+  "21": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "19",
+        0
+      ],
+      "seed": 1778538500,
+      "steps": 24,
+      "cfg": 4.2,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "20",
+        1
+      ],
+      "latent_image": [
+        "20",
+        2
+      ],
+      "denoise": 0.48
+    }
+  },
+  "22": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "21",
+        0
+      ],
+      "vae": [
+        "3",
+        2
+      ]
+    }
+  },
+  "23": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "22",
+        0
+      ],
+      "filename_prefix": "identity_apply_existing_image"
+    }
+  }
+}

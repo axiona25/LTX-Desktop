@@ -289,7 +289,17 @@ export async function startPythonBackend(): Promise<void> {
       cwd: backendPath,
       env: {
         ...process.env,
+        PATH: [
+          process.env.PATH,
+          '/opt/homebrew/bin',
+          '/usr/local/bin',
+          '/usr/bin',
+          '/bin',
+          '/usr/sbin',
+          '/sbin',
+        ].filter(Boolean).join(':'),
         PYTHONUNBUFFERED: '1',
+        PYTHONDONTWRITEBYTECODE: '1',
         PYTHONNOUSERSITE: '1',
         // Only pass LTX_PORT when the developer explicitly set it
         ...(process.env.LTX_PORT ? { LTX_PORT: process.env.LTX_PORT } : {}),
@@ -356,18 +366,13 @@ export async function startPythonBackend(): Promise<void> {
 
       if (started || probeGateStarted) return
 
-      const readyMatch = output.match(/Server running on (http:\/\/\S+)/)
+      const readyMatch = output.match(/(?:Server running on|Uvicorn running on) (http:\/\/\S+)/)
       if (readyMatch) {
         backendUrl = readyMatch[1]
         probeGateStarted = true
         void gateAliveOnProbe()
       } else if (output.includes('Uvicorn running')) {
-        // Fallback for legacy/dev uvicorn output — no parseable URL, so we
-        // can't HTTP-probe. Publish alive on the log signal alone.
-        started = true
-        backendOwnership = 'managed'
-        publishBackendHealthStatus({ status: 'alive' })
-        settleResolve()
+        logger.error('Backend emitted a ready signal without a parseable URL')
       }
     }
 

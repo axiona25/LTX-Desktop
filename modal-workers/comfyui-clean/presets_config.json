@@ -1,0 +1,64 @@
+{
+  "engine": "comfyui",
+  "endpoint": "https://axiona2025--axstudio-comfyui-clean-comfyui-server.modal.run",
+  "default_checkpoint": "cyberrealisticXL_v100.safetensors",
+  "default_lora": "EyesXL_v3.safetensors",
+  "default_lora_strength": 0.85,
+  "presets": {
+    "realistic_glamour_adult": {
+      "checkpoint": "cyberrealisticXL_v100.safetensors",
+      "width": 832,
+      "height": 1216,
+      "steps": 50,
+      "cfg": 6.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "masterpiece, best quality, beautiful 28 year old woman, perfect symmetrical face, detailed realistic eyes, flawless skin, ",
+      "negative": "bad eyes, deformed eyes, bad anatomy, deformed hands, extra fingers, censored, mosaic, blur, young-looking, plastic skin"
+    },
+    "realistic_erotic_adult": {
+      "checkpoint": "cyberrealisticXL_v100.safetensors",
+      "width": 832,
+      "height": 1216,
+      "steps": 60,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "masterpiece, best quality, beautiful 28 year old woman, seductive expression, perfect body, large natural breasts, ",
+      "negative": "bad eyes, deformed anatomy, extra fingers, censored, mosaic, blur, young-looking"
+    },
+    "boudoir_adult": {
+      "checkpoint": "cyberrealisticXL_v100.safetensors",
+      "width": 832,
+      "height": 1216,
+      "steps": 55,
+      "cfg": 6.0,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "masterpiece, soft cinematic lighting, luxury bedroom, beautiful woman in elegant pose, sensual, ",
+      "negative": "bad eyes, harsh lighting, deformed, low quality"
+    },
+    "editorial_lingerie_adult": {
+      "checkpoint": "cyberrealisticXL_v100.safetensors",
+      "width": 1216,
+      "height": 832,
+      "steps": 50,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "high fashion editorial, beautiful woman in luxury lingerie, studio lighting, magazine style, ",
+      "negative": "bad anatomy, deformed, low quality"
+    },
+    "cinematic_adult_portrait": {
+      "checkpoint": "cyberrealisticXL_v100.safetensors",
+      "width": 1024,
+      "height": 1024,
+      "steps": 60,
+      "cfg": 5.5,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "positive_prefix": "cinematic portrait, dramatic lighting, beautiful face, emotional expression, ",
+      "negative": "bad eyes, deformed face, low quality"
+    }
+  }
+}

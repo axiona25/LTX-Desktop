@@ -377,6 +377,47 @@ export class ApiClient {
   static generateIcLora = makeEndpointClient('/api/ic-lora/generate', 'post')
 
   static extractIcLoraConditioning = makeEndpointClient('/api/ic-lora/extract-conditioning', 'post')
+
+  static axGenerateCharacter(body: {
+    image_path: string
+    prompt?: string
+    character_name?: string
+    output_kind?: 'profile' | 'image' | 'video'
+  }) {
+    return requestUntyped('/api/ax/character/generate', body)
+  }
+
+  static axFaceSwap(body: {
+    source_media_path: string
+    target_face_path: string
+    prompt?: string
+    media_type?: 'image' | 'video'
+  }) {
+    return requestUntyped('/api/ax/face-swap', body)
+  }
+}
+
+async function requestUntyped(endpoint: string, body: unknown): Promise<
+  | { ok: true; data: { status: string; output_path?: string | null; output_url?: string | null; metadata?: Record<string, unknown> } }
+  | { ok: false; error: HTTPErrorResponse }
+> {
+  try {
+    const response = await backendFetch(endpoint, buildJsonRequestInit(body, { method: 'POST' }))
+    const text = await response.text()
+    const payload = text ? JSON.parse(text) : {}
+    if (response.ok) {
+      return { ok: true, data: payload }
+    }
+    return {
+      ok: false,
+      error: payload?.message ? payload : buildSyntheticError(`HTTP_${response.status}`, text || response.statusText),
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      error: buildSyntheticError('NETWORK_ERROR', error instanceof Error ? error.message : 'Request failed'),
+    }
+  }
 }
 
 type ApiClientMethodName = keyof typeof ApiClient

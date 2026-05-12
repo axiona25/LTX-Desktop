@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import logoUrl from '../../images/Logo.png'
 
 interface PythonSetupProps {
   onReady: () => void
@@ -107,7 +108,7 @@ export function PythonSetup({ onReady }: PythonSetupProps) {
         // @ts-expect-error - Electron-specific CSS property
         WebkitAppRegion: 'drag'
       }}>
-        <span style={{ fontSize: 13, color: '#a0a0a0' }}>LTX Desktop</span>
+        <img src={logoUrl} alt="AXSTUDIO" style={{ height: 18, width: 'auto' }} draggable={false} />
       </div>
 
       {/* Main Container */}

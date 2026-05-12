@@ -135,6 +135,124 @@ class GenerateVideoCancelledResponse(BaseModel):
 GenerateVideoResponse: TypeAlias = GenerateVideoCompleteResponse | GenerateVideoCancelledResponse
 
 
+class AxModalAssetResponse(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    status: Literal["complete"]
+    output_path: str | None = None
+    output_url: str | None = None
+    metadata: JsonObject = Field(default_factory=dict)
+
+
+class ModalPromptEnhanceRequest(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    idea: NonEmptyPrompt
+    style: str | None = None
+    aspect_ratio: str | None = None
+    language: str | None = None
+
+
+class ModalPromptEnhanceResponse(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    final_prompt: str
+    negative_prompt: str
+    style_tags: list[str]
+    recommended_width: int
+    recommended_height: int
+    suggested_steps: int
+    guidance_scale: float
+    composition_intent: Literal["portrait", "full_body", "landscape_scene", "product", "architecture", "generic"] = "generic"
+    subject_type: Literal["person", "environment", "object", "product", "architecture", "mixed", "generic"] = "generic"
+
+
+class ModalPromptTranslateRequest(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    text: NonEmptyPrompt
+    target_language: Literal["en", "it"]
+    source_language: str | None = None
+    kind: Literal["prompt", "negative_prompt", "style"] = "prompt"
+
+
+class ModalPromptTranslateResponse(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    translated_text: str
+    source_language: str | None = None
+    target_language: Literal["en", "it"]
+    kind: Literal["prompt", "negative_prompt", "style"] = "prompt"
+
+
+FluxQualityMode = Literal["preview", "balanced", "premium"]
+PromptSource = Literal["llm_enhanced", "user_edited", "manual"]
+
+
+class ModalFluxImageGenerateRequest(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    prompt: NonEmptyPrompt
+    negative_prompt: str = ""
+    width: int = Field(default=1024, ge=16)
+    height: int = Field(default=1024, ge=16)
+    steps: int = Field(default=28, ge=1)
+    guidance_scale: float = Field(default=3.5, ge=0)
+    seed: int | None = Field(default=None, ge=0, le=2_147_483_647)
+    quality_mode: FluxQualityMode = "balanced"
+    original_idea: str | None = None
+    llm_enhanced_prompt: str | None = None
+    final_prompt: str | None = None
+    prompt_was_user_edited: bool = False
+    prompt_source: PromptSource = "manual"
+    selected_style_id: str | None = None
+    selected_style_label: str | None = None
+    selected_style_category: str | None = None
+    custom_style_text: str | None = None
+    style_prompt_modifier: str | None = None
+    style_negative_modifier: str | None = None
+    style_was_applied: bool = False
+    negative_prompt_final: str | None = None
+    visible_prompt_before_generate: str | None = None
+    payload_prompt_sent_to_backend: str | None = None
+    frontend_negative_prompt: str | None = None
+    idea_is_primary_guide: bool = False
+    composition_intent: str | None = None
+    subject_type: str | None = None
+    required_traits: JsonObject = Field(default_factory=dict)
+    requested_aspect_ratio: str | None = None
+    effective_aspect_ratio: str | None = None
+    aspect_ratio_overridden: bool = False
+    aspect_ratio_override_reason: str | None = None
+    removed_conflicting_prompt_terms: list[str] = Field(default_factory=list)
+    descriptive_trait_lock_applied: bool = False
+    trait_lock_types_applied: list[str] = Field(default_factory=list)
+    no_people_lock_applied: bool = False
+    prompt_visibility_violation: bool = False
+    backend_semantic_rewrite_after_generate: bool = False
+
+
+class ModalFluxImageGenerateResponse(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    provider: Literal["modal_flux"]
+    model: Literal["FLUX.1-dev"]
+    image_base64: str
+    seed: int
+    width: int
+    height: int
+    requested_steps: int
+    actual_steps: int
+    guidance_scale: float
+    quality_mode: FluxQualityMode
+    effective_width: int
+    effective_height: int
+    negative_prompt_applied: bool
+    elapsed_ms: int
+    local_path: str
+    metadata_path: str
+
+
 class GenerateImageCompleteResponse(BaseModel):
     status: Literal["complete"]
     image_paths: list[str]
@@ -320,6 +438,20 @@ class GenerateVideoRequest(BaseModel):
     aspectRatio: Literal["16:9", "9:16"] = "16:9"
 
 
+class AxPromptPlan(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    prompt: str | None = None
+    negativePrompt: str | None = None
+    cameraMotion: VideoCameraMotion | None = None
+    resolution: LTXVideoGenResolution | None = None
+    model: LTXVideoGenPipeline | None = None
+    duration: LTXVideoGenDuration | None = None
+    fps: LTXVideoGenFps | None = None
+    audio: bool | None = None
+    aspectRatio: Literal["16:9", "9:16"] | None = None
+
+
 class GenerateImageRequest(BaseModel):
     model_config = ConfigDict(strict=True)
 
@@ -328,6 +460,24 @@ class GenerateImageRequest(BaseModel):
     height: int = Field(default=1024, ge=16)
     numSteps: int = Field(default=4, ge=1)
     numImages: int = Field(default=1, ge=1)
+
+
+class AxCharacterGenerateRequest(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    image_path: str
+    prompt: str = ""
+    character_name: str = ""
+    output_kind: Literal["profile", "image", "video"] = "profile"
+
+
+class AxFaceSwapRequest(BaseModel):
+    model_config = ConfigDict(strict=True)
+
+    source_media_path: str
+    target_face_path: str
+    prompt: str = ""
+    media_type: Literal["image", "video"] = "image"
 
 
 def _default_model_types() -> set[ModelCheckpointID]:

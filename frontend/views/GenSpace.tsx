@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, type CSSProperties } from 'react'
 import {
   Trash2, Download, Image, Video, X,
   Heart, Film, Volume2, VolumeX, Sparkles,
@@ -29,6 +29,13 @@ import { logger } from '../lib/logger'
 import { RetakePanel } from '../components/RetakePanel'
 import { ICLoraPanel, CONDITIONING_TYPES } from '../components/ICLoraPanel'
 import { FreeApiKeyBubble } from '../components/FreeApiKeyBubble'
+import {
+  ALL_IMAGE_STYLE_PRESETS,
+  IMAGE_STYLE_CATEGORY_LABELS,
+  type ImageStyleCategory,
+  type ImageStylePreset,
+} from '../constants/imageStyles'
+import { applyStyleBlock, resolveImageStyle } from '../lib/image-style-prompt'
 
 // Asset card with hover overlays
 function AssetCard({
@@ -337,20 +344,278 @@ function SettingsDropdown({
   )
 }
 
+const STYLE_PREVIEW_BASE: CSSProperties = {
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.12), inset 0 -18px 26px rgba(0,0,0,0.35)',
+}
+
+const STYLE_PREVIEW_BY_CATEGORY: Record<ImageStyleCategory, CSSProperties> = {
+  realistic_photo: {
+    backgroundColor: '#171717',
+    backgroundImage: 'radial-gradient(circle at 34% 32%, rgba(255,235,210,0.95) 0 12%, transparent 13%), radial-gradient(ellipse at 45% 72%, rgba(92,60,42,0.9) 0 24%, transparent 25%), linear-gradient(135deg, #d8d0c4 0%, #7e786f 45%, #171717 100%)',
+  },
+  cinematic: {
+    backgroundColor: '#12070a',
+    backgroundImage: 'radial-gradient(circle at 20% 22%, rgba(255,190,82,0.95) 0 10%, transparent 24%), radial-gradient(circle at 78% 74%, rgba(34,115,255,0.55) 0 18%, transparent 34%), linear-gradient(135deg, #f7b246 0%, #751619 44%, #05070d 100%)',
+  },
+  illustration_drawing: {
+    backgroundColor: '#172033',
+    backgroundImage: 'repeating-linear-gradient(150deg, rgba(255,255,255,0.18) 0 1px, transparent 1px 7px), radial-gradient(circle at 34% 36%, #d9edff 0 12%, transparent 13%), linear-gradient(135deg, #98d6ff 0%, #5562b8 48%, #111827 100%)',
+  },
+  animation_cartoon: {
+    backgroundColor: '#38bdf8',
+    backgroundImage: 'radial-gradient(circle at 30% 35%, #fff3a3 0 18%, transparent 19%), radial-gradient(circle at 72% 66%, #fb7185 0 22%, transparent 23%), linear-gradient(135deg, #fda4af 0%, #fde047 50%, #38bdf8 100%)',
+  },
+  anime_manga: {
+    backgroundColor: '#312e81',
+    backgroundImage: 'radial-gradient(circle at 36% 34%, #fdf2f8 0 13%, transparent 14%), radial-gradient(circle at 60% 42%, rgba(34,211,238,0.75) 0 8%, transparent 9%), repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 5px), linear-gradient(135deg, #f0abfc 0%, #67e8f9 42%, #3730a3 100%)',
+  },
+  three_d_render: {
+    backgroundColor: '#0f172a',
+    backgroundImage: 'radial-gradient(circle at 36% 36%, rgba(209,250,229,0.95) 0 15%, transparent 16%), radial-gradient(circle at 65% 70%, rgba(20,184,166,0.7) 0 20%, transparent 21%), linear-gradient(135deg, #a7f3d0 0%, #14b8a6 45%, #0f172a 100%)',
+  },
+  graphic_design: {
+    backgroundColor: '#581c87',
+    backgroundImage: 'linear-gradient(45deg, transparent 0 34%, rgba(255,255,255,0.9) 35% 43%, transparent 44%), radial-gradient(circle at 70% 30%, #a3e635 0 18%, transparent 19%), linear-gradient(135deg, #84cc16 0%, #2563eb 46%, #c026d3 100%)',
+  },
+  fantasy_scifi: {
+    backgroundColor: '#050008',
+    backgroundImage: 'radial-gradient(circle at 48% 30%, rgba(216,180,254,0.95) 0 10%, transparent 26%), radial-gradient(circle at 70% 70%, rgba(34,211,238,0.42) 0 18%, transparent 34%), linear-gradient(135deg, #c084fc 0%, #6d28d9 42%, #030008 100%)',
+  },
+  artistic_painting: {
+    backgroundColor: '#312e81',
+    backgroundImage: 'radial-gradient(ellipse at 35% 35%, rgba(254,215,170,0.95) 0 18%, transparent 19%), radial-gradient(ellipse at 66% 62%, rgba(244,63,94,0.76) 0 24%, transparent 25%), repeating-linear-gradient(120deg, rgba(255,255,255,0.12) 0 2px, transparent 2px 9px), linear-gradient(135deg, #fed7aa 0%, #f43f5e 46%, #312e81 100%)',
+  },
+  retro_special: {
+    backgroundColor: '#083344',
+    backgroundImage: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 6px), radial-gradient(circle at 50% 24%, #fb7185 0 16%, transparent 17%), linear-gradient(135deg, #f472b6 0%, #fdba74 50%, #22d3ee 100%)',
+  },
+  custom: {
+    backgroundColor: '#18181b',
+    backgroundImage: 'radial-gradient(circle at 28% 28%, rgba(255,255,255,0.65) 0 12%, transparent 13%), linear-gradient(135deg, #a1a1aa 0%, #3f3f46 48%, #09090b 100%)',
+  },
+}
+
+const STYLE_PREVIEW_BY_ID: Record<string, CSSProperties> = {
+  photorealistic: {
+    backgroundImage: 'radial-gradient(circle at 32% 26%, rgba(254,226,204,0.98) 0 11%, transparent 12%), radial-gradient(ellipse at 43% 70%, rgba(51,37,29,0.96) 0 24%, transparent 25%), radial-gradient(circle at 72% 30%, rgba(255,255,255,0.45) 0 8%, transparent 18%), linear-gradient(135deg, #eee7db 0%, #8a8176 45%, #141414 100%)',
+  },
+  ultra_realistic: {
+    backgroundImage: 'radial-gradient(circle at 35% 27%, rgba(255,232,205,0.98) 0 12%, transparent 13%), radial-gradient(ellipse at 45% 72%, rgba(75,48,34,0.98) 0 27%, transparent 28%), linear-gradient(120deg, rgba(255,255,255,0.75) 0 10%, transparent 11% 100%), linear-gradient(135deg, #f6efe6 0%, #706a61 45%, #070707 100%)',
+  },
+  studio_photography: {
+    backgroundImage: 'radial-gradient(circle at 28% 22%, rgba(255,255,255,0.9) 0 18%, transparent 19%), radial-gradient(circle at 58% 44%, rgba(251,226,205,0.96) 0 12%, transparent 13%), linear-gradient(135deg, #f4f4f5 0%, #71717a 52%, #18181b 100%)',
+  },
+  portrait_photography: {
+    backgroundImage: 'radial-gradient(circle at 45% 28%, #ffe1c4 0 15%, transparent 16%), radial-gradient(ellipse at 45% 72%, #3b2a22 0 25%, transparent 26%), linear-gradient(135deg, #d7ccc0 0%, #57534e 50%, #111111 100%)',
+  },
+  product_photography: {
+    backgroundImage: 'radial-gradient(ellipse at 52% 55%, rgba(255,255,255,0.96) 0 22%, transparent 23%), radial-gradient(circle at 72% 28%, rgba(255,255,255,0.55) 0 12%, transparent 13%), linear-gradient(135deg, #e7e5e4 0%, #78716c 48%, #0c0a09 100%)',
+  },
+  architectural_photography: {
+    backgroundImage: 'linear-gradient(90deg, transparent 0 16%, rgba(255,255,255,0.82) 17% 21%, transparent 22% 39%, rgba(255,255,255,0.62) 40% 45%, transparent 46%), linear-gradient(135deg, #d6d3d1 0%, #78716c 50%, #1c1917 100%)',
+  },
+  documentary_style: {
+    backgroundImage: 'radial-gradient(circle at 36% 42%, rgba(250,204,21,0.35) 0 20%, transparent 21%), linear-gradient(135deg, #d6d3d1 0%, #57534e 55%, #1c1917 100%)',
+  },
+  noir_cinematic: {
+    backgroundImage: 'repeating-linear-gradient(105deg, rgba(255,255,255,0.22) 0 5px, transparent 5px 13px), linear-gradient(135deg, #f5f5f5 0%, #525252 42%, #020617 100%)',
+  },
+  sci_fi_cinematic: {
+    backgroundImage: 'radial-gradient(circle at 72% 22%, rgba(34,211,238,0.9) 0 11%, transparent 22%), linear-gradient(90deg, rgba(34,211,238,0.32) 0 2px, transparent 2px 8px), linear-gradient(135deg, #22d3ee 0%, #1e3a8a 44%, #020617 100%)',
+  },
+  fantasy_cinematic: {
+    backgroundImage: 'radial-gradient(circle at 45% 30%, rgba(250,204,21,0.95) 0 10%, transparent 24%), radial-gradient(circle at 62% 68%, rgba(168,85,247,0.58) 0 22%, transparent 30%), linear-gradient(135deg, #facc15 0%, #7e22ce 44%, #0f0518 100%)',
+  },
+  manga: {
+    backgroundImage: 'repeating-radial-gradient(circle at 35% 35%, #f8fafc 0 2px, #111827 2px 3px, transparent 3px 8px), linear-gradient(135deg, #ffffff 0%, #9ca3af 48%, #111827 100%)',
+  },
+  anime: {
+    backgroundImage: 'radial-gradient(circle at 36% 30%, #fdf2f8 0 14%, transparent 15%), radial-gradient(circle at 58% 34%, #22d3ee 0 7%, transparent 8%), linear-gradient(135deg, #f0abfc 0%, #67e8f9 45%, #312e81 100%)',
+  },
+  cartoon: {
+    backgroundImage: 'radial-gradient(circle at 36% 38%, #fde047 0 20%, transparent 21%), radial-gradient(circle at 70% 68%, #fb7185 0 20%, transparent 21%), linear-gradient(135deg, #fb7185 0%, #fde047 48%, #38bdf8 100%)',
+  },
+  family_3d_animation: {
+    backgroundImage: 'radial-gradient(circle at 40% 35%, #fed7aa 0 16%, transparent 17%), radial-gradient(circle at 62% 68%, #60a5fa 0 24%, transparent 25%), linear-gradient(135deg, #f9a8d4 0%, #93c5fd 50%, #1d4ed8 100%)',
+  },
+  clay_animation: {
+    backgroundImage: 'radial-gradient(circle at 37% 40%, #fca5a5 0 18%, transparent 19%), radial-gradient(circle at 66% 66%, #fbbf24 0 19%, transparent 20%), linear-gradient(135deg, #fed7aa 0%, #fb923c 55%, #7c2d12 100%)',
+  },
+  '3d_render': {
+    backgroundImage: 'radial-gradient(circle at 42% 42%, rgba(209,250,229,0.96) 0 18%, transparent 19%), radial-gradient(circle at 64% 68%, rgba(20,184,166,0.72) 0 20%, transparent 21%), linear-gradient(135deg, #a7f3d0 0%, #14b8a6 45%, #0f172a 100%)',
+  },
+  low_poly: {
+    backgroundImage: 'linear-gradient(135deg, transparent 0 24%, rgba(255,255,255,0.35) 25% 32%, transparent 33%), linear-gradient(45deg, #86efac 0 32%, #14b8a6 33% 62%, #0f172a 63%)',
+  },
+  vector_art: {
+    backgroundImage: 'linear-gradient(45deg, #bef264 0 28%, transparent 29%), radial-gradient(circle at 70% 30%, #60a5fa 0 20%, transparent 21%), linear-gradient(135deg, #84cc16 0%, #2563eb 50%, #c026d3 100%)',
+  },
+  minimal: {
+    backgroundImage: 'radial-gradient(circle at 70% 30%, #ffffff 0 12%, transparent 13%), linear-gradient(135deg, #f8fafc 0%, #94a3b8 60%, #0f172a 100%)',
+  },
+  cyberpunk: {
+    backgroundImage: 'linear-gradient(90deg, rgba(236,72,153,0.7) 0 3px, transparent 3px 11px), radial-gradient(circle at 72% 24%, #22d3ee 0 14%, transparent 15%), linear-gradient(135deg, #ec4899 0%, #312e81 48%, #020617 100%)',
+  },
+  watercolor: {
+    backgroundImage: 'radial-gradient(ellipse at 35% 35%, rgba(147,197,253,0.72) 0 28%, transparent 29%), radial-gradient(ellipse at 65% 62%, rgba(244,114,182,0.62) 0 30%, transparent 31%), linear-gradient(135deg, #fef3c7 0%, #bfdbfe 52%, #fbcfe8 100%)',
+  },
+  oil_painting: {
+    backgroundImage: 'repeating-linear-gradient(120deg, rgba(255,255,255,0.16) 0 2px, transparent 2px 8px), radial-gradient(ellipse at 35% 38%, #fed7aa 0 24%, transparent 25%), linear-gradient(135deg, #92400e 0%, #be123c 46%, #312e81 100%)',
+  },
+  pixel_art: {
+    backgroundImage: 'linear-gradient(90deg, rgba(0,0,0,0.24) 1px, transparent 1px), linear-gradient(0deg, rgba(0,0,0,0.24) 1px, transparent 1px), linear-gradient(135deg, #f472b6 0%, #fb923c 50%, #22d3ee 100%)',
+    backgroundSize: '8px 8px, 8px 8px, cover',
+  },
+  synthwave: {
+    backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.22) 0 1px, transparent 1px 7px), radial-gradient(circle at 50% 28%, #fb7185 0 18%, transparent 19%), linear-gradient(135deg, #f472b6 0%, #7c3aed 50%, #22d3ee 100%)',
+  },
+}
+
+function stylePreviewImageUrl(style: ImageStylePreset): string {
+  return style.preview_image || './style-previews/_fallback.webp'
+}
+
+function stylePreviewStyle(style: ImageStylePreset | null): CSSProperties {
+  const categoryStyle = style ? STYLE_PREVIEW_BY_CATEGORY[style.style_category] : STYLE_PREVIEW_BY_CATEGORY.custom
+  const override = style ? STYLE_PREVIEW_BY_ID[style.style_id] : undefined
+  const imageLayer = style
+    ? {
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0.34)), url("${stylePreviewImageUrl(style)}")`,
+      }
+    : undefined
+  return {
+    ...STYLE_PREVIEW_BASE,
+    ...categoryStyle,
+    ...override,
+    ...imageLayer,
+  }
+}
+
+function ImageStylePicker({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (value: string) => void
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [hoveredStyle, setHoveredStyle] = useState<ImageStylePreset | null>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const selectedStyle = ALL_IMAGE_STYLE_PRESETS.find((style) => style.style_id === value) ?? null
+  const groupedStyles = ALL_IMAGE_STYLE_PRESETS.reduce<Partial<Record<ImageStyleCategory, ImageStylePreset[]>>>((acc, style) => {
+    if (style.style_id === 'custom') return acc
+    ;(acc[style.style_category] ??= []).push(style)
+    return acc
+  }, {})
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isOpen])
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex shrink-0 items-center gap-1 whitespace-nowrap px-2 py-1.5 rounded-md transition-colors ${
+          isOpen ? 'bg-zinc-700 hover:bg-zinc-700' : 'hover:bg-zinc-800'
+        }`}
+        title="Image style"
+      >
+        <span className="h-3.5 w-3.5 rounded" style={stylePreviewStyle(selectedStyle)} />
+        <span className="max-w-[120px] truncate text-zinc-300 font-medium">
+          {selectedStyle?.style_label ?? 'Style'}
+        </span>
+        <ChevronUp className="h-3 w-3 text-zinc-500" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute bottom-full left-0 mb-2 w-[430px] overflow-visible rounded-xl border border-zinc-700 bg-[#050506] p-3 shadow-[0_28px_100px_rgba(0,0,0,0.88)] ring-1 ring-white/5 z-[9999]">
+          <div className="mb-3 flex items-center justify-between">
+            <div>
+              <div className="text-[10px] text-zinc-500 uppercase tracking-wider">Stili immagine</div>
+              <div className="text-xs text-zinc-400">Preset visivi applicati al prompt visibile</div>
+            </div>
+            <button
+              type="button"
+              onClick={() => { onChange(''); setIsOpen(false) }}
+              className={`rounded-lg px-2.5 py-1.5 text-xs ${value ? 'text-zinc-400 hover:bg-zinc-800 hover:text-white' : 'bg-white/10 text-white'}`}
+            >
+              Nessuno stile
+            </button>
+          </div>
+
+          <div className="max-h-[470px] overflow-y-auto pr-1">
+            <div className="space-y-4">
+              {(Object.keys(groupedStyles) as ImageStyleCategory[]).map((category) => (
+                <div key={category}>
+                  <div className="mb-2 text-[10px] uppercase tracking-wider text-zinc-500">
+                    {IMAGE_STYLE_CATEGORY_LABELS[category]}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {(groupedStyles[category] ?? []).map((style) => (
+                      <button
+                        type="button"
+                        key={style.style_id}
+                        onMouseEnter={() => setHoveredStyle(style)}
+                        onMouseLeave={() => setHoveredStyle(null)}
+                        onFocus={() => setHoveredStyle(style)}
+                        onBlur={() => setHoveredStyle(null)}
+                        onClick={() => { onChange(style.style_id); setIsOpen(false) }}
+                        className={`group relative flex items-center gap-2 rounded-lg border p-2 text-left transition-colors ${
+                          value === style.style_id
+                            ? 'border-emerald-400/70 bg-emerald-500/10'
+                            : 'border-zinc-800 bg-zinc-950/70 hover:border-zinc-600 hover:bg-zinc-800/80'
+                        }`}
+                      >
+                        <span className="relative h-14 w-16 shrink-0 overflow-hidden rounded-md bg-zinc-900" style={stylePreviewStyle(style)}>
+                          <span className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.10),transparent_28%,rgba(0,0,0,0.30))]" />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-medium text-zinc-100">{style.style_label}</span>
+                          <span className="block truncate text-[11px] text-zinc-500">{IMAGE_STYLE_CATEGORY_LABELS[style.style_category]}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {hoveredStyle && (
+            <div className="pointer-events-none absolute left-[calc(100%+0.75rem)] top-16 z-[10001] w-80 rounded-2xl border border-zinc-700 bg-zinc-950 p-3 shadow-[0_22px_80px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
+              <div className="h-56 w-full rounded-xl bg-zinc-900" style={stylePreviewStyle(hoveredStyle)}>
+                <div className="h-full w-full rounded-xl bg-[linear-gradient(to_bottom,rgba(255,255,255,0.08),transparent_35%,rgba(0,0,0,0.25))]" />
+              </div>
+              <div className="mt-3 text-sm font-semibold text-zinc-100">{hoveredStyle.style_label}</div>
+              <div className="mt-0.5 text-xs text-zinc-400">{IMAGE_STYLE_CATEGORY_LABELS[hoveredStyle.style_category]}</div>
+              <div className="mt-2 line-clamp-3 text-[11px] leading-4 text-zinc-500">
+                {hoveredStyle.style_prompt_modifier}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // Lightricks brand icon
 function LightricksIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fillRule="evenodd" clipRule="evenodd" d="M17.0073 8.18934C16.3266 5.6556 14.9346 2.06903 12.3065 2.06903C9.27204 2.06903 6.86627 7.24621 5.45487 11.7948C4.79654 13.9203 4.35877 15.9049 4.17755 17.1736C4.10214 17.5829 4.06274 18.0044 4.06274 18.4347C4.06274 22.2903 7.22553 25.4338 11.1133 25.4338C15.5206 25.4338 23.9376 22.7073 23.9376 18.4347C23.9376 17.1179 23.1376 15.948 21.9018 14.9595L21.9039 14.9575C22.4493 13.7707 22.847 12.648 23.001 11.705C23.1934 10.5053 23.0074 9.5494 22.4429 8.88217C21.7692 8.07382 20.7107 7.85572 19.6586 7.84288C18.8826 7.84288 17.9777 7.96904 17.0073 8.18934ZM8.00176 9.17083C7.6945 9.93266 7.02317 11.7419 6.70157 12.9799C7.93005 11.9987 9.2965 11.1653 10.7091 10.4796C12.2325 9.73758 13.9171 9.06448 15.518 8.58411C15.08 6.98293 13.9585 3.62158 12.3129 3.62158C11.0298 3.62158 9.41958 5.69374 8.00176 9.17083ZM20.6201 14.083L20.6209 14.0786C21.0507 13.1163 21.3522 12.2118 21.4741 11.4547C21.5511 10.9607 21.5832 10.2872 21.2752 9.89577C20.9416 9.46599 20.1975 9.39543 19.6521 9.38901C18.9932 9.38901 18.2117 9.49943 17.3641 9.69208L17.3683 9.69702C17.586 10.7217 17.7526 11.772 17.8808 12.7968C18.8527 13.16 19.7877 13.5908 20.6201 14.083ZM15.8828 10.0897C14.6739 10.4588 13.4041 10.9464 12.209 11.4846C13.4346 11.588 14.8471 11.8527 16.2581 12.2608C16.1554 11.5367 16.0273 10.8061 15.8799 10.0948L15.8828 10.0897ZM11.1133 12.9816C8.07878 12.9816 5.60884 15.4258 5.60884 18.4347C5.60884 21.4435 8.07878 23.8878 11.1133 23.8878C13.8701 23.8878 16.3653 21.6639 16.6048 18.9158C16.7011 17.7546 16.669 15.9263 16.4637 13.9311C14.6294 13.3385 12.6763 12.9816 11.1133 12.9816ZM18.3883 22.2069C17.7984 22.4697 17.1711 22.7085 16.5284 22.9184C18.0872 21.3274 19.8832 18.8193 21.1982 16.3689L21.1997 16.3654C21.9756 17.0509 22.3915 17.7593 22.3915 18.4347C22.3915 19.6985 20.9288 21.0778 18.3883 22.2069ZM19.9493 15.4655L19.9473 15.4707C19.4291 16.4567 18.8221 17.4625 18.1833 18.4092C18.2214 17.4089 18.1892 16.0386 18.0611 14.5212C18.71 14.7948 19.3456 15.1021 19.9493 15.4655Z" fill="currentColor" />
-    </svg>
-  )
-}
-
-function ZitIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19.113 12.2515H16.5605L14.008 8.63382L6.04545 19.9068H8.60348L14.0079 12.2518L16.5605 12.2515L11.156 19.9068H13.721L19.113 12.2515V15.8693L16.2716 19.9073V22.0063H2L14.008 5L19.113 12.2515Z" fill="currentColor"/>
-      <path d="M26 22.0064L21.9704 22.0063V19.9151L19.113 15.8693V12.2515L26 22.0064Z" fill="currentColor"/>
     </svg>
   )
 }
@@ -380,6 +645,8 @@ function PromptBar({
   onInputAudioChange,
   settings,
   onSettingsChange,
+  selectedImageStyleId,
+  onImageStyleChange,
   videoModelSpecs,
   videoSettingsMessage,
   canGenerate,
@@ -415,6 +682,8 @@ function PromptBar({
     audio?: boolean
   }
   onSettingsChange: (settings: any) => void
+  selectedImageStyleId: string
+  onImageStyleChange: (styleId: string) => void
   videoModelSpecs: VideoGenerationModelSpecItem[]
   videoSettingsMessage?: string | null
   icLoraCondType?: ICLoraConditioningType
@@ -583,20 +852,29 @@ function PromptBar({
         )}
 
         {/* Prompt input - fills remaining width */}
-        <div className="flex-1 min-w-0 py-1">
+        <div className="relative flex-1 min-w-0 py-1">
+          {mode === 'image' && (
+            <div
+              className="absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded-full border border-blue-400/30 bg-blue-500/10 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-blue-200 shadow-[0_0_18px_rgba(59,130,246,0.18)]"
+              title="Prompt AI"
+            >
+              <Sparkles className="h-3 w-3" />
+              Prompt AI
+            </div>
+          )}
           <textarea
             value={prompt}
             onChange={(e) => onPromptChange(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={mode === 'retake'
-              ? "Describe what should happen in the selected section..."
+              ? "Descrivi cosa deve succedere nella sezione selezionata..."
               : mode === 'ic-lora'
-                ? "Describe the style or transformation to apply..."
+                ? "Descrivi lo stile o la trasformazione da applicare..."
               : mode === 'image'
-                ? "A close-up of a woman talking on the phone..."
-                : "The woman sips from a cup of coffee..."
+                ? "Descrivi l'immagine che vuoi generare..."
+                : "Descrivi il video che vuoi generare..."
             }
-            className="w-full bg-transparent text-white text-sm placeholder:text-zinc-500 focus:outline-none px-2 py-2 resize-none overflow-y-auto h-[70px] leading-5"
+            className={`w-full bg-transparent text-white text-sm placeholder:text-zinc-500 focus:outline-none px-2 py-2 resize-none overflow-y-auto h-[70px] leading-5 ${mode === 'image' ? 'pr-24' : ''}`}
           />
         </div>
 
@@ -610,19 +888,26 @@ function PromptBar({
           value={mode}
           onChange={(v) => onModeChange(v as 'image' | 'video' | 'retake' | 'ic-lora')}
           options={[
-            { value: 'image', label: 'Generate Images', icon: <Image className="h-4 w-4" /> },
-            { value: 'video', label: 'Generate Videos', icon: <Video className="h-4 w-4" /> },
-            { value: 'retake', label: 'Retake', icon: <Scissors className="h-4 w-4" /> },
+            { value: 'image', label: 'Genera immagini', icon: <Image className="h-4 w-4" /> },
+            { value: 'video', label: 'Genera video', icon: <Video className="h-4 w-4" /> },
+            { value: 'retake', label: 'Rigenera sezione', icon: <Scissors className="h-4 w-4" /> },
             ...(canUseIcLora ? [{ value: 'ic-lora', label: 'IC-LoRA', icon: <Sparkles className="h-4 w-4" /> }] : []),
           ]}
           trigger={
             <>
               {mode === 'image' ? <Image className="h-3.5 w-3.5" /> : mode === 'retake' ? <Scissors className="h-3.5 w-3.5" /> : mode === 'ic-lora' ? <Sparkles className="h-3.5 w-3.5" /> : <Video className="h-3.5 w-3.5" />}
-              <span className="text-zinc-300 font-medium">{mode === 'image' ? 'Image' : mode === 'retake' ? 'Retake' : mode === 'ic-lora' ? 'IC-LoRA' : 'Video'}</span>
+              <span className="text-zinc-300 font-medium">{mode === 'image' ? 'Immagine' : mode === 'retake' ? 'Rigenera' : mode === 'ic-lora' ? 'IC-LoRA' : 'Video'}</span>
               <ChevronUp className="h-3 w-3 text-zinc-500" />
             </>
           }
         />
+
+        {mode === 'image' && (
+          <ImageStylePicker
+            value={selectedImageStyleId}
+            onChange={onImageStyleChange}
+          />
+        )}
         
         <div className="flex-1" />
         
@@ -666,10 +951,10 @@ function PromptBar({
           </>
         ) : mode === 'image' ? (
           <>
-            {/* Model indicator */}
-            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800/50">
-              <ZitIcon className="h-3.5 w-3.5" />
-              <span className="text-zinc-300 font-medium">Z-Image Turbo</span>
+            {/* Image generation is routed through AX Modal, not the legacy image stack. */}
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-300">
+              <Sparkles className="h-3.5 w-3.5" />
+              <span className="font-medium">AXSTUDIO 1.0</span>
             </div>
             
             {/* Resolution dropdown */}
@@ -909,8 +1194,9 @@ export function GenSpace() {
     isLoading: isLoadingVideoGenerationModelSpecs,
     errorMessage: videoGenerationModelSpecsErrorMessage,
   } = useVideoGenerationModelSpecs()
-  const [mode, setMode] = useState<'image' | 'video' | 'retake' | 'ic-lora'>('video')
+  const [mode, setMode] = useState<'image' | 'video' | 'retake' | 'ic-lora'>('image')
   const [prompt, setPrompt] = useState('')
+  const [selectedImageStyleId, setSelectedImageStyleId] = useState('')
   const [inputImage, setInputImage] = useState<string | null>(null)
   const [inputAudio, setInputAudio] = useState<string | null>(null)
   const [localError, setLocalError] = useState<GenerationError | null>(null)
@@ -921,6 +1207,7 @@ export function GenSpace() {
   const [showSizeMenu, setShowSizeMenu] = useState(false)
   const sizeMenuRef = useRef<HTMLDivElement>(null)
   const persistedVideoKeyRef = useRef<string | null>(null)
+  const persistedImagePathsRef = useRef<Set<string>>(new Set())
   const retakeSubmissionRef = useRef<{
     prompt: string
     input: {
@@ -939,6 +1226,12 @@ export function GenSpace() {
     }
   } | null>(null)
   const [settings, setSettings] = useState(() => ({ ...DEFAULT_VIDEO_SETTINGS }))
+  const selectedImageStyle = resolveImageStyle(selectedImageStyleId, '')
+  const handleImageStyleChange = useCallback((styleId: string) => {
+    setSelectedImageStyleId(styleId)
+    const resolvedStyle = resolveImageStyle(styleId, '')
+    setPrompt((current) => applyStyleBlock(current, resolvedStyle))
+  }, [])
   const videoModelSpecs = getVideoGenerationModelSpecs(videoGenerationModelSpecsResponse, {
     useApiSpecs: shouldVideoGenerateWithLtxApi,
   })
@@ -1137,7 +1430,7 @@ export function GenSpace() {
             audio: savedVideoSettings.audio || false,
             cameraMotion: 'none',
             imageAspectRatio: savedVideoSettings.aspectRatio,
-            imageSteps: 4,
+            imageSteps: 36,
             inputImageUrl: inputImage || undefined,
             inputAudioUrl: inputAudio || undefined,
           },
@@ -1323,10 +1616,13 @@ export function GenSpace() {
       ;(async () => {
         for (let i = 0; i < imagePaths.length; i++) {
           const imgPath = imagePaths[i]
+          if (persistedImagePathsRef.current.has(imgPath)) continue
+          persistedImagePathsRef.current.add(imgPath)
           const exists = assets.some(a => a.path === imgPath)
           if (!exists) {
             const copied = await addVisualAssetToProject(imgPath, currentProjectId, 'image')
             if (!copied) {
+              persistedImagePathsRef.current.delete(imgPath)
               logger.error(`Could not persist generated image to project storage: ${imgPath}`)
               continue
             }
@@ -1349,7 +1645,7 @@ export function GenSpace() {
                 audio: false,
                 cameraMotion: 'none',
                 imageAspectRatio: settings.aspectRatio,
-                imageSteps: 4,
+                imageSteps: 36,
               },
               takes: [{
                 path: copied.path,
@@ -1425,7 +1721,13 @@ export function GenSpace() {
           cameraMotion: 'none',
           imageResolution: settings.imageResolution,
           imageAspectRatio: settings.aspectRatio,
-          imageSteps: 4,
+          imageSteps: 36,
+          imageStyleId: selectedImageStyle?.style_id || '',
+          imageStyleLabel: selectedImageStyle?.style_label ?? null,
+          imageStyleCategory: selectedImageStyle?.style_category ?? null,
+          imageStylePromptModifier: selectedImageStyle?.style_prompt_modifier || null,
+          imageStyleNegativeModifier: selectedImageStyle?.style_negative_modifier || null,
+          imageCustomStyleText: null,
           variations: settings.variations,
         }
       )
@@ -1448,7 +1750,7 @@ export function GenSpace() {
           aspectRatio: videoSettings.aspectRatio,
           imageResolution: videoSettings.imageResolution,
           imageAspectRatio: videoSettings.aspectRatio,
-          imageSteps: 4,
+          imageSteps: 36,
         },
         audioPath,
       )
@@ -1752,6 +2054,8 @@ export function GenSpace() {
           onInputAudioChange={setInputAudio}
           settings={settings}
           onSettingsChange={(nextSettings) => setSettings(sanitizeVideoSettings(nextSettings))}
+          selectedImageStyleId={selectedImageStyleId}
+          onImageStyleChange={handleImageStyleChange}
           videoModelSpecs={videoModelSpecs}
           videoSettingsMessage={videoSettingsMessage}
           icLoraCondType={icLoraCondType}
