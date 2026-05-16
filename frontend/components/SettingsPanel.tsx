@@ -27,6 +27,11 @@ export interface GenerationSettings {
   imageStylePromptModifier?: string | null
   imageStyleNegativeModifier?: string | null
   imageCustomStyleText?: string | null
+  imageCharacterId?: string | null
+  imageCharacterName?: string | null
+  imageCharacterImagePath?: string | null
+  imageCharacterPrompt?: string | null
+  imageCharacterNegativePrompt?: string | null
   variations?: number  // Number of image variations to generate
 }
 

@@ -1590,6 +1590,61 @@
             "title": "Idea Is Primary Guide",
             "type": "boolean"
           },
+          "image_character_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Character Id"
+          },
+          "image_character_image_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Character Image Path"
+          },
+          "image_character_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Character Name"
+          },
+          "image_character_negative_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Character Negative Prompt"
+          },
+          "image_character_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Character Prompt"
+          },
           "llm_enhanced_prompt": {
             "anyOf": [
               {
@@ -1799,6 +1854,11 @@
             "title": "Trait Lock Types Applied",
             "type": "array"
           },
+          "use_character_lora": {
+            "default": false,
+            "title": "Use Character Lora",
+            "type": "boolean"
+          },
           "visible_prompt_before_generate": {
             "anyOf": [
               {
@@ -1862,7 +1922,6 @@
             "type": "string"
           },
           "model": {
-            "const": "FLUX.1-dev",
             "title": "Model",
             "type": "string"
           },
@@ -1979,6 +2038,28 @@
             ],
             "title": "Composition Intent",
             "type": "string"
+          },
+          "display_final_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Final Prompt"
+          },
+          "display_negative_prompt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Negative Prompt"
           },
           "final_prompt": {
             "title": "Final Prompt",

@@ -1,0 +1,62 @@
+{
+  "version": "style_benchmark_v1",
+  "prompts": [
+    {
+      "id": "portrait",
+      "label": "Ritratto",
+      "prompt": "portrait of a young explorer, clear expressive eyes, natural smile, simple background, readable face, clean hair, no text"
+    },
+    {
+      "id": "full_body",
+      "label": "Figura intera",
+      "prompt": "full-body character standing in a small town square, visible hands and shoes, casual outfit, clean pose, readable anatomy"
+    },
+    {
+      "id": "two_subjects",
+      "label": "Due soggetti",
+      "prompt": "two friends sitting inside a small red convertible car, both faces visible, cheerful mood, clear hands on the dashboard"
+    },
+    {
+      "id": "interior",
+      "label": "Interno",
+      "prompt": "cozy studio room with desk, lamp, chair, books, window light, organized props, no people"
+    },
+    {
+      "id": "exterior",
+      "label": "Esterno",
+      "prompt": "small red convertible parked on a sunny countryside road, trees, soft clouds, clear readable vehicle shape, no logos"
+    },
+    {
+      "id": "object",
+      "label": "Oggetto",
+      "prompt": "single vintage camera on a clean table, readable materials, clear silhouette, controlled lighting, no text"
+    },
+    {
+      "id": "face_closeup",
+      "label": "Close-up volto",
+      "prompt": "close-up face of a confident character, both eyes sharp and symmetrical, clean eyebrows, readable nose and mouth"
+    },
+    {
+      "id": "action",
+      "label": "Azione",
+      "prompt": "dynamic action scene of a cyclist turning through a bright city corner, motion energy, readable body pose, clear environment"
+    },
+    {
+      "id": "consistency",
+      "label": "Consistency multi-run",
+      "prompt": "same young explorer with short brown hair and green jacket holding a map near a red convertible, clear face and outfit"
+    }
+  ],
+  "priority_style_ids": [
+    "anime",
+    "manga",
+    "cartoon",
+    "family_3d_animation",
+    "stylized_3d",
+    "european_comic",
+    "storybook_illustration",
+    "cel_shading",
+    "fantasy_art",
+    "semi_realistic_stylization"
+  ]
+}

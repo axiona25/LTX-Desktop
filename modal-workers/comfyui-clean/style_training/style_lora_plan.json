@@ -1,0 +1,2669 @@
+{
+  "plan_name": "AXSTUDIO_style_lora_training_v2",
+  "base_checkpoint": "cyberrealisticXL_v100.safetensors",
+  "output_volume_dir": "/loras/style",
+  "style_count": 35,
+  "training_policy": {
+    "train_one_lora_per_style": true,
+    "style_lora_only": true,
+    "minimum_dataset_images": 500,
+    "recommended_dataset_images": 1200,
+    "resume_incrementally": true,
+    "do_not_overwrite_existing_lora": true,
+    "do_not_enable_unvalidated_lora": true,
+    "notes": "Each style needs a curated dataset before training. The app can load promoted LoRAs from style_lora_registry.json only when AXSTUDIO_ENABLE_STYLE_LORAS=1 and the registry entry is enabled."
+  },
+  "styles": [
+    {
+      "style_id": "photorealistic",
+      "style_label": "Photorealistic",
+      "safe_label": "Commercial Photorealistic Photography",
+      "style_category": "REALISTIC",
+      "trigger_token": "ax_photo_real_v1",
+      "target_lora_name": "style/AXSTYLE_photorealistic_v1.safetensors",
+      "output_name": "AXSTYLE_photorealistic_v1",
+      "dataset_name": "photorealistic_v1",
+      "dataset_volume_path": "/style_training/photorealistic/photorealistic_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "25%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "15%",
+        "multiple_characters": "10%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.72,
+      "prompt_prefix": "ax_photo_real_v1, commercial photorealistic photography, realistic human proportions, natural face, readable eyes, realistic hair, correct hands, full body, professional outdoor photo",
+      "prompt_suffix": "warm morning light, believable school environment, realistic materials, natural color balance, soft depth of field, clean composition, commercial quality, highly readable subject",
+      "negative_prompt": "cartoon, anime, illustration, painterly, comic style, 3d render, low poly, clay style, exaggerated proportions, deformed face, asymmetrical eyes, malformed hands, extra fingers, missing fingers, duplicate limbs, distorted anatomy, unnatural pose, plastic skin, oversmoothed skin, blurry face, noisy image, low resolution, watermark, logo, text artifacts, surreal environment, fantasy elements, cyberpunk elements, heavy color cast, extreme HDR, overexposed, underexposed",
+      "captioning_rules": [
+        "Always describe subject, age group or role when useful, environment, clothing, pose, light, camera feel and realism cues.",
+        "Always include the trigger token ax_photo_real_v1.",
+        "Describe hands and face readability when visible.",
+        "Use realistic photographic language, not artistic labels like cartoon or illustration.",
+        "Do not mention brand names, camera brands or copyrighted styles unless they are part of an allowed internal taxonomy.",
+        "Separate content from style: subject first, then environment, then light, then realism cues.",
+        "Keep captions specific but concise.",
+        "Do not overuse camera jargon unless clearly visible or needed."
+      ],
+      "overfitting_risks": [
+        "Faces become too similar across subjects",
+        "Skin becomes oversmoothed and plastic",
+        "Backgrounds become repetitive",
+        "Too much shallow depth of field in all cases",
+        "The LoRA starts forcing one lighting setup only",
+        "Hands degrade because the dataset over-focuses on faces",
+        "The model becomes too rigid and less useful for broader realistic scenes"
+      ],
+      "validation_prompts": [
+        {
+          "name": "school_boy_full_body",
+          "prompt": "ax_photo_real_v1, a cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly environment, commercial photorealistic photography"
+        },
+        {
+          "name": "portrait_natural",
+          "prompt": "ax_photo_real_v1, natural portrait of a smiling teenage student outdoors, realistic face, clear eyes, soft daylight, photorealistic commercial photography"
+        },
+        {
+          "name": "lifestyle_outdoor",
+          "prompt": "ax_photo_real_v1, a young person walking in a clean suburban street, casual outfit, realistic posture, warm light, believable environment, commercial photorealistic photo"
+        },
+        {
+          "name": "two_students_scene",
+          "prompt": "ax_photo_real_v1, two students walking together near a school entrance, realistic anatomy, readable hands, natural conversation pose, morning light, clean photorealistic outdoor photography"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "portrait_photo",
+      "style_label": "Portrait Photo",
+      "safe_label": "Professional Photographic Portrait",
+      "style_category": "REALISTIC",
+      "trigger_token": "ax_portrait_photo_v1",
+      "target_lora_name": "style/AXSTYLE_portrait_photo_v1.safetensors",
+      "output_name": "AXSTYLE_portrait_photo_v1",
+      "dataset_name": "portrait_photo_v1",
+      "dataset_volume_path": "/style_training/portrait_photo/portrait_photo_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "45%",
+        "half_body": "25%",
+        "full_body": "10%",
+        "environment_scenes": "10%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.72,
+      "prompt_prefix": "ax_portrait_photo_v1, professional photographic portrait, realistic face, sharp readable eyes, natural skin texture, realistic hair, clean facial symmetry, soft portrait lighting",
+      "prompt_suffix": "natural expression, soft background blur, realistic clothing texture, balanced skin tones, commercial portrait quality, clean composition, high detail face",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, doll-like skin, plastic skin, oversmoothed face, distorted face, asymmetric eyes, cross eyes, bad teeth, malformed hands, extra fingers, missing fingers, unnatural expression, uncanny valley, harsh shadows, noisy image, blurry eyes, low resolution, watermark, logo, text artifacts, exaggerated beauty filter, overprocessed skin, extreme HDR",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_portrait_photo_v1.",
+        "Descrivere chiaramente volto, occhi, capelli, espressione e tipo di luce.",
+        "Specificare se l'inquadratura è close-up, headshot, mezzo busto o half body.",
+        "Indicare se le mani sono visibili e se sono leggibili.",
+        "Descrivere lo sfondo solo quando contribuisce al contesto.",
+        "Separare soggetto, posa, volto, luce, outfit, ambiente e qualità fotografica.",
+        "Evitare termini artistici come anime, cartoon, 3D, painting o illustration.",
+        "Non usare brand, nomi di fotografi famosi o riferimenti protetti."
+      ],
+      "overfitting_risks": [
+        "Tutti i volti diventano simili",
+        "Pelle troppo levigata e artificiale",
+        "Occhi troppo lucidi o innaturali",
+        "Sorrisi ripetitivi",
+        "Sfondo sempre sfocato allo stesso modo",
+        "Perdita di varietà su età, tratti somatici e condizioni di luce",
+        "Mani deboli perché il dataset contiene troppi close-up senza mani"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_portrait",
+          "prompt": "ax_portrait_photo_v1, cheerful boy portrait, backpack, warm morning light, readable face, sharp readable eyes, natural hair, hands holding backpack straps, friendly school background, professional photographic portrait"
+        },
+        {
+          "name": "adult_profile_portrait",
+          "prompt": "ax_portrait_photo_v1, professional portrait of an adult person, half body, natural expression, sharp eyes, realistic skin texture, soft daylight, blurred urban background, commercial portrait photography"
+        },
+        {
+          "name": "studio_portrait",
+          "prompt": "ax_portrait_photo_v1, clean studio portrait, realistic face, clear eyes, natural skin, soft studio lighting, neutral background, professional photographic portrait"
+        },
+        {
+          "name": "outdoor_lifestyle_portrait",
+          "prompt": "ax_portrait_photo_v1, outdoor lifestyle portrait, smiling person, natural hair, readable face, soft golden light, realistic clothing texture, clean background blur, commercial photography"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "fashion_editorial",
+      "style_label": "Fashion Editorial",
+      "safe_label": "High-End Fashion Editorial Photography",
+      "style_category": "REALISTIC",
+      "trigger_token": "ax_fashion_editorial_v1",
+      "target_lora_name": "style/AXSTYLE_fashion_editorial_v1.safetensors",
+      "output_name": "AXSTYLE_fashion_editorial_v1",
+      "dataset_name": "fashion_editorial_v1",
+      "dataset_volume_path": "/style_training/fashion_editorial/fashion_editorial_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "30%",
+        "environment_scenes": "15%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.76,
+      "prompt_prefix": "ax_fashion_editorial_v1, high-end fashion editorial photography, stylish commercial photo, realistic face, sharp eyes, polished outfit, confident fashion pose, full body readability",
+      "prompt_suffix": "premium styling, warm editorial light, modern urban environment, clean composition, realistic clothing textures, refined color grading, magazine-quality commercial photography",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, exaggerated proportions, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, bad anatomy, awkward pose, cheap clothing look, messy outfit, low quality styling, plastic skin, oversmoothed skin, noisy image, blurry, low resolution, watermark, logo, fake brand logo, unreadable text, overprocessed HDR, harsh flash, cluttered background, duplicated limbs",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_fashion_editorial_v1.",
+        "Descrivere outfit, posa, styling, ambiente, luce e composizione.",
+        "Indicare se l'immagine è full body, three-quarter, half body o portrait.",
+        "Descrivere i materiali visibili: tessuti, scarpe, accessori, superfici, vetro, cemento.",
+        "Descrivere la qualità della luce e il mood editoriale.",
+        "Non usare nomi di brand moda, riviste, fotografi o campagne esistenti.",
+        "Non captionare come semplice photorealistic: specificare sempre il taglio fashion/editorial.",
+        "Mantenere il focus sul linguaggio visivo, non su una singola identità."
+      ],
+      "overfitting_risks": [
+        "La LoRA forza sempre pose da passerella anche quando non richieste",
+        "I soggetti diventano tutti troppo simili",
+        "Outfit troppo ripetitivi",
+        "Eccessiva patinatura e pelle artificiale",
+        "Ambienti sempre urbani o sempre con pavimenti riflettenti",
+        "Mani trascurate perché il focus del dataset è troppo su outfit e volto",
+        "Lo stile invade altri preset realistici come photorealistic e portrait_photo"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_fashion_editorial",
+          "prompt": "ax_fashion_editorial_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly modern school environment, stylish outfit, premium fashion editorial photography"
+        },
+        {
+          "name": "urban_full_body",
+          "prompt": "ax_fashion_editorial_v1, full body fashion editorial photo of a stylish person walking in a clean urban environment, confident pose, polished outfit, warm directional light, realistic clothing textures, magazine-quality photography"
+        },
+        {
+          "name": "half_body_editorial",
+          "prompt": "ax_fashion_editorial_v1, half body editorial portrait, stylish outfit, natural expression, sharp eyes, soft premium light, clean architectural background, refined commercial fashion photography"
+        },
+        {
+          "name": "commercial_campaign_scene",
+          "prompt": "ax_fashion_editorial_v1, lifestyle fashion campaign scene, model walking outdoors, elegant casual outfit, readable hands, refined color grading, polished environment, premium editorial photography"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "product_photo",
+      "style_label": "Product Photo",
+      "safe_label": "Premium Commercial Product Photography",
+      "style_category": "REALISTIC",
+      "trigger_token": "ax_product_photo_v1",
+      "target_lora_name": "style/AXSTYLE_product_photo_v1.safetensors",
+      "output_name": "AXSTYLE_product_photo_v1",
+      "dataset_name": "product_photo_v1",
+      "dataset_volume_path": "/style_training/product_photo/product_photo_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "0%",
+        "half_body": "5%",
+        "full_body": "5%",
+        "environment_scenes": "20%",
+        "multiple_characters": "0%",
+        "props_and_details": "70%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_product_photo_v1, premium commercial product photography, clean product composition, realistic materials, sharp product silhouette, controlled reflections, professional studio lighting",
+      "prompt_suffix": "minimal premium setting, soft natural light, realistic texture detail, clean background, elegant props, commercial advertising quality, high-end product presentation",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, low poly, comic style, painterly, distorted product, warped packaging, unreadable label, fake brand logo, trademark logo, watermark, messy background, clutter, bad reflections, harsh glare, overexposed highlights, underexposed shadows, blurry product, low resolution, noisy image, inaccurate scale, floating object, broken geometry, malformed hands, extra fingers, plastic-looking unrealistic material, text artifacts",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_product_photo_v1.",
+        "Descrivere il tipo di prodotto, packaging, materiale, superficie, props, luce e composizione.",
+        "Specificare se la scena è studio, tabletop, e-commerce, lifestyle o advertising.",
+        "Descrivere materiali visibili: vetro, carta, metallo, plastica, tessuto, marmo, legno, ceramica.",
+        "Descrivere riflessi, ombre, label readability e product hierarchy.",
+        "Evitare nomi di brand, loghi, marchi o prodotti registrati.",
+        "Non usare caption vaghe come product shot o nice product.",
+        "Se ci sono mani o modelli, descriverli come elementi secondari e mantenere il prodotto protagonista."
+      ],
+      "overfitting_risks": [
+        "La LoRA forza sempre cosmetici anche quando il prodotto è diverso",
+        "Packaging e label diventano ripetitivi",
+        "Materiali troppo simili tra loro",
+        "Riflessi innaturali o troppo lucidi",
+        "Superfici sempre marmo o pietra",
+        "Props botanici ripetuti in ogni immagine",
+        "Testo sulle etichette deformato",
+        "Prodotti con geometria instabile",
+        "Stile troppo statico e poco adattabile a video"
+      ],
+      "validation_prompts": [
+        {
+          "name": "cosmetic_serum",
+          "prompt": "ax_product_photo_v1, amber glass cosmetic serum bottle with cream paper box, centered product composition, readable minimalist label, marble surface, green botanical props, soft natural window light, premium commercial product photography"
+        },
+        {
+          "name": "tech_product",
+          "prompt": "ax_product_photo_v1, premium wireless headphones on clean matte surface, realistic plastic and metal materials, soft studio lighting, controlled reflections, minimal background, commercial product photography"
+        },
+        {
+          "name": "food_packaging",
+          "prompt": "ax_product_photo_v1, premium coffee packaging standing on wooden tabletop, clean paper bag texture, ceramic cup, soft morning light, realistic shadows, elegant commercial product photo"
+        },
+        {
+          "name": "lifestyle_product_hands",
+          "prompt": "ax_product_photo_v1, realistic hands holding a premium reusable water bottle, clean lifestyle product shot, readable product shape, soft daylight, natural fabric background, commercial advertising photography"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "lifestyle_photo",
+      "style_label": "Lifestyle Photo",
+      "safe_label": "Natural Commercial Lifestyle Photography",
+      "style_category": "REALISTIC",
+      "trigger_token": "ax_lifestyle_photo_v1",
+      "target_lora_name": "style/AXSTYLE_lifestyle_photo_v1.safetensors",
+      "output_name": "AXSTYLE_lifestyle_photo_v1",
+      "dataset_name": "lifestyle_photo_v1",
+      "dataset_volume_path": "/style_training/lifestyle_photo/lifestyle_photo_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "25%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "10%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.72,
+      "prompt_prefix": "ax_lifestyle_photo_v1, natural commercial lifestyle photography, realistic human subject, candid expression, relaxed posture, readable face, readable hands, warm everyday environment",
+      "prompt_suffix": "soft natural light, realistic home or lifestyle setting, authentic atmosphere, warm color grading, realistic materials, clean commercial composition, believable everyday moment",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, fashion editorial pose, product-only composition, studio catalog look, exaggerated proportions, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, bad anatomy, stiff pose, uncanny valley, plastic skin, oversmoothed skin, messy cluttered background, dirty environment, harsh flash, extreme HDR, overprocessed image, noisy image, blurry, low resolution, watermark, logo, text artifacts",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_lifestyle_photo_v1.",
+        "Descrivere soggetto, azione quotidiana, ambiente, luce, oggetti e atmosfera.",
+        "Specificare se la posa è seduta, in cammino, rilassata, spontanea o interattiva.",
+        "Descrivere mani e oggetti se il soggetto interagisce con tazze, libri, telefoni, zaini o altri props.",
+        "Descrivere materiali e texture dell'ambiente.",
+        "Mantenere un tono realistico, naturale e commerciale.",
+        "Non usare termini da fashion editorial se la scena non è moda.",
+        "Non usare brand, loghi, nomi di riviste, fotografi o riferimenti protetti."
+      ],
+      "overfitting_risks": [
+        "La LoRA produce sempre interni domestici simili",
+        "La luce diventa sempre golden hour anche quando non richiesta",
+        "I soggetti sembrano troppo posati",
+        "Lo stile si sovrappone a fashion_editorial",
+        "Le mani peggiorano nelle interazioni con oggetti",
+        "Gli ambienti diventano troppo cluttered",
+        "Il look diventa troppo stock photo e poco naturale",
+        "Tutti i soggetti assumono la stessa espressione sorridente"
+      ],
+      "validation_prompts": [
+        {
+          "name": "home_lifestyle",
+          "prompt": "ax_lifestyle_photo_v1, cheerful boy relaxing on a sofa, holding a mug, warm morning light, readable face, readable hands, cozy modern living room, friendly environment, natural commercial lifestyle photography"
+        },
+        {
+          "name": "school_lifestyle",
+          "prompt": "ax_lifestyle_photo_v1, cheerful boy walking to school with backpack, warm morning light, readable face, readable hands, full body, friendly school environment, natural candid lifestyle photography"
+        },
+        {
+          "name": "family_lifestyle",
+          "prompt": "ax_lifestyle_photo_v1, family preparing breakfast in a bright kitchen, natural gestures, readable faces and hands, warm daylight, cozy home environment, authentic commercial lifestyle photo"
+        },
+        {
+          "name": "urban_lifestyle",
+          "prompt": "ax_lifestyle_photo_v1, young person walking through a clean city street with casual outfit, relaxed posture, natural expression, soft daylight, realistic urban lifestyle photography"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "cinematic_realism",
+      "style_label": "Cinematic Realism",
+      "safe_label": "Realistic Cinematic Photography",
+      "style_category": "CINEMATIC",
+      "trigger_token": "ax_cinematic_realism_v1",
+      "target_lora_name": "style/AXSTYLE_cinematic_realism_v1.safetensors",
+      "output_name": "AXSTYLE_cinematic_realism_v1",
+      "dataset_name": "cinematic_realism_v1",
+      "dataset_volume_path": "/style_training/cinematic_realism/cinematic_realism_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.76,
+      "prompt_prefix": "ax_cinematic_realism_v1, realistic cinematic photography, film still look, natural human proportions, readable expressive face, realistic eyes, natural skin texture, cinematic lighting",
+      "prompt_suffix": "film-grade color grading, motivated light sources, warm highlights, controlled shadows, realistic environment, emotional atmosphere, cinematic composition, high-end realistic visual storytelling",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, flat stock photo lighting, overprocessed HDR, plastic skin, oversmoothed face, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, bad anatomy, stiff pose, unrealistic shadows, harsh flash, noisy image, blurry, low resolution, watermark, logo, text artifacts, fake movie poster text, excessive lens flare, oversaturated colors, surreal fantasy elements unless requested",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_cinematic_realism_v1.",
+        "Descrivere soggetto, azione, ambiente, luce, mood, composizione e color grading.",
+        "Specificare il tipo di luce: window light, golden hour, practical light, rim light, key light, low-key light.",
+        "Descrivere il mood narrativo: warm, emotional, dramatic, hopeful, intimate, suspenseful, calm.",
+        "Descrivere se la scena sembra un film still, cinematic scene o realistic visual storytelling.",
+        "Indicare volto, occhi e mani quando visibili.",
+        "Non usare nomi di film, registi, studi, brand o franchise.",
+        "Evitare caption troppo generiche come cinematic photo."
+      ],
+      "overfitting_risks": [
+        "La LoRA rende tutte le immagini troppo scure",
+        "Produce sempre la stessa luce golden hour",
+        "Aggiunge contrasto eccessivo anche a scene semplici",
+        "Sovrappone testo/poster cinematografici non richiesti",
+        "Perde naturalezza e diventa troppo artificiale",
+        "Rende i volti poco leggibili nelle ombre",
+        "Crea sempre interni caldi e dimentica esterni o luce diurna",
+        "Si sovrappone troppo a dramatic_film"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_cinematic",
+          "prompt": "ax_cinematic_realism_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly school environment, realistic cinematic photography, film-grade color grading"
+        },
+        {
+          "name": "interior_window_light",
+          "prompt": "ax_cinematic_realism_v1, young person sitting near a window in a warm interior, readable expressive face, natural hands, soft window light, practical lamp in background, emotional cinematic realism"
+        },
+        {
+          "name": "urban_film_still",
+          "prompt": "ax_cinematic_realism_v1, realistic person walking through a quiet city street at sunrise, cinematic composition, warm highlights, cool shadows, natural posture, film still look"
+        },
+        {
+          "name": "two_character_scene",
+          "prompt": "ax_cinematic_realism_v1, two students talking outside school in morning light, readable faces and hands, realistic environment, emotional filmic atmosphere, cinematic realism"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "dramatic_film",
+      "style_label": "Dramatic Film",
+      "safe_label": "High-Contrast Dramatic Film Look",
+      "style_category": "CINEMATIC",
+      "trigger_token": "ax_dramatic_film_v1",
+      "target_lora_name": "style/AXSTYLE_dramatic_film_v1.safetensors",
+      "output_name": "AXSTYLE_dramatic_film_v1",
+      "dataset_name": "dramatic_film_v1",
+      "dataset_volume_path": "/style_training/dramatic_film/dramatic_film_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "25%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_dramatic_film_v1, high-contrast dramatic film still, realistic human subject, intense emotional atmosphere, readable expressive face, realistic eyes, strong cinematic silhouette",
+      "prompt_suffix": "deep shadows, controlled highlights, dramatic motivated lighting, moody film color grading, reflective surfaces, emotional storytelling, realistic cinematic composition, premium dramatic film look",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, flat lighting, bright cheerful stock photo, overprocessed HDR, plastic skin, oversmoothed face, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, bad anatomy, stiff pose, unreadable face, face lost in shadow, excessive darkness, noisy shadows, blurry image, low resolution, watermark, logo, text artifacts, fake movie poster text, excessive lens flare, oversaturated colors, horror gore, fantasy monsters unless requested",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_dramatic_film_v1.",
+        "Descrivere soggetto, postura, espressione, ambiente, luce, ombre, mood e color grading.",
+        "Specificare elementi drammatici visibili: rain, wet pavement, stormy sky, practical light, rim light, deep shadows.",
+        "Indicare volto, occhi e mani quando visibili.",
+        "Descrivere il mood emotivo senza citare film, registi, brand o franchise.",
+        "Evitare caption troppo generiche come dramatic cinematic photo.",
+        "Mantenere separazione tra dramatic_film e cinematic_realism: qui il contrasto e la tensione devono essere più forti.",
+        "Non forzare horror o gore: lo stile deve essere drammatico, non horror esplicito."
+      ],
+      "overfitting_risks": [
+        "La LoRA rende tutte le immagini troppo scure",
+        "Il volto diventa illeggibile nelle ombre",
+        "Produce sempre pioggia anche quando non richiesta",
+        "Crea sempre ambienti notturni",
+        "Aggiunge testo/poster cinematici non richiesti",
+        "Il mood diventa horror invece che drammatico",
+        "Sovrapposizione eccessiva con cinematic_realism",
+        "Contrasto troppo forte che rovina pelle e materiali",
+        "Mani poco visibili o deformate a causa delle ombre"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_rain_drama",
+          "prompt": "ax_dramatic_film_v1, cheerful boy walking to school with backpack in dramatic rain, readable face, readable hands, full body, school building background, wet reflective pavement, intense moody lighting, dramatic film still"
+        },
+        {
+          "name": "interior_drama",
+          "prompt": "ax_dramatic_film_v1, young person sitting alone near a window in a dim room, readable emotional face, hands visible, strong side light, deep shadows, moody film color grading, dramatic realism"
+        },
+        {
+          "name": "night_street_drama",
+          "prompt": "ax_dramatic_film_v1, realistic person walking on a wet city street at night, street lamps, reflective pavement, strong silhouette, readable face, cinematic dramatic atmosphere"
+        },
+        {
+          "name": "two_character_tension",
+          "prompt": "ax_dramatic_film_v1, two students standing outside school during a stormy morning, readable faces and hands, tense emotional mood, strong contrast, dramatic film lighting"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "commercial_ad",
+      "style_label": "Commercial Ad",
+      "safe_label": "Premium Commercial Advertising Photography",
+      "style_category": "CINEMATIC",
+      "trigger_token": "ax_commercial_ad_v1",
+      "target_lora_name": "style/AXSTYLE_commercial_ad_v1.safetensors",
+      "output_name": "AXSTYLE_commercial_ad_v1",
+      "dataset_name": "commercial_ad_v1",
+      "dataset_volume_path": "/style_training/commercial_ad/commercial_ad_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "20%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_commercial_ad_v1, premium commercial advertising photography, bright polished look, realistic human subject, positive expression, clean composition, persuasive visual hierarchy",
+      "prompt_suffix": "bright soft commercial lighting, fresh modern environment, aspirational mood, harmonious colors, realistic materials, clean negative space, high-end advertising quality, social ad ready",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, dark dramatic mood, horror mood, messy background, cluttered layout, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, bad anatomy, stiff pose, fake brand logo, trademark logo, watermark, unreadable text, text artifacts, overprocessed HDR, harsh flash, noisy image, blurry, low resolution, plastic skin, oversmoothed face, cheap stock photo look, chaotic composition",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_commercial_ad_v1.",
+        "Descrivere soggetto, prodotto o servizio, beneficio visivo, composizione, luce, mood e ambiente.",
+        "Specificare se la scena è product ad, lifestyle ad, tech ad, food ad, corporate ad o social campaign.",
+        "Descrivere spazio negativo o area copy se presente, ma non forzare testo generato.",
+        "Descrivere mani e interazioni con prodotti quando visibili.",
+        "Non usare brand, loghi, marchi o slogan reali.",
+        "Mantenere tono positivo, pulito, vendibile e commerciale.",
+        "Distinguere commercial_ad da product_photo: qui può esserci una scena più ampia, soggetto umano e messaggio aspirazionale."
+      ],
+      "overfitting_risks": [
+        "La LoRA produce sempre immagini troppo stock photo",
+        "Tutti i soggetti hanno lo stesso sorriso pubblicitario",
+        "La scena diventa troppo generica e poco premium",
+        "Aggiunge testo o slogan non richiesti",
+        "Genera loghi o marchi inventati",
+        "Si sovrappone troppo a lifestyle_photo",
+        "Si sovrappone troppo a product_photo",
+        "Colori troppo saturi o artificiali",
+        "Mani deboli quando il soggetto tiene prodotti"
+      ],
+      "validation_prompts": [
+        {
+          "name": "school_campaign_ad",
+          "prompt": "ax_commercial_ad_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly modern school environment, bright positive commercial advertising photography, clean negative space"
+        },
+        {
+          "name": "tech_lifestyle_ad",
+          "prompt": "ax_commercial_ad_v1, person using wireless earbuds in a bright modern room, positive expression, clean product visibility, soft commercial lighting, aspirational tech lifestyle advertising photo"
+        },
+        {
+          "name": "food_beverage_ad",
+          "prompt": "ax_commercial_ad_v1, fresh breakfast drink on a clean kitchen table with fruit and soft morning light, bright commercial food advertising photography, polished composition, realistic materials"
+        },
+        {
+          "name": "corporate_service_ad",
+          "prompt": "ax_commercial_ad_v1, friendly professional standing in a bright modern office, confident natural pose, readable face and hands, clean background, premium corporate advertising photography"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "music_video",
+      "style_label": "Music Video",
+      "safe_label": "Modern Music Video Visual Style",
+      "style_category": "CINEMATIC",
+      "trigger_token": "ax_music_video_v1",
+      "target_lora_name": "style/AXSTYLE_music_video_v1.safetensors",
+      "output_name": "AXSTYLE_music_video_v1",
+      "dataset_name": "music_video_v1",
+      "dataset_volume_path": "/style_training/music_video/music_video_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "25%",
+        "full_body": "25%",
+        "environment_scenes": "20%",
+        "multiple_characters": "10%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_music_video_v1, modern music video visual style, dynamic cinematic scene, vibrant neon lighting, expressive performer, readable face, realistic body movement, stage-ready composition",
+      "prompt_suffix": "colored rim lights, energetic atmosphere, glossy reflections, haze or smoke, urban night mood, rhythmic visual storytelling, high contrast, premium music video look, video-ready composition",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, flat lighting, boring static pose, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken limbs, bad anatomy, unreadable face, excessive motion blur, noisy image, low resolution, watermark, logo, text artifacts, fake artist name, fake brand logo, overexposed neon, oversaturated colors, muddy shadows, horror gore, explicit content",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_music_video_v1.",
+        "Descrivere soggetto, azione/performance, ambiente, luce colorata, movimento, mood e composizione.",
+        "Specificare elementi visivi come neon lights, stage lights, microphone, concert crowd, dance floor, smoke, haze, wet pavement, LED panels.",
+        "Indicare volto, occhi e mani quando visibili.",
+        "Descrivere il tipo di scena: performance, dance scene, night drive, concert vibes, emotional close-up, urban music promo.",
+        "Non usare nomi di artisti, band, videoclip, brand, festival o venue reali.",
+        "Evitare testo, loghi e nomi falsi generati se non richiesti.",
+        "Mantenere energia visiva senza sacrificare leggibilità anatomica."
+      ],
+      "overfitting_risks": [
+        "La LoRA genera sempre neon cyan/magenta anche quando non richiesto",
+        "Scene troppo caotiche e poco leggibili",
+        "Volti persi nelle luci colorate",
+        "Eccessivo motion blur",
+        "Tutti i soggetti sembrano performer da club",
+        "Ambienti sempre notturni",
+        "Mani deformate durante pose dinamiche",
+        "Aggiunta di testo, loghi o nomi fittizi",
+        "Sovrapposizione eccessiva con cyberpunk"
+      ],
+      "validation_prompts": [
+        {
+          "name": "school_music_video",
+          "prompt": "ax_music_video_v1, cheerful boy walking to school with backpack, warm morning light mixed with subtle colorful music-video lighting, readable face, readable hands, full body, friendly school environment, dynamic music video composition"
+        },
+        {
+          "name": "performance_scene",
+          "prompt": "ax_music_video_v1, young performer holding a microphone on a small stage, readable expressive face, colored rim lights, smoke haze, glossy floor reflections, energetic modern music video look"
+        },
+        {
+          "name": "dance_scene",
+          "prompt": "ax_music_video_v1, group of dancers in an urban studio, dynamic body movement, readable faces and hands, neon lights, stage haze, rhythmic cinematic composition"
+        },
+        {
+          "name": "night_drive",
+          "prompt": "ax_music_video_v1, young person sitting in a car at night, neon city lights through windows, reflective glass, emotional expression, cinematic music video atmosphere"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "manga_ink",
+      "style_label": "Manga Ink",
+      "safe_label": "Original Black and White Manga Ink Style",
+      "style_category": "ANIME & MANGA",
+      "trigger_token": "ax_manga_ink_v1",
+      "target_lora_name": "style/AXSTYLE_manga_ink_v1.safetensors",
+      "output_name": "AXSTYLE_manga_ink_v1",
+      "dataset_name": "manga_ink_v1",
+      "dataset_volume_path": "/style_training/manga_ink/manga_ink_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "20%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_manga_ink_v1, original black and white manga ink style, crisp ink line art, expressive manga character, large readable eyes, clean manga anatomy, screentone shading",
+      "prompt_suffix": "monochrome black and white, clean hatching, controlled cross-hatching, halftone screentone, strong contrast, detailed readable background, polished manga panel composition, high quality ink illustration",
+      "negative_prompt": "color, full color anime, photorealistic, 3d render, western cartoon, painterly, watercolor, oil painting, messy sketch, low contrast, gray muddy image, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, copied character, franchise character, studio imitation, logo, watermark, subtitles, text artifacts, blurry line art, low resolution, chaotic screentone, overfilled blacks, unreadable background, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_manga_ink_v1.",
+        "Descrivere soggetto, espressione, occhi, capelli, posa, mani, outfit, ambiente, line art, retini e tratteggio.",
+        "Specificare se la scena è school manga panel, emotional close-up, action panel, classroom scene, city scene o adventure panel.",
+        "Descrivere screentone, hatching, cross-hatching, solid blacks e strong contrast quando presenti.",
+        "Indicare sempre monochrome black and white.",
+        "Non usare nomi di manga, autori, studi, franchise, personaggi o brand.",
+        "Evitare caption generiche come manga boy school.",
+        "Mantenere lo stile distinto da anime_clean e comic_book: qui il focus è bianco e nero, ink, retini e tavola manga."
+      ],
+      "overfitting_risks": [
+        "La LoRA genera sempre la stessa densità di retini",
+        "I neri diventano troppo pesanti e coprono il volto",
+        "Le mani diventano troppo semplificate o deformate",
+        "Le scene diventano sempre scolastiche",
+        "Gli occhi diventano troppo simili tra soggetti",
+        "Il tratteggio diventa caotico",
+        "Lo stile diventa sketch sporco invece che ink pulito",
+        "La LoRA produce testo o balloon non richiesti",
+        "Sovrapposizione con comic_book se perde retini e grammatica manga"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_manga_ink",
+          "prompt": "ax_manga_ink_v1, cheerful manga boy walking to school, backpack, readable face, expressive eyes, readable hands, full body, friendly school environment, crisp black ink line art, screentone shading, monochrome black and white"
+        },
+        {
+          "name": "classroom_panel",
+          "prompt": "ax_manga_ink_v1, manga student sitting in classroom writing in notebook, readable face and hands, clean ink line art, hatching on clothing, screentone shadows, detailed classroom background, monochrome manga panel"
+        },
+        {
+          "name": "emotional_closeup",
+          "prompt": "ax_manga_ink_v1, emotional manga character close-up, expressive eyes, clean facial lines, inked hair, dramatic screentone background, strong black and white contrast, polished manga ink style"
+        },
+        {
+          "name": "action_panel",
+          "prompt": "ax_manga_ink_v1, manga character running through school courtyard, dynamic pose, readable hands, speed lines, crisp ink line art, controlled hatching, monochrome black and white action panel"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "comic_book",
+      "style_label": "Comic Book",
+      "safe_label": "Original Color Comic Book Style",
+      "style_category": "COMICS",
+      "trigger_token": "ax_comic_book_v1",
+      "target_lora_name": "style/AXSTYLE_comic_book_v1.safetensors",
+      "output_name": "AXSTYLE_comic_book_v1",
+      "dataset_name": "comic_book_v1",
+      "dataset_volume_path": "/style_training/comic_book/comic_book_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "25%",
+        "environment_scenes": "15%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_comic_book_v1, original color comic book style, bold ink outlines, dynamic comic character, expressive face, strong silhouette, graphic hatching, halftone shading",
+      "prompt_suffix": "vivid comic colors, clean flat color areas, strong graphic shadows, readable hands, dynamic panel composition, high-energy comic illustration, original visual language, high quality",
+      "negative_prompt": "photorealistic, anime, manga black and white, 3d render, clay style, low poly, watercolor, oil painting, pencil sketch, copied superhero, franchise character, brand imitation, famous comic character, logo, watermark, subtitles, text artifacts, messy sketch, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, unreadable pose, muddy colors, overcomplicated halftone, blurry outlines, low resolution, adult content, oversexualized outfit, gore",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_comic_book_v1.",
+        "Descrivere soggetto, espressione, posa, mani, outfit, ambiente, linee, colori, ombre grafiche, hatching e halftone.",
+        "Specificare se la scena è school comic panel, action comic panel, educational comic, poster comic, adventure comic o character panel.",
+        "Descrivere bold outlines, variable line weight, vivid colors, halftone dots e graphic shadows quando presenti.",
+        "Non usare nomi di editori, supereroi, personaggi, franchise, film, brand o IP protette.",
+        "Evitare caption generiche come comic boy.",
+        "Mantenere distinzione da manga_ink: qui lo stile è colorato e occidentale.",
+        "Mantenere distinzione da graphic_novel: qui il tono è più vivace, accessibile e dinamico."
+      ],
+      "overfitting_risks": [
+        "Lo stile genera supereroi anche quando non richiesti",
+        "Compaiono balloon o testi non richiesti",
+        "Halftone troppo caotico o eccessivo",
+        "Linee troppo pesanti che coprono il volto",
+        "Mani deformate nelle pose dinamiche",
+        "Colori troppo saturi o poco armonici",
+        "Sovrapposizione con manga_ink se perde colore",
+        "Sovrapposizione con graphic_novel se diventa troppo cupo",
+        "Imitazione involontaria di personaggi o editori riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_comic_book",
+          "prompt": "ax_comic_book_v1, cheerful comic book boy walking to school, backpack, warm morning light, readable face, expressive eyes, readable hands, full body, friendly school environment, bold ink outlines, vivid colors, halftone shading, dynamic comic panel"
+        },
+        {
+          "name": "classroom_comic",
+          "prompt": "ax_comic_book_v1, comic book student sitting in classroom writing in notebook, readable face and hands, bold outlines, vivid colors, hatching on clothing, halftone shadows, educational comic panel"
+        },
+        {
+          "name": "action_comic",
+          "prompt": "ax_comic_book_v1, comic book character running through a school courtyard, dynamic pose, readable hands, speed lines, strong ink outlines, vivid colors, graphic shadows, energetic comic panel"
+        },
+        {
+          "name": "two_students_comic",
+          "prompt": "ax_comic_book_v1, two comic book students talking outside school, expressive faces, readable hands, colorful school campus, bold outlines, halftone shading, positive story panel"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "graphic_novel",
+      "style_label": "Graphic Novel",
+      "safe_label": "Original Graphic Novel Illustration Style",
+      "style_category": "COMICS",
+      "trigger_token": "ax_graphic_novel_v1",
+      "target_lora_name": "style/AXSTYLE_graphic_novel_v1.safetensors",
+      "output_name": "AXSTYLE_graphic_novel_v1",
+      "dataset_name": "graphic_novel_v1",
+      "dataset_volume_path": "/style_training/graphic_novel/graphic_novel_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_graphic_novel_v1, original graphic novel illustration style, mature narrative comic art, expressive variable ink linework, semi-realistic character, textured shading, emotional face",
+      "prompt_suffix": "muted cinematic colors, rich illustrated textures, atmospheric background, painterly shadows, readable hands, grounded storytelling composition, high quality graphic novel panel, original visual language",
+      "negative_prompt": "photorealistic, anime, manga black and white, clean cartoon, chibi, 3d render, low poly, clay style, bright superhero comic style, famous comic character, franchise character, brand imitation, logo, watermark, speech bubbles, unwanted text, subtitles, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy unreadable colors, overly saturated palette, messy sketch, blurry line art, low resolution, gore, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_graphic_novel_v1.",
+        "Descrivere soggetto, espressione, posa, mani, outfit, ambiente, linework, texture, ombre, palette e mood narrativo.",
+        "Specificare se la scena è school graphic novel panel, urban narrative scene, emotional close-up, atmospheric interior, adventure panel o poster illustration.",
+        "Descrivere variable ink linework, muted colors, textured shading, painterly shadows e atmospheric background quando presenti.",
+        "Non usare nomi di editori, fumetti, personaggi, franchise, film, brand o IP protette.",
+        "Evitare caption generiche come graphic novel boy.",
+        "Mantenere distinzione da comic_book: qui il tono è più maturo, meno saturo e più narrativo.",
+        "Mantenere distinzione da manga_ink: qui lo stile è colorato, occidentale e semi-realistico."
+      ],
+      "overfitting_risks": [
+        "Lo stile diventa troppo scuro e poco leggibile",
+        "Colori troppo desaturati o fangosi",
+        "Linework troppo sporco",
+        "Compaiono balloon o testi non richiesti",
+        "Tutti i soggetti sembrano seri o cupi",
+        "Mani troppo realistiche ma deformate",
+        "Sovrapposizione con comic_book se colori e pose diventano troppo vivaci",
+        "Sovrapposizione con documentary_realism se diventa troppo fotografico",
+        "Imitazione involontaria di graphic novel o personaggi riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_graphic_novel",
+          "prompt": "ax_graphic_novel_v1, cheerful boy walking to school, backpack, warm morning light, readable face, expressive eyes, readable hands, full body, atmospheric school environment, variable ink linework, muted colors, textured shading, narrative graphic novel panel"
+        },
+        {
+          "name": "emotional_closeup",
+          "prompt": "ax_graphic_novel_v1, emotional close-up of a student outside school, readable expressive eyes, textured ink linework, muted cinematic colors, painterly shadows, atmospheric graphic novel illustration"
+        },
+        {
+          "name": "urban_narrative",
+          "prompt": "ax_graphic_novel_v1, young person walking through a quiet city street, full body, backpack, readable hands, overcast light, textured buildings, muted palette, mature narrative comic panel"
+        },
+        {
+          "name": "two_character_scene",
+          "prompt": "ax_graphic_novel_v1, two students talking near an old school entrance, expressive faces, readable hands, atmospheric background, muted colors, variable ink lines, grounded storytelling composition"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "european_comic",
+      "style_label": "Euro Comic",
+      "safe_label": "Original European Comic Illustration Style",
+      "style_category": "COMICS",
+      "trigger_token": "ax_european_comic_v1",
+      "target_lora_name": "style/AXSTYLE_european_comic_v1.safetensors",
+      "output_name": "AXSTYLE_european_comic_v1",
+      "dataset_name": "european_comic_v1",
+      "dataset_volume_path": "/style_training/european_comic/european_comic_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "25%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_european_comic_v1, original European comic illustration style, clean clear linework, balanced comic character, expressive friendly face, ordered detailed background, harmonious flat colors",
+      "prompt_suffix": "clear natural daylight, elegant comic panel composition, readable hands, detailed but organized environment, subtle graphic shadows, polished European adventure comic look, original visual language, high quality",
+      "negative_prompt": "photorealistic, anime, manga black and white, superhero comic style, graphic novel too dark, 3d render, clay style, low poly, watercolor, oil painting, messy sketch, excessive halftone, exaggerated superhero pose, famous comic character, franchise character, author imitation, publisher imitation, brand imitation, logo, watermark, speech bubbles, unwanted text, subtitles, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy colors, overly saturated palette, blurry line art, low resolution, gore, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_european_comic_v1.",
+        "Descrivere soggetto, posa, volto, occhi, mani, outfit, ambiente, architettura, linework, colori e composizione.",
+        "Specificare se la scena è school European comic panel, city square, adventure panel, classroom scene, village scene, countryside scene o educational comic.",
+        "Descrivere clean linework, harmonious flat colors, ordered background, architectural detail e clear natural daylight quando presenti.",
+        "Non usare nomi di autori, editori, serie, personaggi, franchise, brand o IP protette.",
+        "Evitare caption generiche come Euro comic boy.",
+        "Mantenere distinzione da comic_book: qui il tono è più ordinato, meno esplosivo e meno saturo.",
+        "Mantenere distinzione da graphic_novel: qui il tono è più chiaro, classico, leggibile e meno cupo."
+      ],
+      "overfitting_risks": [
+        "Lo stile imita autori o serie riconoscibili",
+        "Le scene diventano sempre europee/classiche anche quando non richiesto",
+        "Background troppo dettagliati e distraenti",
+        "Colori troppo piatti o poco moderni",
+        "Linee troppo rigide",
+        "Mani troppo semplificate o deformate",
+        "Sovrapposizione con comic_book se diventa troppo dinamico e saturo",
+        "Sovrapposizione con graphic_novel se diventa troppo cupo e texture-heavy",
+        "Comparsa di balloon o testo non richiesto"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_euro_comic",
+          "prompt": "ax_european_comic_v1, cheerful boy walking to school, backpack, warm morning light, readable face, clean eyes, readable hands, full body, European-style school courtyard, clear linework, harmonious flat colors, ordered detailed background"
+        },
+        {
+          "name": "european_classroom",
+          "prompt": "ax_european_comic_v1, student sitting in a detailed classroom writing in notebook, readable face and hands, clean linework, harmonious colors, subtle shadows, polished European educational comic panel"
+        },
+        {
+          "name": "adventure_village",
+          "prompt": "ax_european_comic_v1, young explorer walking through a charming village street, full body, backpack, readable hands, detailed buildings, clear daylight, balanced European comic composition"
+        },
+        {
+          "name": "two_students_euro_comic",
+          "prompt": "ax_european_comic_v1, two students talking outside an old school entrance, expressive friendly faces, readable hands, ordered architectural background, clean lines, harmonious colors, narrative comic panel"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "editorial_illustration",
+      "style_label": "Editorial Illustration",
+      "safe_label": "Modern Editorial Illustration Style",
+      "style_category": "ILLUSTRATION",
+      "trigger_token": "ax_editorial_illustration_v1",
+      "target_lora_name": "style/AXSTYLE_editorial_illustration_v1.safetensors",
+      "output_name": "AXSTYLE_editorial_illustration_v1",
+      "dataset_name": "editorial_illustration_v1",
+      "dataset_volume_path": "/style_training/editorial_illustration/editorial_illustration_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "10%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.76,
+      "prompt_prefix": "ax_editorial_illustration_v1, modern editorial illustration style, clean expressive illustrated character, clear visual concept, balanced composition, soft linework, simplified human forms",
+      "prompt_suffix": "harmonious muted colors, light paper texture, subtle brush grain, soft shading, readable hands, clean professional layout, meaningful visual storytelling, high quality editorial illustration",
+      "negative_prompt": "photorealistic, anime, manga, comic book, superhero comic, graphic novel dark style, 3d render, clay style, low poly, mascot style, chibi, heavy outlines, speech bubbles, unwanted text, logo, watermark, brand imitation, copied character, franchise character, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy colors, overly saturated palette, noisy texture, cluttered composition, low resolution, blurry, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_editorial_illustration_v1.",
+        "Descrivere soggetto, azione, concetto comunicato, volto, mani, outfit, ambiente, palette, texture e composizione.",
+        "Specificare se la scena è education editorial, business editorial, app illustration, concept illustration, article illustration, infographic-friendly scene o social editorial.",
+        "Descrivere clean linework, muted colors, paper texture, subtle brush grain e balanced composition quando presenti.",
+        "Non usare nomi di illustratori, magazine, brand, agenzie, personaggi, franchise o IP protette.",
+        "Evitare caption generiche come editorial boy.",
+        "Mantenere distinzione da comic_book e graphic_novel: qui niente panel grammar, niente halftone pesante, niente mood troppo cupo.",
+        "Mantenere distinzione da vector_flat: qui può esserci più texture, umanità e profondità illustrativa."
+      ],
+      "overfitting_risks": [
+        "Lo stile diventa troppo corporate e freddo",
+        "Le scene diventano troppo astratte e poco narrative",
+        "Palette sempre teal/ochre senza varietà",
+        "Volti troppo semplificati o inespressivi",
+        "Mani troppo simboliche o deformate",
+        "Composizioni troppo simili a infografiche",
+        "Sovrapposizione con vector_flat se perde texture",
+        "Sovrapposizione con storybook_illustration se diventa troppo fiabesco",
+        "Imitazione involontaria di illustratori o magazine riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_editorial",
+          "prompt": "ax_editorial_illustration_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly school environment, modern editorial illustration, muted colors, light paper texture, clean balanced composition"
+        },
+        {
+          "name": "education_concept",
+          "prompt": "ax_editorial_illustration_v1, teacher helping students learn in a bright classroom, readable faces and hands, clean modern illustration, soft muted colors, paper grain, education concept, balanced editorial composition"
+        },
+        {
+          "name": "business_concept",
+          "prompt": "ax_editorial_illustration_v1, person working on laptop with charts and ideas around them, modern business editorial illustration, readable hands, clean composition, muted palette, subtle texture"
+        },
+        {
+          "name": "social_article_scene",
+          "prompt": "ax_editorial_illustration_v1, two people talking in a simple city park, empathetic expressions, readable gestures, soft background, modern article illustration style, harmonious colors, light brush texture"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "storybook_illustration",
+      "style_label": "Storybook",
+      "safe_label": "Original Storybook Illustration Style",
+      "style_category": "ILLUSTRATION",
+      "trigger_token": "ax_storybook_illustration_v1",
+      "target_lora_name": "style/AXSTYLE_storybook_illustration_v1.safetensors",
+      "output_name": "AXSTYLE_storybook_illustration_v1",
+      "dataset_name": "storybook_illustration_v1",
+      "dataset_volume_path": "/style_training/storybook_illustration/storybook_illustration_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_storybook_illustration_v1, original storybook illustration style, soft painterly children book illustration, gentle expressive character, organic shapes, delicate linework, warm readable face",
+      "prompt_suffix": "pastel harmonious colors, soft paper texture, watercolor-like brush grain, cozy storybook environment, gentle warm light, readable hands, poetic family-friendly storytelling, high quality illustration",
+      "negative_prompt": "photorealistic, anime, manga, comic book, graphic novel dark style, 3d render, clay style, low poly, vector flat, mascot style, chibi, heavy outlines, harsh shadows, horror, gritty texture, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, copied character, franchise character, brand imitation, logo, watermark, unwanted text, subtitles, text artifacts, muddy colors, overly saturated palette, noisy texture, cluttered unreadable background, low resolution, blurry, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_storybook_illustration_v1.",
+        "Descrivere soggetto, azione narrativa, espressione, mani, outfit, ambiente, luce, palette e texture pittorica.",
+        "Specificare se la scena è school storybook page, cozy reading scene, garden path, magical village, educational story, bedtime story o gentle adventure.",
+        "Descrivere paper texture, watercolor-like grain, soft brush strokes, pastel colors e gentle warm light quando presenti.",
+        "Non usare nomi di illustratori, libri, editori, franchise, personaggi, brand o IP protette.",
+        "Evitare caption generiche come storybook boy.",
+        "Mantenere distinzione da storybook_cartoon: qui lo stile è più pittorico, morbido e illustrativo.",
+        "Mantenere distinzione da editorial_illustration: qui il tono è più fiabesco, emotivo e narrativo."
+      ],
+      "overfitting_risks": [
+        "Tutte le scene diventano villaggi/castelli fiabeschi",
+        "Palette sempre troppo pastello e poco leggibile",
+        "Texture carta troppo pesante",
+        "Volti troppo infantili o troppo simili",
+        "Mani troppo semplificate o confuse",
+        "Sovrapposizione con storybook_cartoon se perde texture pittorica",
+        "Sovrapposizione con watercolor se diventa solo tecnica e perde narrazione",
+        "Ambienti troppo carichi e poco leggibili",
+        "Imitazione involontaria di libri o illustratori riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_storybook",
+          "prompt": "ax_storybook_illustration_v1, cheerful boy walking to school, backpack, warm morning light, readable face, warm eyes, readable hands, full body, cozy storybook school environment, pastel colors, paper texture, soft painterly shading"
+        },
+        {
+          "name": "reading_scene",
+          "prompt": "ax_storybook_illustration_v1, child reading a book in a cozy room with a small pet, gentle expression, readable hands, warm lamp light, soft paper texture, watercolor-like brush grain, poetic storybook illustration"
+        },
+        {
+          "name": "garden_path",
+          "prompt": "ax_storybook_illustration_v1, child walking along a flowered garden path toward a small school, backpack, soft trees, warm daylight, pastel palette, delicate linework, gentle storybook atmosphere"
+        },
+        {
+          "name": "educational_story",
+          "prompt": "ax_storybook_illustration_v1, teacher reading to children in a warm classroom, expressive gentle faces, readable hands, books and plants, soft pastel colors, paper texture, family-friendly educational storybook page"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "concept_art",
+      "style_label": "Concept Art",
+      "safe_label": "Original Professional Concept Art Style",
+      "style_category": "ILLUSTRATION",
+      "trigger_token": "ax_concept_art_v1",
+      "target_lora_name": "style/AXSTYLE_concept_art_v1.safetensors",
+      "output_name": "AXSTYLE_concept_art_v1",
+      "dataset_name": "concept_art_v1",
+      "dataset_volume_path": "/style_training/concept_art/concept_art_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "10%",
+        "half_body": "15%",
+        "full_body": "20%",
+        "environment_scenes": "35%",
+        "multiple_characters": "5%",
+        "props_and_details": "15%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_concept_art_v1, original professional concept art style, cinematic worldbuilding illustration, strong readable silhouettes, semi-realistic character design, painterly digital brushwork, atmospheric environment",
+      "prompt_suffix": "dramatic directional lighting, cinematic composition, rich painterly textures, selective detail, clear value structure, immersive world design, production concept art quality, original visual language, high quality",
+      "negative_prompt": "photorealistic photo, anime, manga, clean cartoon, chibi, comic book halftone, graphic novel panel, 3d render, clay style, low poly, vector flat, logo, watermark, text artifacts, copied character, franchise character, brand imitation, famous game style, famous movie style, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy unreadable values, overly cluttered composition, random details, low resolution, blurry, oversaturated colors, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_concept_art_v1.",
+        "Descrivere soggetto, funzione progettuale, silhouette, ambiente, scala, luce, mood, materiali e dettagli selettivi.",
+        "Specificare se la scena è environment concept, character concept, prop concept, vehicle concept, key art, worldbuilding scene, mood painting o color script.",
+        "Descrivere strong silhouettes, value structure, cinematic lighting, atmospheric depth, painterly brushwork e production design quando presenti.",
+        "Non usare nomi di artisti, studi, giochi, film, franchise, brand o IP protette.",
+        "Evitare caption generiche come concept art boy.",
+        "Mantenere distinzione da epic_fantasy: concept_art può includere fantasy, ma deve restare progettuale e non solo epico.",
+        "Mantenere distinzione da editorial_illustration: qui il focus è worldbuilding, pre-produzione e design visivo."
+      ],
+      "overfitting_risks": [
+        "Tutte le immagini diventano castelli o paesaggi epici",
+        "Dettagli eccessivi e composizione confusa",
+        "Personaggi troppo piccoli o poco leggibili",
+        "Palette sempre grigio/ocra",
+        "Mani trascurate perché dataset troppo environment-focused",
+        "Sovrapposizione con epic_fantasy se perde funzione progettuale",
+        "Sovrapposizione con sci_fi_future se spinge sempre tecnologia",
+        "Imitazione involontaria di videogiochi, film o artisti riconoscibili",
+        "Scene belle ma poco utilizzabili come design"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_concept_art",
+          "prompt": "ax_concept_art_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly school environment reimagined as cinematic concept art, strong silhouettes, painterly textures, atmospheric depth"
+        },
+        {
+          "name": "academy_worldbuilding",
+          "prompt": "ax_concept_art_v1, student explorer overlooking a vast academy city in the mountains, backpack, strong silhouette, dramatic sky, readable hands, cinematic lighting, immersive worldbuilding environment concept art"
+        },
+        {
+          "name": "character_design",
+          "prompt": "ax_concept_art_v1, young student adventurer character design, full body, backpack, readable face and hands, functional outfit, painterly digital brushwork, clear silhouette, production concept art style"
+        },
+        {
+          "name": "prop_and_environment",
+          "prompt": "ax_concept_art_v1, concept art sheet of school exploration props and environment details, backpack, books, lantern, architectural fragments, selective detail, painterly texture, cohesive worldbuilding design"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "epic_fantasy",
+      "style_label": "Epic Fantasy",
+      "safe_label": "Original Epic Fantasy Illustration Style",
+      "style_category": "FANTASY & SCI-FI",
+      "trigger_token": "ax_epic_fantasy_v1",
+      "target_lora_name": "style/AXSTYLE_epic_fantasy_v1.safetensors",
+      "output_name": "AXSTYLE_epic_fantasy_v1",
+      "dataset_name": "epic_fantasy_v1",
+      "dataset_volume_path": "/style_training/epic_fantasy/epic_fantasy_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "10%",
+        "half_body": "15%",
+        "full_body": "25%",
+        "environment_scenes": "35%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_epic_fantasy_v1, original epic fantasy illustration style, cinematic heroic fantasy scene, majestic scale, semi-realistic hero character, monumental fantasy environment, dramatic painterly composition",
+      "prompt_suffix": "heroic directional light, vast kingdom, rich atmospheric colors, ancient architecture, deep shadows, magical glow, painterly fantasy textures, legendary storytelling, high quality epic fantasy art",
+      "negative_prompt": "photorealistic photo, anime, manga, clean cartoon, chibi, 3d render, low poly, clay style, fairytale cute style, vector flat, modern corporate illustration, copied fantasy franchise, famous fantasy character, brand imitation, logo, watermark, unwanted text, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, unreadable silhouette, muddy values, cluttered composition, excessive darkness, gore, adult content, oversexualized armor, low resolution, blurry",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_epic_fantasy_v1.",
+        "Descrivere soggetto, ruolo eroico, silhouette, mani, outfit/armatura, ambiente, scala, luce, magia, creature e mood leggendario.",
+        "Specificare se la scena è heroic fantasy, kingdom view, dragon scene, magic ritual, throne hall, battlefield, ancient city o mountain citadel.",
+        "Descrivere monumental scale, heroic lighting, magical glow, ancient architecture, stormy sky e painterly fantasy texture quando presenti.",
+        "Non usare nomi di film, giochi, romanzi, autori, franchise, personaggi, brand o IP protette.",
+        "Evitare caption generiche come epic fantasy boy.",
+        "Mantenere distinzione da fairytale_3d: qui tono più epico, maturo e monumentale.",
+        "Mantenere distinzione da concept_art: qui focus su resa fantasy finale, non solo progettazione."
+      ],
+      "overfitting_risks": [
+        "Tutte le immagini diventano castelli e draghi",
+        "La scena diventa troppo dark o troppo carica",
+        "I personaggi diventano sempre guerrieri armati",
+        "Mani trascurate in favore dell'ambiente",
+        "Ambienti troppo complessi e poco leggibili",
+        "Sovrapposizione con concept_art se sembra solo pre-produzione",
+        "Sovrapposizione con fairytale_3d se diventa troppo dolce",
+        "Somiglianza involontaria con franchise fantasy noti",
+        "Magia e creature troppo ripetitive"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_epic_fantasy",
+          "prompt": "ax_epic_fantasy_v1, cheerful boy walking to school reimagined as a young fantasy hero, backpack, readable face, readable hands, full body, grand magical academy kingdom, warm heroic morning light, monumental castle, rich painterly fantasy atmosphere"
+        },
+        {
+          "name": "kingdom_overlook",
+          "prompt": "ax_epic_fantasy_v1, young hero overlooking a vast ancient kingdom from a cliff, strong silhouette, cloak in wind, dramatic sky, castle city, mountains, river valley, golden rim light, epic fantasy illustration"
+        },
+        {
+          "name": "dragon_scene",
+          "prompt": "ax_epic_fantasy_v1, original dragon flying above a distant mountain citadel, tiny hero below for scale, storm clouds, magical glow, cinematic fantasy lighting, rich painterly textures"
+        },
+        {
+          "name": "throne_hall",
+          "prompt": "ax_epic_fantasy_v1, grand ancient throne hall with banners and warm torchlight, young traveler standing in foreground, readable hands, monumental architecture, deep shadows, legendary fantasy atmosphere"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "cyberpunk",
+      "style_label": "Cyberpunk",
+      "safe_label": "Original Cyberpunk Futuristic City Style",
+      "style_category": "FANTASY & SCI-FI",
+      "trigger_token": "ax_cyberpunk_v1",
+      "target_lora_name": "style/AXSTYLE_cyberpunk_v1.safetensors",
+      "output_name": "AXSTYLE_cyberpunk_v1",
+      "dataset_name": "cyberpunk_v1",
+      "dataset_volume_path": "/style_training/cyberpunk/cyberpunk_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_cyberpunk_v1, original cyberpunk futuristic city style, neon-lit megacity, rainy urban sci-fi scene, semi-realistic character, techwear silhouette, readable face, cinematic neon lighting",
+      "prompt_suffix": "wet reflective pavement, holographic glow, dense vertical city, magenta and cyan neon, deep shadows, futuristic technology, readable hands, high contrast sci-fi atmosphere, premium cyberpunk illustration",
+      "negative_prompt": "photorealistic plain photo, fantasy castle, fairytale, clean cartoon, chibi, manga ink, low poly, clay style, cozy storybook, generic music video club, real brand logo, trademark, readable corporate logo, copied franchise, famous sci-fi character, watermark, unwanted text, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, unreadable face, excessive blur, muddy shadows, overexposed neon, chaotic clutter, low resolution, gore, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_cyberpunk_v1.",
+        "Descrivere soggetto, outfit techwear, volto, mani, ambiente urbano, neon, pioggia, ologrammi, materiali e mood futuristico.",
+        "Specificare se la scena è neon city street, rainy alley, futuristic academy, hologram district, cyber market, night transit, tech interface o skyline megacity.",
+        "Descrivere magenta/cyan neon, wet reflections, holographic glow, dense vertical architecture e sci-fi atmosphere quando presenti.",
+        "Non usare nomi di film, giochi, franchise, brand, aziende, personaggi o IP protette.",
+        "Evitare testi leggibili e loghi reali negli ologrammi.",
+        "Mantenere distinzione da music_video: qui il focus è worldbuilding urbano futuristico, non performance musicale.",
+        "Mantenere distinzione da sci_fi_future: cyberpunk è più notturno, neon, urbano, denso e ribelle."
+      ],
+      "overfitting_risks": [
+        "Tutte le immagini diventano città notturne identiche",
+        "Neon troppo saturi o sovraesposti",
+        "Volti illeggibili nelle ombre",
+        "Mani trascurate nei dettagli urbani",
+        "Eccessiva presenza di testo o loghi fittizi",
+        "Sovrapposizione con music_video se diventa solo club neon",
+        "Sovrapposizione con sci_fi_future se diventa troppo pulito e luminoso",
+        "Ambienti troppo caotici e poco leggibili",
+        "Imitazione involontaria di franchise sci-fi noti"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_cyberpunk",
+          "prompt": "ax_cyberpunk_v1, cheerful boy walking to school reimagined in a futuristic neon academy district, backpack, readable face, readable hands, full body, rainy night city, wet reflective pavement, cyan and magenta neon, holographic signs with abstract symbols, cinematic cyberpunk atmosphere"
+        },
+        {
+          "name": "rainy_neon_alley",
+          "prompt": "ax_cyberpunk_v1, young person walking through a rainy neon alley, techwear jacket, readable face and hands, holographic glow, wet asphalt reflections, dense futuristic city background, high contrast cyberpunk lighting"
+        },
+        {
+          "name": "megacity_skyline",
+          "prompt": "ax_cyberpunk_v1, futuristic megacity skyline at night, vertical towers, holographic billboards with abstract symbols, flying vehicles, rain haze, magenta and cyan neon reflections, cinematic sci-fi atmosphere"
+        },
+        {
+          "name": "tech_interface_scene",
+          "prompt": "ax_cyberpunk_v1, student using a transparent holographic interface in a neon-lit room, readable face, hands interacting with glowing UI, dark techwear, blue and pink light, futuristic cyberpunk environment"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "sci_fi_future",
+      "style_label": "Sci-Fi Future",
+      "safe_label": "Original Clean Futuristic Sci-Fi Style",
+      "style_category": "FANTASY & SCI-FI",
+      "trigger_token": "ax_sci_fi_future_v1",
+      "target_lora_name": "style/AXSTYLE_sci_fi_future_v1.safetensors",
+      "output_name": "AXSTYLE_sci_fi_future_v1",
+      "dataset_name": "sci_fi_future_v1",
+      "dataset_volume_path": "/style_training/sci_fi_future/sci_fi_future_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "10%",
+        "half_body": "15%",
+        "full_body": "20%",
+        "environment_scenes": "35%",
+        "multiple_characters": "5%",
+        "props_and_details": "15%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_sci_fi_future_v1, original clean futuristic sci-fi style, bright advanced city, sleek high-tech architecture, semi-realistic character, readable face, functional futuristic outfit, cinematic future design",
+      "prompt_suffix": "clean daylight, glass and metal materials, flying vehicles, blue technology accents, spacious futuristic environment, readable hands, optimistic sci-fi atmosphere, polished cinematic future illustration, high quality",
+      "negative_prompt": "dark cyberpunk alley, neon chaos, rainy night city, dystopian grime, fantasy castle, fairytale, anime, manga, cartoon, chibi, clay style, low poly, photorealistic plain photo, real brand logo, corporate trademark, readable logo, copied franchise, famous sci-fi character, watermark, unwanted text, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, cluttered design, muddy values, excessive darkness, overexposed highlights, low resolution, blurry, gore, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_sci_fi_future_v1.",
+        "Descrivere soggetto, outfit futuristico, volto, mani, ambiente, architettura, tecnologia, veicoli, materiali e luce.",
+        "Specificare se la scena è futuristic city, advanced academy, orbital station, spaceport, high-tech interior, clean laboratory, sustainable megacity o exploration scene.",
+        "Descrivere sleek architecture, glass and metal materials, blue technology accents, flying vehicles, holographic interfaces e bright daylight quando presenti.",
+        "Non usare nomi di film, giochi, franchise, aziende, brand, personaggi o IP protette.",
+        "Evitare loghi, testi leggibili o marchi nei pannelli tecnologici.",
+        "Mantenere distinzione da cyberpunk: qui il mood è pulito, luminoso, ordinato e aspirazionale.",
+        "Mantenere distinzione da concept_art: qui il focus è sci-fi futuro pulito, non concept generico multi-genere."
+      ],
+      "overfitting_risks": [
+        "Tutte le scene diventano città bianche e blu identiche",
+        "Lo stile diventa troppo sterile o corporate",
+        "Tecnologia poco funzionale o incoerente",
+        "Volti e mani trascurati a favore dell'ambiente",
+        "Veicoli futuristici ripetitivi",
+        "Sovrapposizione con cyberpunk se introduce neon notturno e pioggia",
+        "Sovrapposizione con concept_art se diventa troppo generico",
+        "Comparsa di loghi o testi nei pannelli tecnologici",
+        "Eccesso di dettaglio architettonico poco leggibile"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_sci_fi_future",
+          "prompt": "ax_sci_fi_future_v1, cheerful boy walking to school reimagined in a clean futuristic academy city, backpack, readable face, readable hands, full body, bright daylight, sleek glass buildings, flying vehicles, elevated transit rails, optimistic sci-fi future atmosphere"
+        },
+        {
+          "name": "future_city_overlook",
+          "prompt": "ax_sci_fi_future_v1, young student standing on a sky bridge overlooking a bright futuristic city, functional jacket, smart backpack, readable hands, glass towers, flying vehicles, clean blue technology accents, cinematic sci-fi future style"
+        },
+        {
+          "name": "orbital_station",
+          "prompt": "ax_sci_fi_future_v1, clean orbital station interior with large window showing Earth, student explorer in foreground, readable face and hands, white composite panels, holographic interface, soft blue light, optimistic sci-fi atmosphere"
+        },
+        {
+          "name": "future_transport",
+          "prompt": "ax_sci_fi_future_v1, sleek futuristic transit station with elevated train and flying vehicles, clean architecture, bright daylight, polished metal and glass, people walking naturally, cinematic future city design"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "vector_flat",
+      "style_label": "Vector Flat",
+      "safe_label": "Modern Flat Vector Illustration Style",
+      "style_category": "DESIGN",
+      "trigger_token": "ax_vector_flat_v1",
+      "target_lora_name": "style/AXSTYLE_vector_flat_v1.safetensors",
+      "output_name": "AXSTYLE_vector_flat_v1",
+      "dataset_name": "vector_flat_v1",
+      "dataset_volume_path": "/style_training/vector_flat/vector_flat_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "10%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "10%",
+        "props_and_details": "15%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_vector_flat_v1, modern flat vector illustration style, simple geometric shapes, clean minimal character, solid color fills, clear visual hierarchy, crisp vector edges",
+      "prompt_suffix": "flat colors, minimal shading, clean composition, simplified environment, readable hands, app and web ready, infographic-friendly layout, modern professional vector design, high quality",
+      "negative_prompt": "photorealistic, realistic shading, painterly, watercolor, oil painting, sketch, anime, manga, comic book, graphic novel, 3d render, clay style, low poly, chibi, mascot style, heavy outlines, complex texture, noisy grain, dramatic lighting, cinematic shadows, distorted face, malformed hands, extra fingers, missing fingers, cluttered composition, brand logo, watermark, unwanted text, text artifacts, copied character, franchise character, low resolution, blurry",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_vector_flat_v1.",
+        "Descrivere soggetto, azione, forme geometriche, palette, layout, ambiente, icone e composizione.",
+        "Specificare se la scena è app illustration, web illustration, infographic, dashboard, education vector, corporate vector o icon set.",
+        "Descrivere solid color fills, clean vector shapes, minimal shading, flat design e clear visual hierarchy quando presenti.",
+        "Non usare nomi di brand, loghi, app, aziende, personaggi o IP protette.",
+        "Evitare caption generiche come vector boy.",
+        "Mantenere distinzione da editorial_illustration: qui niente texture carta/pennello.",
+        "Mantenere distinzione da poster_graphic: qui la funzione è più UI/infografica, meno poster d'impatto."
+      ],
+      "overfitting_risks": [
+        "Lo stile diventa troppo corporate e sterile",
+        "Palette sempre teal/orange",
+        "Volti troppo semplificati e poco espressivi",
+        "Mani troppo simboliche o confuse",
+        "Composizioni troppo infografiche",
+        "Perdita di varietà su ambienti e personaggi",
+        "Sovrapposizione con editorial_illustration se compaiono texture pittoriche",
+        "Sovrapposizione con poster_graphic se diventa troppo pubblicitario",
+        "Generazione di icone/loghi indesiderati"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_vector_flat",
+          "prompt": "ax_vector_flat_v1, cheerful boy walking to school, backpack, readable face, readable simplified hands, full body, friendly school environment, simple geometric shapes, solid colors, clean flat vector illustration"
+        },
+        {
+          "name": "app_dashboard_scene",
+          "prompt": "ax_vector_flat_v1, person using a dashboard interface on laptop, simple vector character, clean UI panels, charts, icons, solid colors, minimal shading, modern app illustration"
+        },
+        {
+          "name": "education_vector",
+          "prompt": "ax_vector_flat_v1, teacher explaining a simple chart to students, readable simplified faces and hands, clean classroom environment, flat colors, clear educational vector composition"
+        },
+        {
+          "name": "icon_set_scene",
+          "prompt": "ax_vector_flat_v1, set of simple education and technology icons, books, laptop, school, chart, cloud, clean geometric shapes, solid colors, minimal flat vector design"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "poster_graphic",
+      "style_label": "Poster Graphic",
+      "safe_label": "Original High-Impact Graphic Poster Style",
+      "style_category": "DESIGN",
+      "trigger_token": "ax_poster_graphic_v1",
+      "target_lora_name": "style/AXSTYLE_poster_graphic_v1.safetensors",
+      "output_name": "AXSTYLE_poster_graphic_v1",
+      "dataset_name": "poster_graphic_v1",
+      "dataset_volume_path": "/style_training/poster_graphic/poster_graphic_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "10%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "25%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_poster_graphic_v1, original high-impact graphic poster style, bold visual hierarchy, strong silhouette, dynamic composition, limited color palette, iconic graphic shapes",
+      "prompt_suffix": "strong contrast, screenprint texture, subtle paper grain, memorable key visual, simplified environment, readable hands, bold campaign composition, poster-ready graphic design, high quality",
+      "negative_prompt": "photorealistic, realistic shading, painterly watercolor, oil painting, anime, manga, comic book panel, graphic novel texture-heavy panel, 3d render, clay style, low poly, flat vector too minimal, cluttered layout, weak silhouette, messy typography, unreadable text, fake brand logo, trademark, watermark, copied campaign, franchise character, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy colors, too many colors, low contrast, low resolution, blurry",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_poster_graphic_v1.",
+        "Descrivere soggetto, messaggio visivo, silhouette, composizione, palette, forme, tipografia se presente e texture stampa.",
+        "Specificare se la scena è campaign poster, education poster, music poster, event poster, social key visual, cover graphic o cultural poster.",
+        "Descrivere bold typography solo se realmente presente o richiesta.",
+        "Descrivere limited color palette, screenprint texture, paper grain, strong contrast e diagonal composition quando presenti.",
+        "Non usare nomi di brand, campagne, festival, artisti, film, personaggi o IP protette.",
+        "Evitare testi lunghi generati automaticamente.",
+        "Mantenere distinzione da vector_flat: qui il focus è key visual d'impatto, non semplice illustrazione UI.",
+        "Mantenere distinzione da commercial_ad: qui lo stile è più grafico, iconico e poster-like."
+      ],
+      "overfitting_risks": [
+        "Il modello genera testo errato o non richiesto",
+        "Tutte le immagini sembrano poster propaganda",
+        "Palette sempre navy/orange",
+        "Composizioni troppo aggressive",
+        "Soggetti troppo semplificati e poco espressivi",
+        "Mani troppo grafiche o deformate",
+        "Sovrapposizione con vector_flat se diventa troppo minimal",
+        "Sovrapposizione con commercial_ad se diventa troppo pubblicitario fotografico",
+        "Imitazione involontaria di campagne, poster o artisti riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_poster_graphic",
+          "prompt": "ax_poster_graphic_v1, cheerful boy walking to school, backpack, readable face, readable hands, full body, bold education poster composition, limited navy orange cream palette, strong silhouette, geometric school environment, screenprint texture, high contrast graphic design"
+        },
+        {
+          "name": "education_campaign",
+          "prompt": "ax_poster_graphic_v1, education campaign poster about learning and future, student with backpack, strong silhouette, geometric sun, simplified futuristic school, limited colors, bold visual hierarchy, subtle paper grain"
+        },
+        {
+          "name": "event_poster",
+          "prompt": "ax_poster_graphic_v1, modern event poster graphic with musician silhouette and abstract stage lights, strong contrast, limited red black cream palette, dynamic diagonal shapes, screenprint texture"
+        },
+        {
+          "name": "sports_energy",
+          "prompt": "ax_poster_graphic_v1, runner silhouette in dynamic motion, bold diagonal composition, limited orange navy cream palette, high contrast graphic shadows, motivational poster style, subtle print texture"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "watercolor",
+      "style_label": "Watercolor",
+      "safe_label": "Original Watercolor Illustration Style",
+      "style_category": "PAINTING & SKETCH",
+      "trigger_token": "ax_watercolor_v1",
+      "target_lora_name": "style/AXSTYLE_watercolor_v1.safetensors",
+      "output_name": "AXSTYLE_watercolor_v1",
+      "dataset_name": "watercolor_v1",
+      "dataset_volume_path": "/style_training/watercolor/watercolor_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "15%",
+        "full_body": "20%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "15%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_watercolor_v1, original watercolor illustration style, transparent watercolor washes, soft organic edges, visible paper texture, delicate painted character, fluid brush strokes",
+      "prompt_suffix": "soft harmonious colors, wet-on-wet pigment gradients, light paper grain, gentle splatter, airy atmosphere, readable hands, poetic watercolor composition, high quality traditional painting feel",
+      "negative_prompt": "photorealistic, 3d render, vector flat, comic book, manga, anime, clean cartoon, low poly, clay style, oil painting, pencil sketch only, heavy black outlines, glossy digital render, hard cel shading, harsh shadows, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy colors, overworked paint, excessive splatter, unreadable subject, logo, watermark, unwanted text, text artifacts, copied character, franchise character, low resolution, blurry, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_watercolor_v1.",
+        "Descrivere soggetto, posa, volto, mani, ambiente, palette, carta, pigmenti, pennellate e tecnica.",
+        "Specificare se la scena è watercolor portrait, landscape, cityscape, school scene, book illustration, botanical composition, still life o editorial watercolor.",
+        "Descrivere transparent washes, wet-on-wet gradients, paper grain, pigment blooms, soft edges e light splatter quando presenti.",
+        "Non usare nomi di artisti, libri, editori, brand, personaggi, franchise o IP protette.",
+        "Evitare caption generiche come watercolor boy.",
+        "Mantenere distinzione da storybook_illustration: qui il focus è la tecnica acquerello.",
+        "Mantenere distinzione da pencil_sketch: qui il focus è pigmento e colore, non grafite o linea."
+      ],
+      "overfitting_risks": [
+        "L'immagine diventa troppo slavata e poco leggibile",
+        "Mani e volto si perdono nelle macchie",
+        "Texture carta troppo forte",
+        "Schizzi eccessivi",
+        "Palette sempre azzurro/ocra",
+        "Sovrapposizione con storybook_illustration se diventa troppo narrativo/cartoon",
+        "Sovrapposizione con editorial_illustration se diventa troppo pulito e digitale",
+        "Soggetti troppo indefiniti",
+        "Imitazione involontaria di artisti o libri riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_watercolor",
+          "prompt": "ax_watercolor_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly school environment, transparent watercolor washes, visible paper texture, soft pigment gradients, delicate splatter"
+        },
+        {
+          "name": "watercolor_portrait",
+          "prompt": "ax_watercolor_v1, gentle portrait of a young student, readable eyes, soft face, loose watercolor hair, transparent skin tones, visible paper grain, delicate brush strokes, airy white background"
+        },
+        {
+          "name": "watercolor_landscape",
+          "prompt": "ax_watercolor_v1, peaceful school garden path with trees and flowers, soft building in background, transparent washes, wet-on-wet greens, warm sunlight, paper texture, poetic watercolor landscape"
+        },
+        {
+          "name": "watercolor_still_life",
+          "prompt": "ax_watercolor_v1, books, pencil and small flower vase on a desk, soft natural light, transparent watercolor pigment, visible paper grain, delicate shadows, calm educational still life"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "pencil_sketch",
+      "style_label": "Pencil Sketch",
+      "safe_label": "Original Pencil Sketch Drawing Style",
+      "style_category": "PAINTING & SKETCH",
+      "trigger_token": "ax_pencil_sketch_v1",
+      "target_lora_name": "style/AXSTYLE_pencil_sketch_v1.safetensors",
+      "output_name": "AXSTYLE_pencil_sketch_v1",
+      "dataset_name": "pencil_sketch_v1",
+      "dataset_volume_path": "/style_training/pencil_sketch/pencil_sketch_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "15%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "5%",
+        "props_and_details": "15%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_pencil_sketch_v1, original pencil sketch drawing style, graphite linework, monochrome sketch, visible paper texture, realistic pencil-drawn character, hatching and cross-hatching",
+      "prompt_suffix": "soft graphite shading, chiaroscuro, sketchbook paper grain, readable hands, natural proportions, delicate pencil strokes, artistic study drawing, high quality pencil illustration",
+      "negative_prompt": "full color, watercolor, oil painting, digital painting, photorealistic photo, anime, manga ink, comic book, graphic novel color, 3d render, vector flat, clay style, low poly, heavy ink outlines, marker art, charcoal only, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, muddy smudges, overworked shading, unreadable subject, logo, watermark, unwanted text, text artifacts, copied character, franchise character, low resolution, blurry, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_pencil_sketch_v1.",
+        "Descrivere soggetto, posa, volto, occhi, mani, ambiente, tratteggio, chiaroscuro, carta e tecnica a grafite.",
+        "Specificare se la scena è pencil portrait, full body sketch, environment sketch, storyboard frame, concept sketch, still life o architectural sketch.",
+        "Descrivere graphite lines, hatching, cross-hatching, paper grain, smudged shading ed eraser highlights quando presenti.",
+        "Non usare nomi di artisti, libri, brand, personaggi, franchise o IP protette.",
+        "Evitare caption generiche come pencil boy.",
+        "Mantenere distinzione da manga_ink: qui non è inchiostro, è grafite.",
+        "Mantenere distinzione da watercolor: qui il focus è monocromia, linea e chiaroscuro."
+      ],
+      "overfitting_risks": [
+        "Disegni troppo scuri e sporchi",
+        "Mani e volto poco leggibili",
+        "Tratteggio caotico",
+        "Texture carta troppo pesante",
+        "Stile troppo vicino a manga ink",
+        "Stile troppo vicino a charcoal",
+        "Perdita di prospettiva negli ambienti",
+        "Scene sempre architectural sketch",
+        "Soggetti troppo incompleti o bozzettistici"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_pencil_sketch",
+          "prompt": "ax_pencil_sketch_v1, cheerful boy walking to school, backpack, warm morning light represented in graphite, readable face, readable hands, full body, friendly school environment, pencil sketch, hatching, cross-hatching, visible paper texture"
+        },
+        {
+          "name": "pencil_portrait",
+          "prompt": "ax_pencil_sketch_v1, gentle portrait of a young student, readable eyes, soft face, layered graphite hair strokes, paper grain, delicate pencil shading, monochrome sketchbook style"
+        },
+        {
+          "name": "environment_sketch",
+          "prompt": "ax_pencil_sketch_v1, school courtyard with trees and building, perspective drawing, pencil linework, hatching, paper texture, soft graphite shadows, architectural sketch style"
+        },
+        {
+          "name": "still_life_sketch",
+          "prompt": "ax_pencil_sketch_v1, books, pencil and open notebook on a desk, graphite still life drawing, visible paper grain, cross-hatching, soft shadows, educational sketch study"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "documentary_realism",
+      "style_label": "Documentary",
+      "safe_label": "Authentic Documentary Realism",
+      "style_category": "CINEMATIC",
+      "trigger_token": "ax_documentary_realism_v1",
+      "target_lora_name": "style/AXSTYLE_documentary_realism_v1.safetensors",
+      "output_name": "AXSTYLE_documentary_realism_v1",
+      "dataset_name": "documentary_realism_v1",
+      "dataset_volume_path": "/style_training/documentary_realism/documentary_realism_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "20%",
+        "full_body": "20%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.7,
+      "prompt_prefix": "ax_documentary_realism_v1, authentic documentary realism, observational photography, real-life scene, natural human subject, candid posture, readable face, realistic hands",
+      "prompt_suffix": "natural available light, realistic environment, honest color palette, unpolished authentic mood, reportage composition, human-centered storytelling, believable real-world textures",
+      "negative_prompt": "cartoon, anime, illustration, 3d render, comic style, painterly, fashion editorial pose, glossy commercial ad look, overly staged photo, fake smile, exaggerated drama, artificial studio lighting, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, bad anatomy, plastic skin, oversmoothed face, extreme HDR, oversaturated colors, fake brand logo, watermark, text artifacts, cinematic poster text, blurry face, low resolution, noisy image",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_documentary_realism_v1.",
+        "Descrivere soggetto, azione reale, contesto sociale o ambientale, luce disponibile e mood autentico.",
+        "Specificare se la scena è reportage, observational, candid, street, school, work, community o travel documentary.",
+        "Descrivere volto e mani quando visibili.",
+        "Descrivere l'ambiente come parte della storia, non come sfondo decorativo.",
+        "Evitare termini da advertising, fashion editorial, glamour o studio photo.",
+        "Non usare nomi di fotografi, testate, agenzie, brand o luoghi protetti se non forniti dall'utente.",
+        "Mantenere le caption concrete, realistiche e orientate alla narrazione umana."
+      ],
+      "overfitting_risks": [
+        "La LoRA produce immagini troppo grigie o piatte",
+        "Le scene diventano sempre reportage urbano",
+        "Tutti i soggetti sembrano troppo seri",
+        "La qualità visiva cala e diventa troppo casuale",
+        "Lo stile si sovrappone a photorealistic",
+        "Lo stile si sovrappone a cinematic_realism",
+        "Il modello introduce testi da poster o layout documentaristico non richiesti",
+        "Le immagini diventano troppo rumorose o poco curate",
+        "Le mani peggiorano perché molte foto documentarie le mostrano poco"
+      ],
+      "validation_prompts": [
+        {
+          "name": "school_documentary",
+          "prompt": "ax_documentary_realism_v1, cheerful boy walking to school with backpack, natural morning light, readable face, readable hands, full body, real school courtyard, other students in background, authentic observational documentary photography"
+        },
+        {
+          "name": "street_reportage",
+          "prompt": "ax_documentary_realism_v1, person walking through a busy city street, candid posture, natural available light, realistic environment, human-centered reportage photography"
+        },
+        {
+          "name": "community_scene",
+          "prompt": "ax_documentary_realism_v1, people talking in a local community space, readable faces and hands, natural gestures, available light, honest documentary realism"
+        },
+        {
+          "name": "school_close_context",
+          "prompt": "ax_documentary_realism_v1, student standing outside school entrance, backpack, readable face, hands visible, natural expression, real school environment, neutral documentary color palette"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "anime_clean",
+      "style_label": "Anime",
+      "safe_label": "Clean Original Anime Style",
+      "style_category": "ANIME & MANGA",
+      "trigger_token": "ax_anime_clean_v1",
+      "target_lora_name": "style/AXSTYLE_anime_clean_v1.safetensors",
+      "output_name": "AXSTYLE_anime_clean_v1",
+      "dataset_name": "anime_clean_v1",
+      "dataset_volume_path": "/style_training/anime_clean/anime_clean_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "25%",
+        "half_body": "25%",
+        "full_body": "20%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_anime_clean_v1, clean original anime style, expressive anime character, defined line art, large readable eyes, stylized layered hair, clean cel shading",
+      "prompt_suffix": "bright harmonious colors, soft daylight, clean background detail, readable hands, balanced anime proportions, polished modern anime look, original visual language, high quality",
+      "negative_prompt": "photorealistic, 3d render, western cartoon, comic book, manga black and white, painterly, messy sketch, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, extreme giant eyes, oversexualized outfit, adult content, copied character, franchise character, brand imitation, logo, watermark, text artifacts, muddy colors, noisy image, blurry line art, low resolution, overcomplicated background",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_anime_clean_v1.",
+        "Descrivere soggetto, espressione, occhi, capelli, outfit, posa, ambiente, luce e cel shading.",
+        "Specificare se la scena è school life, slice of life, adventure, action light, classroom, outdoor campus o city scene.",
+        "Descrivere line art, colori, ombre e background solo quando rilevanti.",
+        "Indicare mani e corpo intero quando visibili.",
+        "Non usare nomi di studi, franchise, personaggi o brand.",
+        "Evitare caption generiche come anime boy school.",
+        "Mantenere il linguaggio originale, pulito e commerciale."
+      ],
+      "overfitting_risks": [
+        "Tutti i personaggi assumono lo stesso volto",
+        "Occhi troppo grandi o troppo simili",
+        "Capelli sempre uguali",
+        "Scene sempre scolastiche",
+        "Mani semplificate male o con dita errate",
+        "Colori troppo saturi",
+        "Sovrapposizione con anime_cinematic",
+        "Imitazione involontaria di studi o personaggi riconoscibili",
+        "Perdita di varietà su età, outfit e ambienti"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_anime_clean",
+          "prompt": "ax_anime_clean_v1, cheerful anime boy walking to school, backpack, warm morning light, readable face, expressive eyes, readable hands, full body, friendly school environment, clean defined line art, bright harmonious colors"
+        },
+        {
+          "name": "classroom_scene",
+          "prompt": "ax_anime_clean_v1, anime student sitting in a bright classroom, readable expressive face, clean hands writing in notebook, soft cel shading, clear background detail, polished modern anime look"
+        },
+        {
+          "name": "city_slice_of_life",
+          "prompt": "ax_anime_clean_v1, anime character walking through a quiet city street, natural posture, readable hands, vivid sky, clean line art, harmonious colors, slice of life atmosphere"
+        },
+        {
+          "name": "two_students",
+          "prompt": "ax_anime_clean_v1, two anime students talking outside school, expressive faces, readable hands, bright school campus, soft daylight, clean cel shading, original anime style"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "anime_cinematic",
+      "style_label": "Cinematic Anime",
+      "safe_label": "Original Cinematic Anime Style",
+      "style_category": "ANIME & MANGA",
+      "trigger_token": "ax_anime_cinematic_v1",
+      "target_lora_name": "style/AXSTYLE_anime_cinematic_v1.safetensors",
+      "output_name": "AXSTYLE_anime_cinematic_v1",
+      "dataset_name": "anime_cinematic_v1",
+      "dataset_volume_path": "/style_training/anime_cinematic/anime_cinematic_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "20%",
+        "environment_scenes": "25%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.8,
+      "prompt_prefix": "ax_anime_cinematic_v1, original cinematic anime style, expressive anime character, dramatic lighting, clean anime line art, large emotional eyes, stylized layered hair, cinematic cel shading",
+      "prompt_suffix": "rich atmospheric colors, golden hour light, deep soft shadows, immersive background, emotional storytelling, readable hands, balanced anime proportions, cinematic animated film look, original visual language, high quality",
+      "negative_prompt": "photorealistic, 3d render, western cartoon, comic book, manga black and white, flat anime style, messy sketch, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, extreme giant eyes, copied character, franchise character, studio imitation, logo, watermark, subtitles, text artifacts, muddy colors, blurry line art, low resolution, oversexualized outfit, adult content, excessive darkness, face lost in shadow, chaotic background",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_anime_cinematic_v1.",
+        "Descrivere soggetto, emozione, occhi, capelli, outfit, posa, ambiente, luce drammatica, palette e atmosfera.",
+        "Specificare se la scena è sunset school scene, emotional close-up, epic landscape, classroom golden hour, fantasy action o city night anime scene.",
+        "Descrivere line art, cel shading, rim light, backlight, deep shadows e atmospheric depth quando presenti.",
+        "Indicare mani e corpo intero quando visibili.",
+        "Non usare nomi di studi, registi, franchise, film, personaggi o brand.",
+        "Evitare caption generiche come cinematic anime boy.",
+        "Distinguere sempre da anime_clean: qui la luce, il mood e la composizione devono essere più filmici."
+      ],
+      "overfitting_risks": [
+        "Tutte le immagini diventano tramonti scolastici",
+        "La luce diventa sempre arancione/golden hour",
+        "I volti diventano troppo simili",
+        "Gli occhi diventano troppo grandi o troppo lucidi",
+        "Le scene diventano troppo scure",
+        "Gli sfondi diventano troppo complessi e rubano focus al soggetto",
+        "Lo stile imita involontariamente studi o film riconoscibili",
+        "Sovrapposizione con anime_clean se manca luce cinematografica",
+        "Sovrapposizione con epic_fantasy se l'ambiente diventa troppo fantasy"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_cinematic_anime",
+          "prompt": "ax_anime_cinematic_v1, cheerful anime boy walking to school, backpack, warm cinematic sunset light, readable face, emotional eyes, readable hands, full body, friendly school environment, dramatic sky, rich atmospheric colors, clean anime line art"
+        },
+        {
+          "name": "classroom_golden_hour",
+          "prompt": "ax_anime_cinematic_v1, anime student sitting in a classroom during golden hour, emotional readable face, clean hands writing in notebook, window rim light, deep soft shadows, cinematic cel shading, immersive atmosphere"
+        },
+        {
+          "name": "city_sunset_scene",
+          "prompt": "ax_anime_cinematic_v1, anime character standing on a city rooftop at sunset, wind in hair, emotional gaze, readable hands, glowing skyline, rich orange and violet sky, cinematic animated film look"
+        },
+        {
+          "name": "two_students_emotional",
+          "prompt": "ax_anime_cinematic_v1, two anime students talking outside school at sunset, expressive faces, readable hands, dramatic backlight, atmospheric school campus, rich cinematic anime colors"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "chibi_kawaii",
+      "style_label": "Chibi",
+      "safe_label": "Original Chibi Kawaii Style",
+      "style_category": "ANIME & MANGA",
+      "trigger_token": "ax_chibi_kawaii_v1",
+      "target_lora_name": "style/AXSTYLE_chibi_kawaii_v1.safetensors",
+      "output_name": "AXSTYLE_chibi_kawaii_v1",
+      "dataset_name": "chibi_kawaii_v1",
+      "dataset_volume_path": "/style_training/chibi_kawaii/chibi_kawaii_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "20%",
+        "full_body": "30%",
+        "environment_scenes": "15%",
+        "multiple_characters": "10%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_chibi_kawaii_v1, original chibi kawaii style, super cute chibi character, oversized head, tiny body, large sparkling eyes, rounded face, soft clean line art",
+      "prompt_suffix": "pastel bright colors, soft cel shading, rosy cheeks, cute simplified hands, cheerful atmosphere, rounded shapes, adorable expression, clean kawaii composition, high quality",
+      "negative_prompt": "photorealistic, realistic anatomy, normal body proportions, 3d render, western cartoon, comic book, manga black and white, painterly, scary mood, dark dramatic lighting, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, adult body proportions, oversexualized outfit, adult content, copied character, franchise character, brand imitation, logo, watermark, subtitles, text artifacts, muddy colors, noisy image, blurry line art, low resolution, cluttered background",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_chibi_kawaii_v1.",
+        "Descrivere proporzioni chibi: oversized head, tiny body, short limbs, rounded shapes.",
+        "Descrivere occhi, espressione, capelli, outfit, posa, mani e ambiente.",
+        "Specificare se la scena è sticker, school scene, cute adventure, cozy slice of life, mascot pose o kawaii action.",
+        "Descrivere palette pastello, soft cel shading, rosy cheeks e cute props quando presenti.",
+        "Non usare nomi di franchise, personaggi, studi, mascotte famose, brand o IP protette.",
+        "Non usare caption generiche come cute chibi boy.",
+        "Mantenere il focus su tenerezza, leggibilità e proporzioni super-deformed."
+      ],
+      "overfitting_risks": [
+        "Tutti i personaggi diventano identici",
+        "Occhi sempre uguali e troppo grandi",
+        "Corpo troppo piccolo o poco leggibile",
+        "Mani troppo semplificate o confuse",
+        "Stile troppo infantile e poco versatile",
+        "Colori sempre rosa/pastello senza varietà",
+        "Scene sempre scolastiche",
+        "La LoRA imita mascotte o personaggi riconoscibili",
+        "Perdita di leggibilità in full body o gruppi"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_chibi",
+          "prompt": "ax_chibi_kawaii_v1, cheerful chibi boy walking to school, backpack, warm morning light, readable face, large sparkling eyes, readable small hands, full body, friendly school environment, pastel colors, soft cel shading"
+        },
+        {
+          "name": "sticker_pose",
+          "prompt": "ax_chibi_kawaii_v1, cute chibi student standing in a sticker-like pose, oversized head, tiny body, big sparkling eyes, rosy cheeks, simple background, soft clean line art, pastel colors"
+        },
+        {
+          "name": "cozy_slice_of_life",
+          "prompt": "ax_chibi_kawaii_v1, chibi character sitting in a cozy room with a small cup, adorable expression, small readable hands, rounded furniture, pastel warm colors, kawaii slice of life style"
+        },
+        {
+          "name": "two_chibi_friends",
+          "prompt": "ax_chibi_kawaii_v1, two chibi students walking together outside school, oversized heads, tiny bodies, cheerful expressions, small backpacks, pastel school campus, soft cel shading"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "clean_cartoon",
+      "style_label": "Cartoon",
+      "safe_label": "Original Clean Cartoon Style",
+      "style_category": "CARTOON",
+      "trigger_token": "ax_clean_cartoon_v1",
+      "target_lora_name": "style/AXSTYLE_clean_cartoon_v1.safetensors",
+      "output_name": "AXSTYLE_clean_cartoon_v1",
+      "dataset_name": "clean_cartoon_v1",
+      "dataset_volume_path": "/style_training/clean_cartoon/clean_cartoon_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "25%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_clean_cartoon_v1, original clean cartoon style, expressive cartoon character, clean bold outlines, rounded friendly shapes, large readable eyes, simple stylized hair",
+      "prompt_suffix": "bright harmonious colors, soft simple shading, readable hands, cheerful atmosphere, colorful friendly environment, polished modern cartoon look, original visual language, high quality",
+      "negative_prompt": "photorealistic, anime, manga ink, 3d render, comic book, painterly, dark dramatic mood, horror, gritty texture, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, overly complex line art, messy sketch, copied character, franchise character, brand imitation, mascot imitation, logo, watermark, subtitles, text artifacts, muddy colors, noisy image, blurry outlines, low resolution, oversexualized outfit, adult content",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_clean_cartoon_v1.",
+        "Descrivere soggetto, espressione, occhi, capelli, outfit, posa, mani, ambiente, linee, colori e shading.",
+        "Specificare se la scena è school cartoon, educational cartoon, adventure cartoon, family cartoon, social cartoon o action cartoon.",
+        "Descrivere clean outlines, rounded shapes, bright colors e soft simple shading quando presenti.",
+        "Indicare mani e corpo intero quando visibili.",
+        "Non usare nomi di studi, franchise, mascotte, personaggi o brand.",
+        "Evitare caption generiche come cartoon boy at school.",
+        "Mantenere distinzione da anime_clean, chibi_kawaii e stylized_3d."
+      ],
+      "overfitting_risks": [
+        "Tutti i personaggi assumono lo stesso volto",
+        "Lo stile diventa troppo chibi",
+        "Lo stile diventa troppo anime",
+        "Le mani diventano troppo semplificate o confuse",
+        "Colori sempre troppo saturi",
+        "Scene sempre scolastiche",
+        "Linee troppo spesse o troppo infantili",
+        "Imitazione involontaria di mascotte/franchise",
+        "Perdita di flessibilità su scene educational, social, adventure e action"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_clean_cartoon",
+          "prompt": "ax_clean_cartoon_v1, cheerful cartoon boy walking to school, backpack, warm morning light, readable face, large friendly eyes, readable hands, full body, friendly school environment, clean outlines, bright harmonious colors"
+        },
+        {
+          "name": "classroom_cartoon",
+          "prompt": "ax_clean_cartoon_v1, cartoon student sitting in a colorful classroom, readable smiling face, clean hands writing in notebook, rounded shapes, bright colors, soft simple shading, educational cartoon style"
+        },
+        {
+          "name": "adventure_cartoon",
+          "prompt": "ax_clean_cartoon_v1, cheerful cartoon child exploring a colorful park trail, full body, backpack, expressive face, readable hands, rounded trees, bright sky, polished modern cartoon look"
+        },
+        {
+          "name": "two_cartoon_friends",
+          "prompt": "ax_clean_cartoon_v1, two cartoon students walking together outside school, expressive faces, readable hands, colorful school campus, clean outlines, bright friendly atmosphere"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "mascot_cartoon",
+      "style_label": "Mascot",
+      "safe_label": "Original Brand Mascot Cartoon Style",
+      "style_category": "CARTOON",
+      "trigger_token": "ax_mascot_cartoon_v1",
+      "target_lora_name": "style/AXSTYLE_mascot_cartoon_v1.safetensors",
+      "output_name": "AXSTYLE_mascot_cartoon_v1",
+      "dataset_name": "mascot_cartoon_v1",
+      "dataset_volume_path": "/style_training/mascot_cartoon/mascot_cartoon_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "20%",
+        "full_body": "35%",
+        "environment_scenes": "10%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_mascot_cartoon_v1, original brand mascot cartoon style, iconic friendly mascot character, bold clean outlines, rounded simple shapes, large expressive eyes, memorable silhouette",
+      "prompt_suffix": "bright brand-friendly colors, cheerful expression, readable hands or paws, energetic pose, polished commercial mascot design, clean background, app and merchandise ready, high quality",
+      "negative_prompt": "photorealistic, anime, manga, 3d render, realistic animal, horror, gritty texture, overcomplicated design, weak silhouette, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, copied mascot, famous mascot, franchise character, brand imitation, logo, watermark, text artifacts, messy sketch, muddy colors, low contrast, blurry outlines, low resolution, adult content, aggressive scary expression",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_mascot_cartoon_v1.",
+        "Descrivere tipo di mascotte, animale/personaggio, forma, espressione, posa, mani/paws, outfit, colori e uso commerciale.",
+        "Specificare se la posa è icon pose, waving, thumbs-up, running, holding product, app mascot, game mascot o sticker pose.",
+        "Descrivere strong silhouette, bold outlines, rounded shapes e brand-friendly colors quando presenti.",
+        "Non usare nomi di brand, mascotte famose, franchise, squadre, loghi o personaggi esistenti.",
+        "Evitare caption generiche come cute mascot.",
+        "Mantenere il focus su riconoscibilità, semplicità e uso commerciale multipiattaforma."
+      ],
+      "overfitting_risks": [
+        "Tutte le mascotte diventano lo stesso animale",
+        "Tutti i personaggi hanno gli stessi colori",
+        "Pose sempre thumbs-up",
+        "Design troppo simile a mascotte famose",
+        "Eccessiva complessità che riduce leggibilità",
+        "Mani/paws confuse o deformate",
+        "Silhouette debole",
+        "Stile troppo vicino a clean_cartoon generico",
+        "La LoRA genera loghi o lettere non richieste sugli outfit"
+      ],
+      "validation_prompts": [
+        {
+          "name": "school_mascot",
+          "prompt": "ax_mascot_cartoon_v1, original friendly dog mascot walking to school, backpack, warm morning light, readable face, large expressive eyes, readable paws, full body, cheerful school environment, bold clean outlines, bright brand-friendly colors"
+        },
+        {
+          "name": "app_icon_mascot",
+          "prompt": "ax_mascot_cartoon_v1, original friendly mascot character in app icon pose, strong silhouette, big smile, large readable eyes, waving hand, simple clean background, bright brand-friendly colors, polished mascot cartoon design"
+        },
+        {
+          "name": "product_holding_mascot",
+          "prompt": "ax_mascot_cartoon_v1, cheerful mascot holding a generic product box, readable paws, friendly expression, rounded shapes, bold outlines, clean commercial background, advertising mascot style"
+        },
+        {
+          "name": "game_mascot_action",
+          "prompt": "ax_mascot_cartoon_v1, energetic animal mascot running in a colorful game-like environment, full body, strong silhouette, expressive face, readable paws, bright colors, clean cartoon outlines"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "storybook_cartoon",
+      "style_label": "Story Cartoon",
+      "safe_label": "Original Storybook Cartoon Style",
+      "style_category": "CARTOON",
+      "trigger_token": "ax_storybook_cartoon_v1",
+      "target_lora_name": "style/AXSTYLE_storybook_cartoon_v1.safetensors",
+      "output_name": "AXSTYLE_storybook_cartoon_v1",
+      "dataset_name": "storybook_cartoon_v1",
+      "dataset_volume_path": "/style_training/storybook_cartoon/storybook_cartoon_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "25%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_storybook_cartoon_v1, original storybook cartoon style, warm narrative cartoon illustration, gentle expressive character, soft rounded shapes, clean soft outlines, friendly face",
+      "prompt_suffix": "warm harmonious colors, cozy storybook environment, soft daylight, gentle shading, readable hands, inviting atmosphere, rich but clear background, positive storytelling, high quality",
+      "negative_prompt": "photorealistic, anime, manga ink, 3d render, comic book, mascot logo style, overly graphic vector look, dark dramatic mood, horror, gritty texture, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, copied character, franchise character, brand imitation, famous mascot, logo, watermark, subtitles, text artifacts, muddy colors, noisy image, blurry outlines, low resolution, oversexualized outfit, adult content, cluttered unreadable background",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_storybook_cartoon_v1.",
+        "Descrivere soggetto, azione narrativa, espressione, mani, outfit, ambiente, luce, palette e mood.",
+        "Specificare se la scena è educational story, school story, cozy home story, fairytale path, adventure story o family story.",
+        "Descrivere soft rounded shapes, warm colors, cozy environment, gentle shading e storybook atmosphere quando presenti.",
+        "Non usare nomi di brand, franchise, personaggi, mascotte, studi o opere esistenti.",
+        "Evitare caption generiche come story cartoon boy.",
+        "Mantenere distinzione da clean_cartoon: più narrativo e ambientale.",
+        "Mantenere distinzione da mascot_cartoon: meno iconico-brand, più scena e racconto."
+      ],
+      "overfitting_risks": [
+        "Tutte le scene diventano fiabesche con castello",
+        "Il personaggio diventa troppo simile a una mascotte",
+        "La scena diventa troppo carica e poco leggibile",
+        "Palette sempre troppo calda/gialla",
+        "Mani troppo semplificate o confuse",
+        "Ambienti sempre bosco/villaggio",
+        "Perdita di differenza rispetto a clean_cartoon",
+        "Stile troppo infantile e poco versatile",
+        "Imitazione involontaria di libri o personaggi riconoscibili"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_story_cartoon",
+          "prompt": "ax_storybook_cartoon_v1, cheerful cartoon boy walking to school, backpack, warm morning light, readable face, large warm eyes, readable hands, full body, friendly storybook school environment, soft rounded shapes, warm harmonious colors"
+        },
+        {
+          "name": "educational_story_scene",
+          "prompt": "ax_storybook_cartoon_v1, teacher reading a book to children in a cozy classroom, expressive faces, readable hands, warm soft light, colorful educational storybook cartoon atmosphere"
+        },
+        {
+          "name": "fairytale_path",
+          "prompt": "ax_storybook_cartoon_v1, child walking on a sunny village path toward a distant school, backpack, flowers, rounded trees, gentle expression, warm colors, soft storybook cartoon illustration"
+        },
+        {
+          "name": "cozy_home_story",
+          "prompt": "ax_storybook_cartoon_v1, child reading a book in a cozy room with a small pet, warm lamp light, soft rounded furniture, readable hands, gentle positive storytelling atmosphere"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "stylized_3d",
+      "style_label": "Stylized 3D",
+      "safe_label": "Original Modern Stylized 3D Animation Style",
+      "style_category": "3D ANIMATION",
+      "trigger_token": "ax_stylized_3d_v1",
+      "target_lora_name": "style/AXSTYLE_stylized_3d_v1.safetensors",
+      "output_name": "AXSTYLE_stylized_3d_v1",
+      "dataset_name": "stylized_3d_v1",
+      "dataset_volume_path": "/style_training/stylized_3d/stylized_3d_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "25%",
+        "full_body": "25%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.78,
+      "prompt_prefix": "ax_stylized_3d_v1, original modern stylized 3D animation style, expressive 3D character, rounded friendly shapes, large glossy eyes, sculpted stylized hair, clean 3D anatomy",
+      "prompt_suffix": "soft cinematic lighting, smooth polished materials, bright harmonious colors, readable hands, friendly environment, high quality stylized 3D render, animation-ready composition, original visual language",
+      "negative_prompt": "photorealistic, anime, manga, 2d cartoon, comic book, pencil sketch, watercolor, oil painting, low poly, clay style, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, plastic toy look, uncanny valley, harsh shadows, noisy render, blurry, low resolution, copied character, franchise character, brand imitation, logo, watermark, text artifacts, oversexualized outfit, adult content, cluttered background",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_stylized_3d_v1.",
+        "Descrivere soggetto, proporzioni, volto, occhi, capelli, mani, outfit, ambiente, materiali, luce e rendering.",
+        "Specificare se la scena è school 3D, app character, game-like scene, educational 3D, adventure 3D o social animation.",
+        "Descrivere rounded shapes, sculpted hair, glossy eyes, smooth materials e soft cinematic lighting quando presenti.",
+        "Non usare nomi di studi, franchise, personaggi, mascotte, brand o IP protette.",
+        "Evitare caption generiche come stylized 3D boy.",
+        "Mantenere distinzione da fairytale_3d, toy_clay_3d, low_poly_3d e clean_cartoon."
+      ],
+      "overfitting_risks": [
+        "Tutti i personaggi diventano troppo simili",
+        "Occhi troppo grandi o troppo lucidi",
+        "Materiali troppo plastici",
+        "Capelli sempre scolpiti nello stesso modo",
+        "Scene sempre scolastiche",
+        "Somiglianza eccessiva con fairytale_3d",
+        "Somiglianza eccessiva con toy_clay_3d",
+        "Mani semplificate male o deformate",
+        "Perdita di versatilità su app, game, educational e advertising"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_stylized_3d",
+          "prompt": "ax_stylized_3d_v1, cheerful stylized 3D boy walking to school, backpack, warm morning light, readable face, large glossy eyes, readable hands, full body, friendly school environment, rounded shapes, smooth polished materials"
+        },
+        {
+          "name": "app_character",
+          "prompt": "ax_stylized_3d_v1, friendly 3D app character standing in a simple pose, expressive face, glossy eyes, clean hands, rounded proportions, smooth materials, bright clean background"
+        },
+        {
+          "name": "game_scene",
+          "prompt": "ax_stylized_3d_v1, stylized 3D child exploring a colorful game-like village, full body, backpack, expressive face, readable hands, soft cinematic lighting, polished 3D environment"
+        },
+        {
+          "name": "two_3d_students",
+          "prompt": "ax_stylized_3d_v1, two stylized 3D students talking outside school, expressive faces, readable hands, colorful school campus, smooth materials, friendly animation-ready composition"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "fairytale_3d",
+      "style_label": "Fairytale 3D",
+      "safe_label": "Original Fairytale 3D Animation Style",
+      "style_category": "3D ANIMATION",
+      "trigger_token": "ax_fairytale_3d_v1",
+      "target_lora_name": "style/AXSTYLE_fairytale_3d_v1.safetensors",
+      "output_name": "AXSTYLE_fairytale_3d_v1",
+      "dataset_name": "fairytale_3d_v1",
+      "dataset_volume_path": "/style_training/fairytale_3d/fairytale_3d_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "20%",
+        "full_body": "25%",
+        "environment_scenes": "25%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_fairytale_3d_v1, original fairytale 3D animation style, magical stylized 3D character, soft rounded features, large warm glossy eyes, sculpted soft hair, charming storybook proportions",
+      "prompt_suffix": "warm magical lighting, glowing lanterns, rich harmonious colors, soft polished materials, enchanted environment, readable hands, cozy fairytale atmosphere, high quality stylized 3D render, family-friendly storytelling",
+      "negative_prompt": "photorealistic, anime, manga, 2d cartoon, comic book, low poly, clay style, horror, dark grotesque mood, copied character, franchise character, studio imitation, brand imitation, logo, watermark, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, plastic toy look, uncanny valley, harsh shadows, noisy render, blurry, low resolution, oversexualized outfit, adult content, cluttered unreadable background, overly realistic skin",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_fairytale_3d_v1.",
+        "Descrivere soggetto, proporzioni, volto, occhi, capelli, mani, outfit, ambiente, materiali, luce magica e atmosfera narrativa.",
+        "Specificare se la scena è fairytale village, enchanted school path, castle scene, magical forest, cozy interior, lantern-lit street o fantasy adventure.",
+        "Descrivere rounded shapes, sculpted hair, glossy eyes, warm magical light, glowing lanterns e polished 3D materials quando presenti.",
+        "Non usare nomi di studi, film, franchise, personaggi, mascotte, brand o IP protette.",
+        "Evitare caption generiche come fairytale 3D boy.",
+        "Mantenere distinzione da stylized_3d: qui lo stile è più magico, narrativo e incantato.",
+        "Mantenere distinzione da epic_fantasy: qui il tono resta dolce, family-friendly e fiabesco, non epico/dark."
+      ],
+      "overfitting_risks": [
+        "Tutte le scene diventano castelli e lanterne",
+        "Palette sempre viola/oro senza varietà",
+        "Personaggi troppo simili tra loro",
+        "Occhi troppo grandi o troppo glossy",
+        "Materiali troppo plastici o toy-like",
+        "Ambienti troppo carichi e poco leggibili",
+        "Somiglianza eccessiva con franchise/studi noti",
+        "Sovrapposizione con stylized_3d se manca magia",
+        "Sovrapposizione con epic_fantasy se diventa troppo epico o dark"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_fairytale_3d",
+          "prompt": "ax_fairytale_3d_v1, cheerful fairytale 3D boy walking to school, backpack, warm magical morning light, readable face, large warm glossy eyes, readable hands, full body, enchanted school path, glowing lanterns, cozy village, rich harmonious colors"
+        },
+        {
+          "name": "enchanted_village",
+          "prompt": "ax_fairytale_3d_v1, child walking through a cozy enchanted village, full body, gentle smile, readable hands, rounded cottages, flowers, warm lanterns, soft polished 3D materials, magical fairytale atmosphere"
+        },
+        {
+          "name": "cozy_magic_interior",
+          "prompt": "ax_fairytale_3d_v1, fairytale 3D child reading a book in a cozy magical room, warm lamp light, expressive face, clean hands, soft fabric, wood shelves, glowing details, family-friendly storytelling mood"
+        },
+        {
+          "name": "two_fairytale_friends",
+          "prompt": "ax_fairytale_3d_v1, two fairytale 3D students walking together on a lantern-lit school path, expressive faces, readable hands, enchanted village background, warm magical lighting, polished stylized 3D render"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "toy_clay_3d",
+      "style_label": "Toy & Clay",
+      "safe_label": "Original Toy and Clay 3D Style",
+      "style_category": "3D ANIMATION",
+      "trigger_token": "ax_toy_clay_3d_v1",
+      "target_lora_name": "style/AXSTYLE_toy_clay_3d_v1.safetensors",
+      "output_name": "AXSTYLE_toy_clay_3d_v1",
+      "dataset_name": "toy_clay_3d_v1",
+      "dataset_volume_path": "/style_training/toy_clay_3d/toy_clay_3d_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "20%",
+        "half_body": "20%",
+        "full_body": "25%",
+        "environment_scenes": "20%",
+        "multiple_characters": "5%",
+        "props_and_details": "10%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_toy_clay_3d_v1, original toy and clay 3D style, handmade clay-like character, soft rounded toy forms, large glossy eyes, clay-sculpted hair, tactile miniature look",
+      "prompt_suffix": "matte clay texture, pastel playful colors, warm soft lighting, rounded handmade props, readable small hands, cozy family-friendly atmosphere, stop-motion inspired 3D render, high quality",
+      "negative_prompt": "photorealistic, anime, manga, 2d cartoon, comic book, low poly, hyperrealistic skin, glossy plastic only, harsh shadows, gritty texture, horror, dark dramatic mood, copied character, franchise character, brand imitation, logo, watermark, text artifacts, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, uncanny valley, noisy render, blurry, low resolution, oversexualized outfit, adult content, cluttered unreadable background",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_toy_clay_3d_v1.",
+        "Descrivere soggetto, proporzioni toy-like, volto, occhi, capelli clay-sculpted, mani, outfit, ambiente, materiali e luce.",
+        "Specificare se la scena è clay school scene, toy miniature world, stop-motion inspired scene, educational toy scene, cozy clay interior o playful adventure.",
+        "Descrivere matte clay texture, rounded forms, handmade imperfections, pastel colors e warm soft light quando presenti.",
+        "Non usare nomi di studi, film, franchise, personaggi, giocattoli famosi, brand o IP protette.",
+        "Evitare caption generiche come clay 3D boy.",
+        "Mantenere distinzione da stylized_3d: qui il materiale deve sembrare più artigianale, tattile e clay.",
+        "Mantenere distinzione da low_poly_3d: qui le forme sono morbide, non geometriche."
+      ],
+      "overfitting_risks": [
+        "Tutti i personaggi sembrano pupazzi identici",
+        "Materiali troppo plastici invece che clay",
+        "Tutto diventa stop-motion troppo marcato",
+        "Occhi troppo button-like e ripetitivi",
+        "Mani troppo arrotondate e poco leggibili",
+        "Palette sempre pastello senza varietà",
+        "Scene sempre scolastiche o miniature",
+        "Sovrapposizione con stylized_3d se manca texture clay",
+        "Sovrapposizione con chibi_kawaii se le proporzioni diventano troppo super-deformed"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_toy_clay",
+          "prompt": "ax_toy_clay_3d_v1, cheerful toy clay boy walking to school, backpack, warm morning light, readable face, large glossy eyes, readable small rounded hands, full body, miniature school environment, matte clay texture, pastel playful colors"
+        },
+        {
+          "name": "toy_classroom",
+          "prompt": "ax_toy_clay_3d_v1, clay toy student sitting in a miniature classroom, readable face and hands, rounded desk and books, warm soft light, handmade clay textures, playful educational atmosphere"
+        },
+        {
+          "name": "clay_adventure",
+          "prompt": "ax_toy_clay_3d_v1, toy clay child exploring a colorful miniature garden path, full body, backpack, rounded trees, handmade flowers, matte clay surfaces, warm family-friendly lighting"
+        },
+        {
+          "name": "two_toy_friends",
+          "prompt": "ax_toy_clay_3d_v1, two toy clay students walking together outside a miniature school, expressive faces, readable rounded hands, pastel school campus, handmade clay look, stop-motion inspired render"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "low_poly_3d",
+      "style_label": "Low Poly 3D",
+      "safe_label": "Original Low Poly 3D Style",
+      "style_category": "3D ANIMATION",
+      "trigger_token": "ax_low_poly_3d_v1",
+      "target_lora_name": "style/AXSTYLE_low_poly_3d_v1.safetensors",
+      "output_name": "AXSTYLE_low_poly_3d_v1",
+      "dataset_name": "low_poly_3d_v1",
+      "dataset_volume_path": "/style_training/low_poly_3d/low_poly_3d_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "15%",
+        "half_body": "20%",
+        "full_body": "25%",
+        "environment_scenes": "30%",
+        "multiple_characters": "5%",
+        "props_and_details": "5%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.82,
+      "prompt_prefix": "ax_low_poly_3d_v1, original low poly 3D style, simple geometric character, faceted polygonal shapes, matte materials, clean low poly silhouette, friendly simplified face",
+      "prompt_suffix": "bright solid colors, simple daylight, geometric environment, faceted low poly surfaces, readable hands, clean game-friendly composition, lightweight 3D render, high quality",
+      "negative_prompt": "photorealistic, anime, manga, 2d cartoon, comic book, clay style, toy texture, high detail sculpted hair, realistic skin, complex fabric texture, painterly, watercolor, oil painting, distorted face, asymmetric eyes, malformed hands, extra fingers, missing fingers, broken anatomy, smooth realistic geometry, hyper detailed render, harsh cinematic lighting, noisy render, blurry, low resolution, copied character, franchise character, brand imitation, logo, watermark, text artifacts, adult content, oversexualized outfit, cluttered environment",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_low_poly_3d_v1.",
+        "Descrivere soggetto, geometria low poly, volto, occhi, mani, outfit, ambiente, materiali, luce e palette.",
+        "Specificare se la scena è low poly school, game environment, app scene, educational 3D, map scene, adventure landscape o motion graphic style.",
+        "Descrivere faceted shapes, polygonal geometry, matte materials, flat colors e simple daylight quando presenti.",
+        "Non usare nomi di giochi, studi, franchise, personaggi, brand o IP protette.",
+        "Evitare caption generiche come low poly boy.",
+        "Mantenere distinzione da stylized_3d: qui le superfici devono essere più geometriche e sfaccettate.",
+        "Mantenere distinzione da toy_clay_3d: qui i materiali sono matte/geometrici, non plastilina o handmade."
+      ],
+      "overfitting_risks": [
+        "Le scene diventano troppo semplici e povere",
+        "I volti perdono espressività",
+        "Le mani diventano blocchi illeggibili",
+        "La geometria diventa troppo spigolosa",
+        "Tutti gli ambienti diventano montagne/alberi geometrici",
+        "Palette troppo ripetitiva verde/blu",
+        "Sovrapposizione con stylized_3d se le superfici diventano troppo lisce",
+        "Sovrapposizione con toy_clay_3d se i materiali diventano troppo morbidi",
+        "Perdita di qualità commerciale su soggetti umani"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_low_poly_3d",
+          "prompt": "ax_low_poly_3d_v1, cheerful low poly 3D boy walking to school, backpack, warm morning light, readable face, simple eyes, readable blocky hands, full body, geometric school environment, faceted shapes, matte materials, bright solid colors"
+        },
+        {
+          "name": "low_poly_school_environment",
+          "prompt": "ax_low_poly_3d_v1, low poly school campus with geometric trees, simple clouds, blocky buildings, bright daylight, matte materials, clean game-friendly 3D environment"
+        },
+        {
+          "name": "low_poly_adventure",
+          "prompt": "ax_low_poly_3d_v1, low poly child exploring a colorful geometric mountain path, full body, backpack, faceted terrain, simple trees, readable hands, bright solid colors, lightweight game style"
+        },
+        {
+          "name": "two_low_poly_students",
+          "prompt": "ax_low_poly_3d_v1, two low poly 3D students walking together outside school, simplified friendly faces, readable blocky hands, geometric school campus, matte polygonal surfaces, clean bright composition"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    },
+    {
+      "style_id": "pixel_art",
+      "style_label": "Pixel Art",
+      "safe_label": "Original Retro Pixel Art Style",
+      "style_category": "RETRO & GAME",
+      "trigger_token": "ax_pixel_art_v1",
+      "target_lora_name": "style/AXSTYLE_pixel_art_v1.safetensors",
+      "output_name": "AXSTYLE_pixel_art_v1",
+      "dataset_name": "pixel_art_v1",
+      "dataset_volume_path": "/style_training/pixel_art/pixel_art_v1",
+      "minimum_dataset_images": 500,
+      "recommended_dataset_images": 1200,
+      "dataset_distribution": {
+        "portraits": "10%",
+        "half_body": "10%",
+        "full_body": "25%",
+        "environment_scenes": "25%",
+        "multiple_characters": "5%",
+        "props_and_details": "25%"
+      },
+      "base_training_steps": 3000,
+      "incremental_steps": 250,
+      "network_rank": "16-32",
+      "network_alpha": "16-32",
+      "unet_learning_rate": "1e-4",
+      "text_encoder_learning_rate": "0 or 5e-6",
+      "optimizer": "AdamW8bit",
+      "scheduler": "cosine or constant_with_warmup",
+      "validation_every_steps": "200-500",
+      "lora_strength_default": 0.84,
+      "prompt_prefix": "ax_pixel_art_v1, original retro pixel art style, crisp pixel grid, limited color palette, 8-bit 16-bit inspired game art, blocky readable character, clean sprite-like silhouette",
+      "prompt_suffix": "hard-edged pixels, no anti-aliasing, simple pixel shading, tile-based environment, readable small hands, retro videogame atmosphere, iconic pixel composition, high quality pixel art",
+      "negative_prompt": "photorealistic, smooth digital painting, watercolor, oil painting, pencil sketch, vector flat, 3d render, clay style, low poly 3d, anime full detail, manga ink, comic book, smooth gradients, anti-aliased edges, realistic texture, blurry pixels, inconsistent pixel size, messy pixel grid, copied game sprite, famous game character, franchise imitation, brand logo, watermark, unwanted text, text artifacts, distorted face, unreadable sprite, malformed hands, too many details, low resolution artifacting unrelated to pixel art, adult content, oversexualized outfit",
+      "captioning_rules": [
+        "Usare sempre il trigger token ax_pixel_art_v1.",
+        "Descrivere soggetto, azione, sprite scale, palette, pixel grid, ambiente, UI o tile se presenti.",
+        "Specificare se la scena è 8-bit, 16-bit, sprite sheet, game scene, retro UI, icon set, platform scene, RPG scene o educational pixel art.",
+        "Descrivere crisp pixels, limited palette, no anti-aliasing, tile-based environment e dithering quando presenti.",
+        "Non usare nomi di videogiochi, console, franchise, personaggi, brand o IP protette.",
+        "Evitare caption generiche come pixel boy.",
+        "Mantenere distinzione da low_poly_3d: qui è 2D pixel, non geometria 3D.",
+        "Mantenere distinzione da vector_flat: qui deve esserci griglia pixel e palette retro."
+      ],
+      "overfitting_risks": [
+        "Pixel troppo piccoli o troppo grandi",
+        "Incoerenza nella dimensione dei pixel",
+        "Palette troppo limitata e poco leggibile",
+        "Sprite troppo simili a giochi famosi",
+        "Ambienti sempre platform o sempre città",
+        "Volti e mani illeggibili",
+        "Effetto blur o anti-aliasing indesiderato",
+        "Sovrapposizione con vector_flat se perde griglia pixel",
+        "Sovrapposizione con low_poly_3d se diventa pseudo-3D"
+      ],
+      "validation_prompts": [
+        {
+          "name": "schoolboy_pixel_art",
+          "prompt": "ax_pixel_art_v1, cheerful pixel art boy walking to school, backpack, readable small face, readable blocky hands, full body, friendly school environment, crisp pixel grid, limited color palette, 16-bit retro videogame style"
+        },
+        {
+          "name": "pixel_ui_scene",
+          "prompt": "ax_pixel_art_v1, retro game UI screen for a school adventure, character portrait, hearts, inventory icons, books and backpack, crisp pixels, limited palette, clean pixel interface"
+        },
+        {
+          "name": "pixel_environment",
+          "prompt": "ax_pixel_art_v1, pixel art futuristic school campus, tile-based path, trees, clean buildings, flying vehicle, blue sky, limited palette, hard-edged pixels, retro game environment"
+        },
+        {
+          "name": "sprite_sheet",
+          "prompt": "ax_pixel_art_v1, small pixel art sprite sheet of a student walking, four frame walk cycle, backpack, readable silhouette, limited palette, crisp pixel grid, no anti-aliasing"
+        }
+      ],
+      "status": "dataset_required",
+      "enabled_in_app": false,
+      "promotion_status": "not_trained"
+    }
+  ]
+}

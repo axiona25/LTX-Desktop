@@ -1,16 +1,30 @@
 # AXSTUDIO FLUX Image Worker
 
-Modal worker exposing `POST /generate` for FLUX.1-dev image generation on H100.
+Modal worker exposing `POST /generate` for FLUX image generation on H100.
 
 ## Modal resources
 
 ```bash
 modal volume create axstudio-flux-cache
-modal secret create axstudio-flux-secrets HF_TOKEN=your-huggingface-token
 modal deploy modal-workers/flux-image/app.py
 ```
 
-`HF_TOKEN` or `HUGGING_FACE_HUB_TOKEN` is required if your Hugging Face account needs gated access to `black-forest-labs/FLUX.1-dev`.
+Default model:
+
+```text
+black-forest-labs/FLUX.2-klein-9B
+```
+
+The worker also routes selected 3D animation styles to:
+
+```text
+black-forest-labs/FLUX.1-dev
+```
+
+That secondary route is used for Flux.1-only LoRAs such as `Flux 3D Animation Style LoRA`
+(`Muapi/flux-3d-animation-style-lora`, Civitai version `922267`).
+
+This worker is the direct FLUX path used by AXSTUDIO for prompt-following and graphic styles.
 
 ## Request
 
@@ -20,8 +34,8 @@ modal deploy modal-workers/flux-image/app.py
   "negative_prompt": "blurry, low quality",
   "width": 1344,
   "height": 768,
-  "steps": 28,
-  "guidance_scale": 3.5,
+  "steps": 8,
+  "guidance_scale": 1.0,
   "seed": null,
   "quality_mode": "balanced"
 }
@@ -32,14 +46,14 @@ modal deploy modal-workers/flux-image/app.py
 ```json
 {
   "provider": "modal_flux",
-  "model": "FLUX.1-dev",
+  "model": "black-forest-labs/FLUX.2-klein-9B",
   "image_base64": "...",
   "seed": 123456,
   "width": 1344,
   "height": 768,
-  "requested_steps": 36,
-  "actual_steps": 36,
-  "guidance_scale": 3.5,
+  "requested_steps": 8,
+  "actual_steps": 8,
+  "guidance_scale": 1.0,
   "quality_mode": "premium",
   "effective_width": 1344,
   "effective_height": 768,

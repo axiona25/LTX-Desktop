@@ -1,0 +1,38 @@
+{
+  "style_id": "pencil_sketch",
+  "trigger_token": "ax_pencil_sketch_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_pencil_sketch",
+      "prompt": "ax_pencil_sketch_v1, cheerful boy walking to school, backpack, warm morning light represented in graphite, readable face, readable hands, full body, friendly school environment, pencil sketch, hatching, cross-hatching, visible paper texture"
+    },
+    {
+      "name": "pencil_portrait",
+      "prompt": "ax_pencil_sketch_v1, gentle portrait of a young student, readable eyes, soft face, layered graphite hair strokes, paper grain, delicate pencil shading, monochrome sketchbook style"
+    },
+    {
+      "name": "environment_sketch",
+      "prompt": "ax_pencil_sketch_v1, school courtyard with trees and building, perspective drawing, pencil linework, hatching, paper texture, soft graphite shadows, architectural sketch style"
+    },
+    {
+      "name": "still_life_sketch",
+      "prompt": "ax_pencil_sketch_v1, books, pencil and open notebook on a desk, graphite still life drawing, visible paper grain, cross-hatching, soft shadows, educational sketch study"
+    }
+  ],
+  "scoring_criteria": [
+    "pencil_sketch style fidelity",
+    "graphite line quality",
+    "hatching quality",
+    "cross-hatching quality",
+    "chiaroscuro quality",
+    "paper texture quality",
+    "face quality",
+    "eye quality",
+    "hand quality",
+    "subject readability",
+    "monochrome control",
+    "difference from manga_ink",
+    "difference from watercolor",
+    "absence of artist or IP imitation"
+  ]
+}

@@ -16,10 +16,13 @@ import {
 } from '../lib/project-asset-metadata-migration'
 
 function formatProjectDate(timestamp: number): string {
-  return new Date(timestamp).toLocaleDateString('it-IT', {
+  return new Date(timestamp).toLocaleString('it-IT', {
+    weekday: 'long',
     day: '2-digit',
     month: 'long',
     year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   })
 }
 
@@ -67,9 +70,6 @@ export function Project({ isGalleryOpen = false }: ProjectProps) {
   const [isGalleryDragOver, setIsGalleryDragOver] = useState(false)
   const activeProjectId = activeProject?.id ?? null
   const activeProjectAssets = activeProject?.assets ?? null
-  const projectImageAssets = activeProject?.assets.filter((asset) => (
-    asset.type === 'image' && asset.generationParams?.mode === 'text-to-image'
-  )) ?? []
   const needsAssetMetadataMigration = activeProjectAssets
     ? hasVisualAssetMetadataForMigration(activeProjectAssets)
     : false
@@ -121,11 +121,6 @@ export function Project({ isGalleryOpen = false }: ProjectProps) {
     setPendingIcLoraUpdate,
   ])
 
-  useEffect(() => {
-    if (selectedProjectImagePath || projectImageAssets.length === 0) return
-    setSelectedProjectImagePath(projectImageAssets[0].path)
-  }, [projectImageAssets, selectedProjectImagePath])
-
   const handleConfirmDeleteAsset = useCallback(async () => {
     if (!activeProjectId || !assetPendingDelete) return
 
@@ -148,10 +143,11 @@ export function Project({ isGalleryOpen = false }: ProjectProps) {
     }
 
     deleteAsset(activeProjectId, assetPendingDelete.id)
-    const nextAsset = projectImageAssets.find((asset) => asset.id !== assetPendingDelete.id) ?? null
-    setSelectedProjectImagePath(nextAsset?.path ?? null)
+    setSelectedProjectImagePath((currentPath) => (
+      currentPath === assetPendingDelete.path ? null : currentPath
+    ))
     setAssetPendingDelete(null)
-  }, [activeProjectId, assetPendingDelete, deleteAsset, projectImageAssets])
+  }, [activeProjectId, assetPendingDelete, deleteAsset])
 
   const handleGalleryDragOver = useCallback((event: DragEvent<HTMLElement>) => {
     if (!isGalleryOpen || currentTab !== 'gen-space' || !event.dataTransfer.types.includes(GALLERY_DRAG_MIME)) return
@@ -282,74 +278,22 @@ export function Project({ isGalleryOpen = false }: ProjectProps) {
         {currentTab === 'gen-space' ? (
           <div className="flex h-full min-h-0 flex-col">
             <header className="relative h-24 shrink-0 border-b border-zinc-900 bg-zinc-950">
-              <div className={`absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-3 transition-opacity ${
-                isGalleryOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
-              }`}>
+              <div className="absolute left-4 top-1/2 flex -translate-y-1/2 items-center gap-3">
                 <button
                   type="button"
                   onClick={goHome}
                   className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+                  aria-label="Torna ai progetti"
                 >
                   <ArrowLeft className="h-5 w-5" />
                 </button>
-                <div className="min-w-0">
-                  <h1 className="max-w-[260px] truncate text-xl font-semibold text-white">{activeProject.name}</h1>
-                  <p className="mt-0.5 text-xs text-zinc-500">
-                    {formatProjectDate(activeProject.createdAt)}
-                  </p>
-                </div>
               </div>
 
-              <div
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-[width] duration-300"
-                style={{ width: 'min(1280px, calc(100% - 2rem))' }}
-              >
-                <div className="flex min-h-16 items-center gap-3 overflow-x-auto rounded-xl border border-zinc-900 bg-black/20 px-3 py-2">
-                  {projectImageAssets.length > 0 ? (
-                    projectImageAssets.map((asset) => {
-                      const thumb = asset.smallThumbnailPath || asset.bigThumbnailPath || asset.path
-                      return (
-                        <button
-                          key={asset.id}
-                          type="button"
-                          onClick={() => setSelectedProjectImagePath(asset.path)}
-                          className={`group relative h-14 w-24 shrink-0 overflow-hidden rounded-lg border bg-zinc-900 transition-colors ${
-                            selectedProjectImagePath === asset.path
-                              ? 'border-blue-400'
-                              : 'border-zinc-800 hover:border-zinc-600'
-                          }`}
-                        >
-                          <img src={pathToFileUrl(thumb)} alt="" className="h-full w-full object-cover" />
-                          <span className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20" />
-                          <span
-                            role="button"
-                            tabIndex={0}
-                            onClick={(event) => {
-                              event.stopPropagation()
-                              setDeleteError('')
-                              setAssetPendingDelete(asset)
-                            }}
-                            onKeyDown={(event) => {
-                              if (event.key !== 'Enter' && event.key !== ' ') return
-                              event.preventDefault()
-                              event.stopPropagation()
-                              setDeleteError('')
-                              setAssetPendingDelete(asset)
-                            }}
-                            className={`absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/70 text-zinc-300 transition-opacity hover:bg-red-500 hover:text-white ${
-                              isGalleryOpen ? 'pointer-events-none opacity-0' : 'opacity-0 group-hover:opacity-100'
-                            }`}
-                            title="Elimina immagine"
-                          >
-                            <X className="h-3.5 w-3.5" />
-                          </span>
-                        </button>
-                      )
-                    })
-                  ) : (
-                    <div className="px-3 text-sm text-zinc-600">Le immagini generate appariranno qui.</div>
-                  )}
-                </div>
+              <div className="absolute left-1/2 top-1/2 w-[min(560px,calc(100%-8rem))] -translate-x-1/2 -translate-y-1/2 text-center">
+                <h1 className="truncate text-2xl font-semibold tracking-tight text-white">{activeProject.name}</h1>
+                <p className="mt-1 text-xs capitalize text-zinc-500">
+                  Creato {formatProjectDate(activeProject.createdAt)}
+                </p>
               </div>
             </header>
 

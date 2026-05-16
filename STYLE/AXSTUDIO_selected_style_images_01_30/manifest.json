@@ -1,0 +1,149 @@
+{
+  "name": "AXSTUDIO selected style images",
+  "status": "complete_35",
+  "note": "Pure images only, no titles, no contact sheets. Filenames match AXSTUDIO style ids.",
+  "count": 35,
+  "missing_sources": [],
+  "images": [
+    {
+      "id": "anime_cinematic",
+      "file": "anime_cinematic.png"
+    },
+    {
+      "id": "anime_clean",
+      "file": "anime_clean.png"
+    },
+    {
+      "id": "chibi_kawaii",
+      "file": "chibi_kawaii.png"
+    },
+    {
+      "id": "cinematic_realism",
+      "file": "cinematic_realism.png"
+    },
+    {
+      "id": "clean_cartoon",
+      "file": "clean_cartoon.png"
+    },
+    {
+      "id": "comic_book",
+      "file": "comic_book.png"
+    },
+    {
+      "id": "commercial_ad",
+      "file": "commercial_ad.png"
+    },
+    {
+      "id": "concept_art",
+      "file": "concept_art.png"
+    },
+    {
+      "id": "cyberpunk",
+      "file": "cyberpunk.png"
+    },
+    {
+      "id": "documentary_realism",
+      "file": "documentary_realism.png"
+    },
+    {
+      "id": "dramatic_film",
+      "file": "dramatic_film.png"
+    },
+    {
+      "id": "editorial_illustration",
+      "file": "editorial_illustration.png"
+    },
+    {
+      "id": "epic_fantasy",
+      "file": "epic_fantasy.png"
+    },
+    {
+      "id": "european_comic",
+      "file": "european_comic.png"
+    },
+    {
+      "id": "fairytale_3d",
+      "file": "fairytale_3d.png"
+    },
+    {
+      "id": "fashion_editorial",
+      "file": "fashion_editorial.png"
+    },
+    {
+      "id": "graphic_novel",
+      "file": "graphic_novel.png"
+    },
+    {
+      "id": "lifestyle_photo",
+      "file": "lifestyle_photo.png"
+    },
+    {
+      "id": "low_poly_3d",
+      "file": "low_poly_3d.png"
+    },
+    {
+      "id": "manga_ink",
+      "file": "manga_ink.png"
+    },
+    {
+      "id": "mascot_cartoon",
+      "file": "mascot_cartoon.png"
+    },
+    {
+      "id": "music_video",
+      "file": "music_video.png"
+    },
+    {
+      "id": "pencil_sketch",
+      "file": "pencil_sketch.png"
+    },
+    {
+      "id": "photorealistic",
+      "file": "photorealistic.png"
+    },
+    {
+      "id": "pixel_art",
+      "file": "pixel_art.png"
+    },
+    {
+      "id": "portrait_photo",
+      "file": "portrait_photo.png"
+    },
+    {
+      "id": "poster_graphic",
+      "file": "poster_graphic.png"
+    },
+    {
+      "id": "product_photo",
+      "file": "product_photo.png"
+    },
+    {
+      "id": "sci_fi_future",
+      "file": "sci_fi_future.png"
+    },
+    {
+      "id": "storybook_cartoon",
+      "file": "storybook_cartoon.png"
+    },
+    {
+      "id": "storybook_illustration",
+      "file": "storybook_illustration.png"
+    },
+    {
+      "id": "stylized_3d",
+      "file": "stylized_3d.png"
+    },
+    {
+      "id": "toy_clay_3d",
+      "file": "toy_clay_3d.png"
+    },
+    {
+      "id": "vector_flat",
+      "file": "vector_flat.png"
+    },
+    {
+      "id": "watercolor",
+      "file": "watercolor.png"
+    }
+  ]
+}

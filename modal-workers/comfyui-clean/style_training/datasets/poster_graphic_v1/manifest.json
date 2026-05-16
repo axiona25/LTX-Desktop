@@ -1,0 +1,9 @@
+{
+  "dataset_name": "poster_graphic_v1",
+  "style_id": "poster_graphic",
+  "trigger_token": "ax_poster_graphic_v1",
+  "image_count": 0,
+  "quality": "curated_required",
+  "warning": "Do not train or promote until the dataset has been manually reviewed for quality, IP safety and caption accuracy.",
+  "records": []
+}

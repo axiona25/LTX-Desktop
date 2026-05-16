@@ -1,0 +1,37 @@
+{
+  "style_id": "concept_art",
+  "trigger_token": "ax_concept_art_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_concept_art",
+      "prompt": "ax_concept_art_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly school environment reimagined as cinematic concept art, strong silhouettes, painterly textures, atmospheric depth"
+    },
+    {
+      "name": "academy_worldbuilding",
+      "prompt": "ax_concept_art_v1, student explorer overlooking a vast academy city in the mountains, backpack, strong silhouette, dramatic sky, readable hands, cinematic lighting, immersive worldbuilding environment concept art"
+    },
+    {
+      "name": "character_design",
+      "prompt": "ax_concept_art_v1, young student adventurer character design, full body, backpack, readable face and hands, functional outfit, painterly digital brushwork, clear silhouette, production concept art style"
+    },
+    {
+      "name": "prop_and_environment",
+      "prompt": "ax_concept_art_v1, concept art sheet of school exploration props and environment details, backpack, books, lantern, architectural fragments, selective detail, painterly texture, cohesive worldbuilding design"
+    }
+  ],
+  "scoring_criteria": [
+    "concept_art style fidelity",
+    "design value and production usefulness",
+    "silhouette readability",
+    "value structure",
+    "environment design quality",
+    "character design quality",
+    "face and hand quality",
+    "lighting quality",
+    "painterly texture quality",
+    "worldbuilding clarity",
+    "difference from epic_fantasy",
+    "difference from sci_fi_future",
+    "absence of IP, franchise, film, game, or artist imitation"
+  ]
+}

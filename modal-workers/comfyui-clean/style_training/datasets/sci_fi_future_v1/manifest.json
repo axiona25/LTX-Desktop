@@ -1,0 +1,9 @@
+{
+  "dataset_name": "sci_fi_future_v1",
+  "style_id": "sci_fi_future",
+  "trigger_token": "ax_sci_fi_future_v1",
+  "image_count": 0,
+  "quality": "curated_required",
+  "warning": "Do not train or promote until the dataset has been manually reviewed for quality, IP safety and caption accuracy.",
+  "records": []
+}

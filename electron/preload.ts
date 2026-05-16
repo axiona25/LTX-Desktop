@@ -27,6 +27,11 @@ api.onBackendHealthStatus = (cb: (data: BackendHealthStatus) => void) => {
 
 api.getPathForFile = (file: File) => webUtils.getPathForFile(file)
 
+api.readAppStorageItem = (key: string) => ipcRenderer.sendSync('app-storage-read', { key })
+api.writeAppStorageItem = (key: string, value: string) => ipcRenderer.sendSync('app-storage-write', { key, value })
+api.removeAppStorageItem = (key: string) => ipcRenderer.sendSync('app-storage-remove', { key })
+api.listAppStorageKeys = (prefix?: string) => ipcRenderer.sendSync('app-storage-keys', { prefix })
+
 api.platform = process.platform
 
 api.hfGatingEnabled = HF_GATING_ENABLED

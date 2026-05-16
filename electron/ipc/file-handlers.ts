@@ -1,4 +1,4 @@
-import { dialog } from 'electron'
+import { app, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import { getAllowedRoots } from '../config'
@@ -103,6 +103,16 @@ function copyToProjectAssetDirectory(srcPath: string, projectId: string): string
   const destDir = path.join(assetsRoot, projectId)
   fs.mkdirSync(destDir, { recursive: true })
   const fileName = path.basename(srcPath)
+  const destPath = getUniqueDestinationPath(destDir, fileName)
+  fs.copyFileSync(srcPath, destPath)
+  return destPath
+}
+
+function copyToCharacterLibrary(srcPath: string): string {
+  const destDir = path.join(app.getPath('userData'), 'characters')
+  fs.mkdirSync(destDir, { recursive: true })
+  const parsed = path.parse(srcPath)
+  const fileName = `${parsed.name}_${Date.now()}${parsed.ext || '.png'}`
   const destPath = getUniqueDestinationPath(destDir, fileName)
   fs.copyFileSync(srcPath, destPath)
   return destPath
@@ -306,6 +316,21 @@ export function registerFileHandlers(): void {
       return { success: true, path: destPath }
     } catch (error) {
       logger.error(`Error copying file to project assets: ${error}`)
+      return { success: false, error: String(error) }
+    }
+  })
+
+  handle('copyImageToCharacterLibrary', ({ srcPath }) => {
+    try {
+      const resolvedSrc = resolveLocalSourcePath(srcPath)
+      const ext = path.extname(resolvedSrc).toLowerCase()
+      if (!['.png', '.jpg', '.jpeg', '.webp'].includes(ext)) {
+        throw new Error(`Unsupported character image type: ${ext}`)
+      }
+      const destPath = copyToCharacterLibrary(resolvedSrc)
+      return { success: true, path: destPath }
+    } catch (error) {
+      logger.error(`Error copying character image: ${error}`)
       return { success: false, error: String(error) }
     }
   })

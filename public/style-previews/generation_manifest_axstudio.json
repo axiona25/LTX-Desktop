@@ -1,0 +1,16 @@
+[
+  {
+    "style_id": "disney_style",
+    "style_label": "Disney Style",
+    "style_category": "animation_cartoon",
+    "seed": 1778600000,
+    "prompt": "A charming animated scene of a friendly fully clothed adult character with a small creative camera in a bright studio, simple background, clear subject, no text, family-friendly fairy-tale animated feature film style, expressive rounded character design, elegant hand-drawn inspired shapes, magical warm lighting, polished storybook background, musical fantasy animation mood, square preview image, one clear subject, high quality, polished visual, accurate composition",
+    "negative_prompt": "text, words, logo, watermark, signature, UI, frame, border, low quality, blurry, malformed, duplicated subject, nude, topless, bare chest, exposed breasts, lingerie, underwear, official character, existing character, copyrighted character, logo, photorealistic, horror, gritty realism, distorted cartoon anatomy",
+    "output": "public/style-previews/disney_style.webp",
+    "success": true,
+    "prompt_id": "f4018829-269d-401a-b57f-2060dbb17edf",
+    "history_filename": "style_preview_disney_style_1778624597_00001_.png",
+    "history_subfolder": "",
+    "history_type": "output"
+  }
+]

@@ -1167,6 +1167,16 @@ export interface components {
              * @default false
              */
             idea_is_primary_guide: boolean;
+            /** Image Character Id */
+            image_character_id?: string | null;
+            /** Image Character Image Path */
+            image_character_image_path?: string | null;
+            /** Image Character Name */
+            image_character_name?: string | null;
+            /** Image Character Negative Prompt */
+            image_character_negative_prompt?: string | null;
+            /** Image Character Prompt */
+            image_character_prompt?: string | null;
             /** Llm Enhanced Prompt */
             llm_enhanced_prompt?: string | null;
             /**
@@ -1243,6 +1253,11 @@ export interface components {
             subject_type?: string | null;
             /** Trait Lock Types Applied */
             trait_lock_types_applied?: string[];
+            /**
+             * Use Character Lora
+             * @default false
+             */
+            use_character_lora: boolean;
             /** Visible Prompt Before Generate */
             visible_prompt_before_generate?: string | null;
             /**
@@ -1271,11 +1286,8 @@ export interface components {
             local_path: string;
             /** Metadata Path */
             metadata_path: string;
-            /**
-             * Model
-             * @constant
-             */
-            model: "FLUX.1-dev";
+            /** Model */
+            model: string;
             /** Negative Prompt Applied */
             negative_prompt_applied: boolean;
             /**
@@ -1314,6 +1326,10 @@ export interface components {
              * @enum {string}
              */
             composition_intent: "portrait" | "full_body" | "landscape_scene" | "product" | "architecture" | "generic";
+            /** Display Final Prompt */
+            display_final_prompt?: string | null;
+            /** Display Negative Prompt */
+            display_negative_prompt?: string | null;
             /** Final Prompt */
             final_prompt: string;
             /** Guidance Scale */

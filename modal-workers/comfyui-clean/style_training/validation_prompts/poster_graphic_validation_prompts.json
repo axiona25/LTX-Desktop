@@ -1,0 +1,35 @@
+{
+  "style_id": "poster_graphic",
+  "trigger_token": "ax_poster_graphic_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_poster_graphic",
+      "prompt": "ax_poster_graphic_v1, cheerful boy walking to school, backpack, readable face, readable hands, full body, bold education poster composition, limited navy orange cream palette, strong silhouette, geometric school environment, screenprint texture, high contrast graphic design"
+    },
+    {
+      "name": "education_campaign",
+      "prompt": "ax_poster_graphic_v1, education campaign poster about learning and future, student with backpack, strong silhouette, geometric sun, simplified futuristic school, limited colors, bold visual hierarchy, subtle paper grain"
+    },
+    {
+      "name": "event_poster",
+      "prompt": "ax_poster_graphic_v1, modern event poster graphic with musician silhouette and abstract stage lights, strong contrast, limited red black cream palette, dynamic diagonal shapes, screenprint texture"
+    },
+    {
+      "name": "sports_energy",
+      "prompt": "ax_poster_graphic_v1, runner silhouette in dynamic motion, bold diagonal composition, limited orange navy cream palette, high contrast graphic shadows, motivational poster style, subtle print texture"
+    }
+  ],
+  "scoring_criteria": [
+    "poster_graphic style fidelity",
+    "silhouette strength",
+    "composition quality",
+    "visual impact",
+    "limited palette coherence",
+    "print texture quality",
+    "face and hand readability",
+    "absence of unwanted text or logos",
+    "difference from vector_flat",
+    "difference from commercial_ad",
+    "key visual quality"
+  ]
+}

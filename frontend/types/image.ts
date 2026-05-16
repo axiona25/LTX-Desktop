@@ -18,6 +18,12 @@ export interface FluxImageGenerateRequest {
   selected_style_id?: string | null
   selected_style_label?: string | null
   selected_style_category?: string | null
+  image_character_id?: string | null
+  image_character_name?: string | null
+  image_character_image_path?: string | null
+  image_character_prompt?: string | null
+  image_character_negative_prompt?: string | null
+  use_character_lora?: boolean
   custom_style_text?: string | null
   style_prompt_modifier?: string | null
   style_negative_modifier?: string | null
@@ -44,7 +50,7 @@ export interface FluxImageGenerateRequest {
 
 export interface FluxImageResult {
   provider: 'modal_flux'
-  model: 'FLUX.1-dev'
+  model: string
   image_base64: string
   seed: number
   width: number
@@ -64,7 +70,7 @@ export interface FluxImageResult {
 export interface LocalImageMetadata {
   type: 'image'
   provider: 'modal_flux'
-  model: 'FLUX.1-dev'
+  model: string
   prompt: string
   original_idea?: string | null
   llm_enhanced_prompt?: string | null
@@ -74,6 +80,12 @@ export interface LocalImageMetadata {
   selected_style_id?: string | null
   selected_style_label?: string | null
   selected_style_category?: string | null
+  image_character_id?: string | null
+  image_character_name?: string | null
+  image_character_image_path?: string | null
+  image_character_prompt?: string | null
+  image_character_negative_prompt?: string | null
+  use_character_lora?: boolean
   custom_style_text?: string | null
   style_prompt_modifier?: string | null
   style_negative_modifier?: string | null

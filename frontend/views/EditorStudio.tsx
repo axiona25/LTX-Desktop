@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Film } from 'lucide-react'
 import { WorkspaceSidebar } from '../components/WorkspaceSidebar'
 import { useProjects } from '../contexts/ProjectContext'
 import { VideoEditor } from './VideoEditor'
+import type { Project } from '../types/project-model'
 
 export function EditorStudio() {
   const {
@@ -19,6 +20,12 @@ export function EditorStudio() {
     activateProject(projectIds[0])
   }, [activateProject, activeProject, projectIds])
 
+  const activeProjectId = activeProject?.id ?? null
+  const saveActiveProject = useCallback((project: Project) => {
+    if (!activeProjectId) return
+    setProject(activeProjectId, project)
+  }, [activeProjectId, setProject])
+
   return (
     <div className="flex h-screen bg-background text-white">
       <WorkspaceSidebar active="editor" />
@@ -27,7 +34,7 @@ export function EditorStudio() {
           <VideoEditor
             key={activeProject.id}
             currentProject={activeProject}
-            saveProject={(project) => setProject(activeProject.id, project)}
+            saveProject={saveActiveProject}
             pendingRetakeUpdate={pendingRetakeUpdate}
             pendingIcLoraUpdate={pendingIcLoraUpdate}
           />

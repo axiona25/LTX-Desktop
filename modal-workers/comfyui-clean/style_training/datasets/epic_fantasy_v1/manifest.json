@@ -1,0 +1,9 @@
+{
+  "dataset_name": "epic_fantasy_v1",
+  "style_id": "epic_fantasy",
+  "trigger_token": "ax_epic_fantasy_v1",
+  "image_count": 0,
+  "quality": "curated_required",
+  "warning": "Do not train or promote until the dataset has been manually reviewed for quality, IP safety and caption accuracy.",
+  "records": []
+}

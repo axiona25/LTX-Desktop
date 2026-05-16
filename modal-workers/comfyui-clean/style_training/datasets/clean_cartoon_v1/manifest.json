@@ -1,0 +1,9 @@
+{
+  "dataset_name": "clean_cartoon_v1",
+  "style_id": "clean_cartoon",
+  "trigger_token": "ax_clean_cartoon_v1",
+  "image_count": 0,
+  "quality": "curated_required",
+  "warning": "Do not train or promote until the dataset has been manually reviewed for quality, IP safety and caption accuracy.",
+  "records": []
+}

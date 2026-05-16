@@ -1,0 +1,9 @@
+{
+  "dataset_name": "low_poly_3d_v1",
+  "style_id": "low_poly_3d",
+  "trigger_token": "ax_low_poly_3d_v1",
+  "image_count": 0,
+  "quality": "curated_required",
+  "warning": "Do not train or promote until the dataset has been manually reviewed for quality, IP safety and caption accuracy.",
+  "records": []
+}

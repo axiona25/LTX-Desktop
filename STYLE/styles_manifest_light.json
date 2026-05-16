@@ -1,0 +1,356 @@
+{
+  "version": "1.0.0",
+  "total_styles": 35,
+  "assets": [
+    {
+      "order": 1,
+      "id": "photorealistic",
+      "ui_label": "Photorealistic",
+      "category": "REALISTIC",
+      "modal_card": "modal_cards_16x9/01_photorealistic.png",
+      "source_image": "original_sources/01_photorealistic_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 2,
+      "id": "portrait_photo",
+      "ui_label": "Portrait Photo",
+      "category": "REALISTIC",
+      "modal_card": "modal_cards_16x9/02_portrait_photo.png",
+      "source_image": "original_sources/02_portrait_photo_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 3,
+      "id": "fashion_editorial",
+      "ui_label": "Fashion Editorial",
+      "category": "REALISTIC",
+      "modal_card": "modal_cards_16x9/03_fashion_editorial.png",
+      "source_image": "original_sources/03_fashion_editorial_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 4,
+      "id": "product_photo",
+      "ui_label": "Product Photo",
+      "category": "REALISTIC",
+      "modal_card": "modal_cards_16x9/04_product_photo.png",
+      "source_image": "original_sources/04_product_photo_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 5,
+      "id": "lifestyle_photo",
+      "ui_label": "Lifestyle Photo",
+      "category": "REALISTIC",
+      "modal_card": "modal_cards_16x9/05_lifestyle_photo.png",
+      "source_image": "original_sources/05_lifestyle_photo_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 6,
+      "id": "cinematic_realism",
+      "ui_label": "Cinematic Realism",
+      "category": "CINEMATIC",
+      "modal_card": "modal_cards_16x9/06_cinematic_realism.png",
+      "source_image": "original_sources/06_cinematic_realism_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 7,
+      "id": "dramatic_film",
+      "ui_label": "Dramatic Film",
+      "category": "CINEMATIC",
+      "modal_card": "modal_cards_16x9/07_dramatic_film.png",
+      "source_image": "original_sources/07_dramatic_film_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 8,
+      "id": "commercial_ad",
+      "ui_label": "Commercial Ad",
+      "category": "CINEMATIC",
+      "modal_card": "modal_cards_16x9/08_commercial_ad.png",
+      "source_image": "original_sources/08_commercial_ad_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 9,
+      "id": "music_video",
+      "ui_label": "Music Video",
+      "category": "CINEMATIC",
+      "modal_card": "modal_cards_16x9/09_music_video.png",
+      "source_image": "original_sources/09_music_video_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 10,
+      "id": "documentary_realism",
+      "ui_label": "Documentary",
+      "category": "CINEMATIC",
+      "modal_card": "modal_cards_16x9/10_documentary_realism.png",
+      "source_image": "original_sources/10_documentary_realism_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 11,
+      "id": "anime_clean",
+      "ui_label": "Anime",
+      "category": "ANIME & MANGA",
+      "modal_card": "modal_cards_16x9/11_anime_clean.png",
+      "source_image": "original_sources/11_anime_clean_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 12,
+      "id": "anime_cinematic",
+      "ui_label": "Cinematic Anime",
+      "category": "ANIME & MANGA",
+      "modal_card": "modal_cards_16x9/12_anime_cinematic.png",
+      "source_image": "original_sources/12_anime_cinematic_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 13,
+      "id": "manga_ink",
+      "ui_label": "Manga Ink",
+      "category": "ANIME & MANGA",
+      "modal_card": "modal_cards_16x9/13_manga_ink.png",
+      "source_image": "original_sources/13_manga_ink_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 14,
+      "id": "chibi_kawaii",
+      "ui_label": "Chibi",
+      "category": "ANIME & MANGA",
+      "modal_card": "modal_cards_16x9/14_chibi_kawaii.png",
+      "source_image": "original_sources/14_chibi_kawaii_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 15,
+      "id": "clean_cartoon",
+      "ui_label": "Cartoon",
+      "category": "CARTOON",
+      "modal_card": "modal_cards_16x9/15_clean_cartoon.png",
+      "source_image": "original_sources/15_clean_cartoon_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 16,
+      "id": "mascot_cartoon",
+      "ui_label": "Mascot",
+      "category": "CARTOON",
+      "modal_card": "modal_cards_16x9/16_mascot_cartoon.png",
+      "source_image": "original_sources/16_mascot_cartoon_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 17,
+      "id": "storybook_cartoon",
+      "ui_label": "Story Cartoon",
+      "category": "CARTOON",
+      "modal_card": "modal_cards_16x9/17_storybook_cartoon.png",
+      "source_image": "original_sources/17_storybook_cartoon_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 18,
+      "id": "stylized_3d",
+      "ui_label": "Stylized 3D",
+      "category": "3D ANIMATION",
+      "modal_card": "modal_cards_16x9/18_stylized_3d.png",
+      "source_image": "original_sources/18_stylized_3d_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 19,
+      "id": "fairytale_3d",
+      "ui_label": "Fairytale 3D",
+      "category": "3D ANIMATION",
+      "modal_card": "modal_cards_16x9/19_fairytale_3d.png",
+      "source_image": "original_sources/19_fairytale_3d_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 20,
+      "id": "toy_clay_3d",
+      "ui_label": "Toy & Clay",
+      "category": "3D ANIMATION",
+      "modal_card": "modal_cards_16x9/20_toy_clay_3d.png",
+      "source_image": "original_sources/20_toy_clay_3d_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 21,
+      "id": "low_poly_3d",
+      "ui_label": "Low Poly 3D",
+      "category": "3D ANIMATION",
+      "modal_card": "modal_cards_16x9/21_low_poly_3d.png",
+      "source_image": "original_sources/21_low_poly_3d_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 22,
+      "id": "comic_book",
+      "ui_label": "Comic Book",
+      "category": "COMICS",
+      "modal_card": "modal_cards_16x9/22_comic_book.png",
+      "source_image": "original_sources/22_comic_book_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 23,
+      "id": "graphic_novel",
+      "ui_label": "Graphic Novel",
+      "category": "COMICS",
+      "modal_card": "modal_cards_16x9/23_graphic_novel.png",
+      "source_image": "original_sources/23_graphic_novel_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 24,
+      "id": "european_comic",
+      "ui_label": "Euro Comic",
+      "category": "COMICS",
+      "modal_card": "modal_cards_16x9/24_european_comic.png",
+      "source_image": "original_sources/24_european_comic_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 25,
+      "id": "editorial_illustration",
+      "ui_label": "Editorial Illustration",
+      "category": "ILLUSTRATION",
+      "modal_card": "modal_cards_16x9/25_editorial_illustration.png",
+      "source_image": "original_sources/25_editorial_illustration_source.png",
+      "asset_note": "placeholder_generated_locally_because_original_editorial_validation_file_was_not_available_in_sandbox",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 26,
+      "id": "storybook_illustration",
+      "ui_label": "Storybook",
+      "category": "ILLUSTRATION",
+      "modal_card": "modal_cards_16x9/26_storybook_illustration.png",
+      "source_image": "original_sources/26_storybook_illustration_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 27,
+      "id": "concept_art",
+      "ui_label": "Concept Art",
+      "category": "ILLUSTRATION",
+      "modal_card": "modal_cards_16x9/27_concept_art.png",
+      "source_image": "original_sources/27_concept_art_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 28,
+      "id": "epic_fantasy",
+      "ui_label": "Epic Fantasy",
+      "category": "FANTASY & SCI-FI",
+      "modal_card": "modal_cards_16x9/28_epic_fantasy.png",
+      "source_image": "original_sources/28_epic_fantasy_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 29,
+      "id": "cyberpunk",
+      "ui_label": "Cyberpunk",
+      "category": "FANTASY & SCI-FI",
+      "modal_card": "modal_cards_16x9/29_cyberpunk.png",
+      "source_image": "original_sources/29_cyberpunk_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 30,
+      "id": "sci_fi_future",
+      "ui_label": "Sci-Fi Future",
+      "category": "FANTASY & SCI-FI",
+      "modal_card": "modal_cards_16x9/30_sci_fi_future.png",
+      "source_image": "original_sources/30_sci_fi_future_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 31,
+      "id": "vector_flat",
+      "ui_label": "Vector Flat",
+      "category": "DESIGN",
+      "modal_card": "modal_cards_16x9/31_vector_flat.png",
+      "source_image": "original_sources/31_vector_flat_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 32,
+      "id": "poster_graphic",
+      "ui_label": "Poster Graphic",
+      "category": "DESIGN",
+      "modal_card": "modal_cards_16x9/32_poster_graphic.png",
+      "source_image": "original_sources/32_poster_graphic_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 33,
+      "id": "watercolor",
+      "ui_label": "Watercolor",
+      "category": "PAINTING & SKETCH",
+      "modal_card": "modal_cards_16x9/33_watercolor.png",
+      "source_image": "original_sources/33_watercolor_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 34,
+      "id": "pencil_sketch",
+      "ui_label": "Pencil Sketch",
+      "category": "PAINTING & SKETCH",
+      "modal_card": "modal_cards_16x9/34_pencil_sketch.png",
+      "source_image": "original_sources/34_pencil_sketch_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    },
+    {
+      "order": 35,
+      "id": "pixel_art",
+      "ui_label": "Pixel Art",
+      "category": "RETRO & GAME",
+      "modal_card": "modal_cards_16x9/35_pixel_art.png",
+      "source_image": "original_sources/35_pixel_art_source.png",
+      "asset_note": "generated_validation_image",
+      "recommended_usage": "Use modal_card in AXSTUDIO style selector; keep source_image for documentation or future regeneration."
+    }
+  ]
+}

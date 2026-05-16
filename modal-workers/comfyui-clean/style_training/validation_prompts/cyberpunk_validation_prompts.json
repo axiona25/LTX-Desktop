@@ -1,0 +1,36 @@
+{
+  "style_id": "cyberpunk",
+  "trigger_token": "ax_cyberpunk_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_cyberpunk",
+      "prompt": "ax_cyberpunk_v1, cheerful boy walking to school reimagined in a futuristic neon academy district, backpack, readable face, readable hands, full body, rainy night city, wet reflective pavement, cyan and magenta neon, holographic signs with abstract symbols, cinematic cyberpunk atmosphere"
+    },
+    {
+      "name": "rainy_neon_alley",
+      "prompt": "ax_cyberpunk_v1, young person walking through a rainy neon alley, techwear jacket, readable face and hands, holographic glow, wet asphalt reflections, dense futuristic city background, high contrast cyberpunk lighting"
+    },
+    {
+      "name": "megacity_skyline",
+      "prompt": "ax_cyberpunk_v1, futuristic megacity skyline at night, vertical towers, holographic billboards with abstract symbols, flying vehicles, rain haze, magenta and cyan neon reflections, cinematic sci-fi atmosphere"
+    },
+    {
+      "name": "tech_interface_scene",
+      "prompt": "ax_cyberpunk_v1, student using a transparent holographic interface in a neon-lit room, readable face, hands interacting with glowing UI, dark techwear, blue and pink light, futuristic cyberpunk environment"
+    }
+  ],
+  "scoring_criteria": [
+    "cyberpunk style fidelity",
+    "neon quality",
+    "rain and wet reflection quality",
+    "futuristic city quality",
+    "technology and hologram quality",
+    "face quality",
+    "hand quality",
+    "composition readability",
+    "absence of logos or readable text",
+    "difference from music_video",
+    "difference from sci_fi_future",
+    "absence of IP or franchise imitation"
+  ]
+}

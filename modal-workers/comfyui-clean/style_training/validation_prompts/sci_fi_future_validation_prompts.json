@@ -1,0 +1,37 @@
+{
+  "style_id": "sci_fi_future",
+  "trigger_token": "ax_sci_fi_future_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_sci_fi_future",
+      "prompt": "ax_sci_fi_future_v1, cheerful boy walking to school reimagined in a clean futuristic academy city, backpack, readable face, readable hands, full body, bright daylight, sleek glass buildings, flying vehicles, elevated transit rails, optimistic sci-fi future atmosphere"
+    },
+    {
+      "name": "future_city_overlook",
+      "prompt": "ax_sci_fi_future_v1, young student standing on a sky bridge overlooking a bright futuristic city, functional jacket, smart backpack, readable hands, glass towers, flying vehicles, clean blue technology accents, cinematic sci-fi future style"
+    },
+    {
+      "name": "orbital_station",
+      "prompt": "ax_sci_fi_future_v1, clean orbital station interior with large window showing Earth, student explorer in foreground, readable face and hands, white composite panels, holographic interface, soft blue light, optimistic sci-fi atmosphere"
+    },
+    {
+      "name": "future_transport",
+      "prompt": "ax_sci_fi_future_v1, sleek futuristic transit station with elevated train and flying vehicles, clean architecture, bright daylight, polished metal and glass, people walking naturally, cinematic future city design"
+    }
+  ],
+  "scoring_criteria": [
+    "sci_fi_future style fidelity",
+    "futuristic architecture quality",
+    "technology quality",
+    "vehicle quality",
+    "material quality",
+    "lighting quality",
+    "face quality",
+    "hand quality",
+    "environment order and readability",
+    "absence of logos or readable text",
+    "difference from cyberpunk",
+    "difference from concept_art",
+    "absence of IP or franchise imitation"
+  ]
+}

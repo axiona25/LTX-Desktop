@@ -1,6 +1,6 @@
 {
   "name": "axstudio",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "AXSTUDIO - LTX Desktop fork with AX Modal LLM orchestration",
   "type": "module",
   "main": "dist-electron/main.js",

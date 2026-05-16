@@ -37,17 +37,37 @@ export function createWindow(): BrowserWindow {
 
   // Load the app
   if (isDev) {
-    mainWindow.loadURL('http://localhost:5173')
+    const devServerUrl = process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173'
+    logger.info(`[window] Loading dev renderer from ${devServerUrl}`)
+    mainWindow.loadURL(devServerUrl)
     // DevTools can be opened manually with Ctrl+Shift+I or F12
   } else {
     mainWindow.loadFile(path.join(app.getAppPath(), 'dist', 'index.html'))
   }
 
   mainWindow.once('ready-to-show', () => {
+    logger.info('[window] Main window ready to show')
     mainWindow?.show()
   })
 
+  mainWindow.webContents.on('render-process-gone', (_event, details) => {
+    logger.error(`[window] Renderer process gone reason=${details.reason} exitCode=${details.exitCode}`)
+  })
+
+  mainWindow.webContents.on('unresponsive', () => {
+    logger.warn('[window] Main window renderer became unresponsive')
+  })
+
+  mainWindow.webContents.on('responsive', () => {
+    logger.info('[window] Main window renderer became responsive')
+  })
+
+  mainWindow.on('close', () => {
+    logger.info('[window] Main window close requested')
+  })
+
   mainWindow.on('closed', () => {
+    logger.info('[window] Main window closed')
     mainWindow = null
   })
 

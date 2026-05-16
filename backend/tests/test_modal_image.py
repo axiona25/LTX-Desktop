@@ -308,14 +308,14 @@ def test_modal_prompt_translate_uses_existing_llm_endpoint(client, test_state, f
 
 
 def test_modal_flux_generate_saves_image_and_metadata(client, test_state, fake_services):
-    test_state.state.app_settings.modal_flux_image_endpoint = "https://flux.modal.run/generate"
+    test_state.state.app_settings.modal_flux_image_endpoint = "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     image_bytes = b"fake-png-bytes"
     fake_services.http.queue(
         "post",
         FakeResponse(
             json_payload={
                 "provider": "modal_flux",
-                "model": "FLUX.1-dev",
+                "model": "black-forest-labs/FLUX.2-klein-9B",
                 "image_base64": base64.b64encode(image_bytes).decode("ascii"),
                 "seed": 123456,
                 "width": 1024,
@@ -379,7 +379,7 @@ def test_modal_flux_generate_saves_image_and_metadata(client, test_state, fake_s
     assert image_path.read_bytes() == image_bytes
     assert image_path.parent == test_state.config.app_data_dir / "Output" / "image"
     assert (test_state.config.app_data_dir / "Output" / "video").exists()
-    assert "modal_flux_flux1-dev_seed-123456" in image_path.name
+    assert "modal_flux_black-forest-labs-flux2-klein-9b_seed-123456" in image_path.name
 
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     assert metadata["prompt"] == "cinematic robot painter\n\n[STYLE: Cinematic] cinematic lighting"
@@ -390,7 +390,7 @@ def test_modal_flux_generate_saves_image_and_metadata(client, test_state, fake_s
     assert metadata["local_path"] == str(image_path)
 
     call = fake_services.http.calls[-1]
-    assert call.url == "https://flux.modal.run/generate"
+    assert call.url == "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     assert call.json_payload is not None
     assert call.json_payload["prompt"] == "cinematic robot painter\n\n[STYLE: Cinematic] cinematic lighting"
     assert call.json_payload["negative_prompt"] == "blurry, flat lighting"
@@ -438,7 +438,7 @@ def test_modal_prompt_enhance_applies_visible_descriptive_trait_and_framing_lock
 
 
 def test_modal_flux_generate_does_not_apply_hidden_trait_lock(client, test_state, fake_services):
-    test_state.state.app_settings.modal_flux_image_endpoint = "https://flux.modal.run/generate"
+    test_state.state.app_settings.modal_flux_image_endpoint = "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     image_bytes = b"fake-png-bytes"
     visible_prompt = "adult woman with dark brunette hair and clearly visible blue eyes, full-body standing shot"
     backend_prompt = visible_prompt
@@ -448,7 +448,7 @@ def test_modal_flux_generate_does_not_apply_hidden_trait_lock(client, test_state
         FakeResponse(
             json_payload={
                 "provider": "modal_flux",
-                "model": "FLUX.1-dev",
+                "model": "black-forest-labs/FLUX.2-klein-9B",
                 "image_base64": base64.b64encode(image_bytes).decode("ascii"),
                 "seed": 456,
                 "width": 1344,
@@ -541,7 +541,7 @@ def test_modal_flux_generate_does_not_apply_hidden_trait_lock(client, test_state
 
 
 def test_modal_flux_generate_does_not_add_unrequested_people_negative_lock(client, test_state, fake_services):
-    test_state.state.app_settings.modal_flux_image_endpoint = "https://flux.modal.run/generate"
+    test_state.state.app_settings.modal_flux_image_endpoint = "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     image_bytes = b"fake-png-bytes"
     visible_prompt = "modern luxury villa at sunset, architectural photography, realistic materials, warm interior lights"
     fake_services.http.queue(
@@ -549,7 +549,7 @@ def test_modal_flux_generate_does_not_add_unrequested_people_negative_lock(clien
         FakeResponse(
             json_payload={
                 "provider": "modal_flux",
-                "model": "FLUX.1-dev",
+                "model": "black-forest-labs/FLUX.2-klein-9B",
                 "image_base64": base64.b64encode(image_bytes).decode("ascii"),
                 "seed": 789,
                 "width": 1344,
@@ -601,7 +601,7 @@ def test_modal_flux_generate_does_not_add_unrequested_people_negative_lock(clien
 
 
 def test_modal_flux_generate_tracks_no_people_without_hidden_rewrite(client, test_state, fake_services):
-    test_state.state.app_settings.modal_flux_image_endpoint = "https://flux.modal.run/generate"
+    test_state.state.app_settings.modal_flux_image_endpoint = "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     image_bytes = b"fake-png-bytes"
     visible_prompt = "modern empty futuristic city street at night, neon reflections, rain, cinematic lighting, no people"
     backend_prompt = visible_prompt
@@ -611,7 +611,7 @@ def test_modal_flux_generate_tracks_no_people_without_hidden_rewrite(client, tes
         FakeResponse(
             json_payload={
                 "provider": "modal_flux",
-                "model": "FLUX.1-dev",
+                "model": "black-forest-labs/FLUX.2-klein-9B",
                 "image_base64": base64.b64encode(image_bytes).decode("ascii"),
                 "seed": 790,
                 "width": 1344,
@@ -682,7 +682,7 @@ def test_modal_flux_generate_tracks_no_people_without_hidden_rewrite(client, tes
 
 
 def test_modal_flux_generate_does_not_clean_or_rewrite_adult_prompt_before_worker(client, test_state, fake_services):
-    test_state.state.app_settings.modal_flux_image_endpoint = "https://flux.modal.run/generate"
+    test_state.state.app_settings.modal_flux_image_endpoint = "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     image_bytes = b"fake-png-bytes"
     visible_prompt = "adult subject, neutral studio portrait"
     fake_services.http.queue(
@@ -690,7 +690,7 @@ def test_modal_flux_generate_does_not_clean_or_rewrite_adult_prompt_before_worke
         FakeResponse(
             json_payload={
                 "provider": "modal_flux",
-                "model": "FLUX.1-dev",
+                "model": "black-forest-labs/FLUX.2-klein-9B",
                 "image_base64": base64.b64encode(image_bytes).decode("ascii"),
                 "seed": 123456,
                 "width": 768,
@@ -741,7 +741,7 @@ def test_modal_flux_generate_does_not_clean_or_rewrite_adult_prompt_before_worke
 
 
 def test_modal_flux_generate_blocks_disallowed_minor_sexual_prompt(client, test_state, fake_services):
-    test_state.state.app_settings.modal_flux_image_endpoint = "https://flux.modal.run/generate"
+    test_state.state.app_settings.modal_flux_image_endpoint = "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
     response = client.post(
         "/api/modal-image/generate",
         json={
@@ -762,7 +762,29 @@ def test_modal_flux_generate_blocks_disallowed_minor_sexual_prompt(client, test_
         message="Prompt blocked: sexualized minors or underage nudity are not allowed.",
     )
 
-def test_modal_flux_generate_requires_endpoint(client):
+def test_modal_flux_generate_uses_flux2_klein_9b_default_endpoint(client, fake_services):
+    image_bytes = b"fake-png-bytes"
+    fake_services.http.queue(
+        "post",
+        FakeResponse(
+            json_payload={
+                "provider": "modal_flux",
+                "model": "black-forest-labs/FLUX.2-klein-9B",
+                "image_base64": base64.b64encode(image_bytes).decode("ascii"),
+                "seed": 123456,
+                "width": 1024,
+                "height": 768,
+                "requested_steps": 28,
+                "actual_steps": 28,
+                "guidance_scale": 3.5,
+                "quality_mode": "balanced",
+                "effective_width": 1024,
+                "effective_height": 768,
+                "negative_prompt_applied": False,
+                "elapsed_ms": 1000,
+            }
+        ),
+    )
     response = client.post(
         "/api/modal-image/generate",
         json={
@@ -776,9 +798,6 @@ def test_modal_flux_generate_requires_endpoint(client):
             "quality_mode": "balanced",
         },
     )
-    assert_http_error(
-        response,
-        status_code=409,
-        code="HTTP_409",
-        message="MODAL_FLUX_IMAGE_ENDPOINT is not configured",
-    )
+    assert response.status_code == 200
+    assert fake_services.http.calls[-1].url == "https://axiona2025--axstudio-flux-image-web-app.modal.run/generate"
+    assert response.json()["model"] == "black-forest-labs/FLUX.2-klein-9B"

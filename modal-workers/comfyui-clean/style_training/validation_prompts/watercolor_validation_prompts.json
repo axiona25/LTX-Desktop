@@ -1,0 +1,35 @@
+{
+  "style_id": "watercolor",
+  "trigger_token": "ax_watercolor_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_watercolor",
+      "prompt": "ax_watercolor_v1, cheerful boy walking to school, backpack, warm morning light, readable face, readable hands, full body, friendly school environment, transparent watercolor washes, visible paper texture, soft pigment gradients, delicate splatter"
+    },
+    {
+      "name": "watercolor_portrait",
+      "prompt": "ax_watercolor_v1, gentle portrait of a young student, readable eyes, soft face, loose watercolor hair, transparent skin tones, visible paper grain, delicate brush strokes, airy white background"
+    },
+    {
+      "name": "watercolor_landscape",
+      "prompt": "ax_watercolor_v1, peaceful school garden path with trees and flowers, soft building in background, transparent washes, wet-on-wet greens, warm sunlight, paper texture, poetic watercolor landscape"
+    },
+    {
+      "name": "watercolor_still_life",
+      "prompt": "ax_watercolor_v1, books, pencil and small flower vase on a desk, soft natural light, transparent watercolor pigment, visible paper grain, delicate shadows, calm educational still life"
+    }
+  ],
+  "scoring_criteria": [
+    "watercolor style fidelity",
+    "paper quality",
+    "pigment transparency",
+    "brushwork quality",
+    "face quality",
+    "hand quality",
+    "subject readability",
+    "palette delicacy",
+    "difference from storybook_illustration",
+    "difference from pencil_sketch",
+    "absence of artist, book, or IP imitation"
+  ]
+}

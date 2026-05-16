@@ -70,10 +70,15 @@ image = (
         "cd /root/ComfyUI/custom_nodes && rm -rf ComfyUI-Impact-Pack && git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git",
         "cd /root/ComfyUI/custom_nodes && rm -rf ComfyUI-Impact-Subpack && git clone https://github.com/ltdrdata/ComfyUI-Impact-Subpack.git",
 
+        # CLIPSeg is required by Impact Pack's CLIPSegDetectorProvider for hand/detail masks
+        "cd /root/ComfyUI/custom_nodes && rm -rf ComfyUI-CLIPSeg && git clone https://github.com/time-river/ComfyUI-CLIPSeg.git",
+        "cp /root/ComfyUI/custom_nodes/ComfyUI-CLIPSeg/custom_nodes/clipseg.py /root/ComfyUI/custom_nodes/clipseg.py",
+
         # Install custom node requirements when present
         "if [ -f /root/ComfyUI/custom_nodes/ComfyUI_InstantID/requirements.txt ]; then pip install -r /root/ComfyUI/custom_nodes/ComfyUI_InstantID/requirements.txt; fi",
         "if [ -f /root/ComfyUI/custom_nodes/ComfyUI-Impact-Pack/requirements.txt ]; then pip install -r /root/ComfyUI/custom_nodes/ComfyUI-Impact-Pack/requirements.txt; fi",
         "if [ -f /root/ComfyUI/custom_nodes/ComfyUI-Impact-Subpack/requirements.txt ]; then pip install -r /root/ComfyUI/custom_nodes/ComfyUI-Impact-Subpack/requirements.txt; fi",
+        # Do not install CLIPSeg pinned requirements: they downgrade numpy to a Python-3.12-incompatible build.
     )
 )
 

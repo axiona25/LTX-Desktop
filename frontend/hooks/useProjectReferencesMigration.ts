@@ -10,6 +10,7 @@ import {
   writeProjectIds,
 } from '../lib/project-storage'
 import { logger } from '../lib/logger'
+import { listPersistentKeys, readPersistentItem, removePersistentItem, writePersistentItem } from '../lib/persistent-storage'
 
 export type ProjectReferencesMigrationStatus =
   | { status: 'needed' }
@@ -30,16 +31,16 @@ function yieldToUi(): Promise<void> {
 }
 
 export function hasLegacyProjectsEntry(): boolean {
-  return localStorage.getItem(LEGACY_PROJECTS_STORAGE_KEY) !== null
+  return readPersistentItem(LEGACY_PROJECTS_STORAGE_KEY) !== null
 }
 
 export function deleteLegacyProjectsEntry(): void {
-  localStorage.removeItem(LEGACY_PROJECTS_STORAGE_KEY)
+  removePersistentItem(LEGACY_PROJECTS_STORAGE_KEY)
 }
 
 export function writeLegacyProjects(projects: readonly Project[]): Project[] {
   const normalizedProjects = projects.map(project => projectSchema.parse(project))
-  localStorage.setItem(
+  writePersistentItem(
     LEGACY_PROJECTS_STORAGE_KEY,
     JSON.stringify(normalizedProjects),
   )
@@ -47,7 +48,7 @@ export function writeLegacyProjects(projects: readonly Project[]): Project[] {
 }
 
 export function readLegacyProjects(): LegacyProjectRecord[] {
-  const stored = localStorage.getItem(LEGACY_PROJECTS_STORAGE_KEY)
+  const stored = readPersistentItem(LEGACY_PROJECTS_STORAGE_KEY)
   if (!stored) return []
 
   const parsed = JSON.parse(stored)
@@ -62,14 +63,14 @@ export function readLegacyProjects(): LegacyProjectRecord[] {
 }
 
 export function writeRawProject(projectId: string, projectData: unknown): void {
-  localStorage.setItem(
+  writePersistentItem(
     getProjectStorageKey(projectId),
     JSON.stringify(projectData),
   )
 }
 
 export function deleteProjectIdsEntry(): void {
-  localStorage.removeItem(PROJECT_IDS_STORAGE_KEY)
+  removePersistentItem(PROJECT_IDS_STORAGE_KEY)
 }
 
 export function readProjectsFromReferences(): Project[] {
@@ -83,16 +84,10 @@ export function readProjectsFromReferences(): Project[] {
 }
 
 export function deleteAllProjectEntries(): void {
-  const keysToDelete: string[] = []
-  for (let i = 0; i < localStorage.length; i += 1) {
-    const storageKey = localStorage.key(i)
-    if (storageKey?.startsWith(PROJECT_STORAGE_KEY_PREFIX)) {
-      keysToDelete.push(storageKey)
-    }
-  }
+  const keysToDelete = listPersistentKeys(PROJECT_STORAGE_KEY_PREFIX)
 
   for (const storageKey of keysToDelete) {
-    localStorage.removeItem(storageKey)
+    removePersistentItem(storageKey)
   }
 }
 

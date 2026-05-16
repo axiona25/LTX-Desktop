@@ -1,10 +1,11 @@
 import { backendFetch } from '../lib/backend'
 import type { FluxImageGenerateRequest, FluxImageResult } from '../types/image'
 
-async function postJson<TResponse>(url: string, body: unknown): Promise<TResponse> {
+async function postJson<TResponse>(url: string, body: unknown, init?: RequestInit): Promise<TResponse> {
   const response = await backendFetch(url, {
+    ...init,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
     body: JSON.stringify(body),
   })
   const text = await response.text()
@@ -19,7 +20,7 @@ async function postJson<TResponse>(url: string, body: unknown): Promise<TRespons
 }
 
 export class FluxImageService {
-  static generate(request: FluxImageGenerateRequest): Promise<FluxImageResult> {
-    return postJson<FluxImageResult>('/api/modal-image/generate', request)
+  static generate(request: FluxImageGenerateRequest, init?: RequestInit): Promise<FluxImageResult> {
+    return postJson<FluxImageResult>('/api/modal-image/generate', request, init)
   }
 }

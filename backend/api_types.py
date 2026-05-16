@@ -158,6 +158,8 @@ class ModalPromptEnhanceResponse(BaseModel):
 
     final_prompt: str
     negative_prompt: str
+    display_final_prompt: str | None = None
+    display_negative_prompt: str | None = None
     style_tags: list[str]
     recommended_width: int
     recommended_height: int
@@ -208,6 +210,12 @@ class ModalFluxImageGenerateRequest(BaseModel):
     selected_style_id: str | None = None
     selected_style_label: str | None = None
     selected_style_category: str | None = None
+    image_character_id: str | None = None
+    image_character_name: str | None = None
+    image_character_image_path: str | None = None
+    image_character_prompt: str | None = None
+    image_character_negative_prompt: str | None = None
+    use_character_lora: bool = False
     custom_style_text: str | None = None
     style_prompt_modifier: str | None = None
     style_negative_modifier: str | None = None
@@ -236,7 +244,7 @@ class ModalFluxImageGenerateResponse(BaseModel):
     model_config = ConfigDict(strict=True)
 
     provider: Literal["modal_flux"]
-    model: Literal["FLUX.1-dev"]
+    model: str
     image_base64: str
     seed: int
     width: int

@@ -1,5 +1,6 @@
 import { migrateProjectData, projectSchema, type Project } from '../types/project-model'
 import { logger } from './logger'
+import { readPersistentItem, removePersistentItem, writePersistentItem } from './persistent-storage'
 
 export const PROJECT_IDS_STORAGE_KEY = 'ltx-project-ids'
 export const PROJECT_STORAGE_KEY_PREFIX = 'ltx-project-'
@@ -10,7 +11,7 @@ export function getProjectStorageKey(projectId: string): string {
 
 export function readProjectIds(): string[] {
   try {
-    const stored = localStorage.getItem(PROJECT_IDS_STORAGE_KEY)
+    const stored = readPersistentItem(PROJECT_IDS_STORAGE_KEY)
     if (!stored) return []
 
     const parsed = JSON.parse(stored)
@@ -27,7 +28,7 @@ export function readProjectIds(): string[] {
 }
 
 export function writeProjectIds(projectIds: string[]): void {
-  localStorage.setItem(
+  writePersistentItem(
     PROJECT_IDS_STORAGE_KEY,
     JSON.stringify(Array.from(new Set(projectIds))),
   )
@@ -35,7 +36,7 @@ export function writeProjectIds(projectIds: string[]): void {
 
 export function readProject(projectId: string): Project | null {
   try {
-    const stored = localStorage.getItem(getProjectStorageKey(projectId))
+    const stored = readPersistentItem(getProjectStorageKey(projectId))
     if (!stored) return null
 
     const { project, migrated } = migrateProjectData(JSON.parse(stored))
@@ -56,7 +57,7 @@ export function readProject(projectId: string): Project | null {
 
 export function writeProject(projectId: string, project: Project): Project {
   const normalizedProject = projectSchema.parse({ ...project, id: projectId })
-  localStorage.setItem(
+  writePersistentItem(
     getProjectStorageKey(projectId),
     JSON.stringify(normalizedProject),
   )
@@ -64,5 +65,5 @@ export function writeProject(projectId: string, project: Project): Project {
 }
 
 export function deleteProjectEntry(projectId: string): void {
-  localStorage.removeItem(getProjectStorageKey(projectId))
+  removePersistentItem(getProjectStorageKey(projectId))
 }

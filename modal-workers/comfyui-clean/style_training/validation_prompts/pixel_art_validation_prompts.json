@@ -1,0 +1,35 @@
+{
+  "style_id": "pixel_art",
+  "trigger_token": "ax_pixel_art_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_pixel_art",
+      "prompt": "ax_pixel_art_v1, cheerful pixel art boy walking to school, backpack, readable small face, readable blocky hands, full body, friendly school environment, crisp pixel grid, limited color palette, 16-bit retro videogame style"
+    },
+    {
+      "name": "pixel_ui_scene",
+      "prompt": "ax_pixel_art_v1, retro game UI screen for a school adventure, character portrait, hearts, inventory icons, books and backpack, crisp pixels, limited palette, clean pixel interface"
+    },
+    {
+      "name": "pixel_environment",
+      "prompt": "ax_pixel_art_v1, pixel art futuristic school campus, tile-based path, trees, clean buildings, flying vehicle, blue sky, limited palette, hard-edged pixels, retro game environment"
+    },
+    {
+      "name": "sprite_sheet",
+      "prompt": "ax_pixel_art_v1, small pixel art sprite sheet of a student walking, four frame walk cycle, backpack, readable silhouette, limited palette, crisp pixel grid, no anti-aliasing"
+    }
+  ],
+  "scoring_criteria": [
+    "pixel_art style fidelity",
+    "pixel grid coherence",
+    "sprite readability",
+    "limited palette quality",
+    "absence of anti-aliasing",
+    "tile-based environment quality",
+    "UI/icon quality",
+    "face and hand readability",
+    "difference from vector_flat",
+    "difference from low_poly_3d",
+    "absence of game, franchise, or IP imitation"
+  ]
+}

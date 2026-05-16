@@ -917,7 +917,7 @@ class ModalImageHandler(StateHandlerBase):
         if isinstance(body_framing, str) and body_framing:
             traits["body_framing"] = body_framing
         if isinstance(extracted, list):
-            traits["extracted"] = [str(item) for item in extracted]
+            traits["extracted"] = [str(item) for item in cast(list[object], extracted)]
         return traits
 
     def _build_descriptive_trait_lock(self, source: str) -> dict[str, object]:

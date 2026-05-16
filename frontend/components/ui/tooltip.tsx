@@ -63,7 +63,7 @@ export function Tooltip({ content, children, side = 'top', className }: TooltipP
       {children}
       {visible && ReactDOM.createPortal(
         <div
-          className="fixed z-[99999] px-2.5 py-1.5 bg-white text-zinc-800 text-xs font-medium rounded-md shadow-md whitespace-nowrap pointer-events-none select-none"
+          className="fixed z-[99999] max-w-[min(18rem,calc(100vw-2rem))] rounded-lg border border-zinc-700 bg-zinc-950/95 px-3 py-2 text-xs font-medium text-zinc-100 shadow-2xl shadow-black/50 backdrop-blur-md pointer-events-none select-none"
           style={style}
         >
           {content}

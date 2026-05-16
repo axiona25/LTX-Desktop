@@ -1,0 +1,35 @@
+{
+  "style_id": "vector_flat",
+  "trigger_token": "ax_vector_flat_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_vector_flat",
+      "prompt": "ax_vector_flat_v1, cheerful boy walking to school, backpack, readable face, readable simplified hands, full body, friendly school environment, simple geometric shapes, solid colors, clean flat vector illustration"
+    },
+    {
+      "name": "app_dashboard_scene",
+      "prompt": "ax_vector_flat_v1, person using a dashboard interface on laptop, simple vector character, clean UI panels, charts, icons, solid colors, minimal shading, modern app illustration"
+    },
+    {
+      "name": "education_vector",
+      "prompt": "ax_vector_flat_v1, teacher explaining a simple chart to students, readable simplified faces and hands, clean classroom environment, flat colors, clear educational vector composition"
+    },
+    {
+      "name": "icon_set_scene",
+      "prompt": "ax_vector_flat_v1, set of simple education and technology icons, books, laptop, school, chart, cloud, clean geometric shapes, solid colors, minimal flat vector design"
+    }
+  ],
+  "scoring_criteria": [
+    "vector_flat style fidelity",
+    "geometric form cleanliness",
+    "solid palette quality",
+    "composition simplicity",
+    "face readability",
+    "hand readability",
+    "UI/icon element quality",
+    "absence of painterly texture",
+    "absence of logos or text",
+    "difference from editorial_illustration",
+    "difference from poster_graphic"
+  ]
+}

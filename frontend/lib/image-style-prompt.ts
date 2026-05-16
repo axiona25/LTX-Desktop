@@ -1,4 +1,5 @@
 import { getImageStylePreset, getSafeStyleAlias, type ImageStylePreset } from '../constants/imageStyles'
+import { buildStylePromptLayer, getStyleProfile } from '../config/styleProfiles'
 
 const MANAGED_STYLE_BLOCK_PATTERN = /\n?\n?\[STYLE: [^\]]+\][^\n]*/g
 
@@ -11,9 +12,16 @@ export function stripManagedStyleBlock(prompt: string): string {
 }
 
 export function buildStyleBlock(style: ResolvedImageStyle): string {
-  const modifier = style.style_prompt_modifier.trim()
+  const profile = getStyleProfile(style.style_id)
+  const modifier = profile ? buildStylePromptLayer(profile, 'premium') : style.style_prompt_modifier.trim()
   if (!modifier) return ''
-  return `[STYLE: ${style.style_label}] ${modifier}`
+  return `[STYLE: ${profile?.safe_label ?? style.style_label}] ${modifier}`
+}
+
+export function getResolvedStyleNegativePrompt(style: ResolvedImageStyle | null): string {
+  if (!style) return ''
+  const profile = getStyleProfile(style.style_id)
+  return profile?.negative_prompt ?? style.style_negative_modifier ?? ''
 }
 
 export function applyStyleBlock(prompt: string, style: ResolvedImageStyle | null): string {
@@ -22,16 +30,18 @@ export function applyStyleBlock(prompt: string, style: ResolvedImageStyle | null
   return [cleanPrompt, block].filter(Boolean).join('\n\n')
 }
 
-export function mergeNegativePrompts(basePrompt: string | null | undefined, stylePrompt: string | null | undefined): string {
+export function mergeNegativePrompts(...prompts: Array<string | null | undefined>): string {
   const parts: string[] = []
   const seen = new Set<string>()
 
-  for (const item of `${basePrompt ?? ''}, ${stylePrompt ?? ''}`.split(',')) {
-    const value = item.trim()
-    const key = value.toLowerCase()
-    if (value && !seen.has(key)) {
-      parts.push(value)
-      seen.add(key)
+  for (const prompt of prompts) {
+    for (const item of (prompt ?? '').split(',')) {
+      const value = item.trim()
+      const key = value.toLowerCase()
+      if (value && !seen.has(key)) {
+        parts.push(value)
+        seen.add(key)
+      }
     }
   }
 

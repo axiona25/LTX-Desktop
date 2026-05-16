@@ -1,0 +1,9 @@
+{
+  "dataset_name": "editorial_illustration_v1",
+  "style_id": "editorial_illustration",
+  "trigger_token": "ax_editorial_illustration_v1",
+  "image_count": 0,
+  "quality": "curated_required",
+  "warning": "Do not train or promote until the dataset has been manually reviewed for quality, IP safety and caption accuracy.",
+  "records": []
+}

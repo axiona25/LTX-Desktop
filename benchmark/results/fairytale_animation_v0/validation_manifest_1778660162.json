@@ -1,0 +1,30 @@
+[
+  {
+    "test_id": "portrait",
+    "prompt": "axstyle_fairytale_animation, portrait of a young explorer, clear expressive eyes, natural smile, simple soft storybook background, readable face, clean hair, no text",
+    "negative": "photorealistic, realistic photo, live action, real camera, smartphone photo, skin pores, official character, existing character, copyrighted character, logo, text, watermark, bad eyes, bad hands, distorted anatomy",
+    "seed": 1778659001,
+    "steps": 36,
+    "cfg": 7.5,
+    "lora_name": "style/AXSTYLE_fairytale_animation_v0.safetensors",
+    "lora_strength": 0.65,
+    "comfy_prompt_id": "f6cfa956-53b4-4d20-b249-598c7372a913",
+    "comfy_filename": "validate_fairytale_lora_portrait_1778660107_00001_.png",
+    "local_path": "/Users/r.amoroso/Documents/AXSTUDIO/benchmark/results/fairytale_animation_v0/validate_fairytale_lora_portrait_1778660107.png",
+    "image_base64_preview": "iVBORw0KGgoAAAANSUhEUgAABUAAAAMACAIAAABq7Fo="
+  },
+  {
+    "test_id": "car",
+    "prompt": "axstyle_fairytale_animation, young explorer driving a small red convertible car on a sunny countryside road, expressive rounded face, hands on steering wheel, warm fairytale animation scene, no readable license plate, no logos",
+    "negative": "photorealistic, realistic photo, live action, real camera, smartphone photo, skin pores, official character, existing character, copyrighted character, logo, text, watermark, bad eyes, bad hands, distorted anatomy",
+    "seed": 1778659002,
+    "steps": 36,
+    "cfg": 7.5,
+    "lora_name": "style/AXSTYLE_fairytale_animation_v0.safetensors",
+    "lora_strength": 0.65,
+    "comfy_prompt_id": "dd15e447-2227-4c01-a15c-bea27f0321ba",
+    "comfy_filename": "validate_fairytale_lora_car_1778660152_00001_.png",
+    "local_path": "/Users/r.amoroso/Documents/AXSTUDIO/benchmark/results/fairytale_animation_v0/validate_fairytale_lora_car_1778660152.png",
+    "image_base64_preview": "iVBORw0KGgoAAAANSUhEUgAABUAAAAMACAIAAABq7Fo="
+  }
+]

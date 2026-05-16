@@ -1,0 +1,55 @@
+{
+  "dataset_name": "fairytale_animation_v0",
+  "style": "fairytale_animation",
+  "trigger": "axstyle_fairytale_animation",
+  "image_count": 9,
+  "quality": "prototype_v0",
+  "warning": "Prototype dataset built from local generated style previews. Validate before promoting any LoRA.",
+  "records": [
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/disney_style.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/001_disney_style.png",
+      "caption": "axstyle_fairytale_animation, family-friendly fairytale animation, expressive rounded character design, magical warm lighting, polished storybook background, clean animated face, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/fairy_tale_animation.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/002_fairy_tale_animation.png",
+      "caption": "axstyle_fairytale_animation, family-friendly fairytale animation, magical atmosphere, elegant hand-drawn inspired shapes, soft glowing colors, enchanting animated story look, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/classic_animated_film.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/003_classic_animated_film.png",
+      "caption": "axstyle_fairytale_animation, classic animated film style, hand-drawn inspired animation look, expressive characters, elegant backgrounds, warm cinematic color palette, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/storybook_princess_animation.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/004_storybook_princess_animation.png",
+      "caption": "axstyle_fairytale_animation, storybook fairytale character animation, graceful shapes, polished hand-drawn inspired look, magical warm lighting, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/storybook_illustration.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/005_storybook_illustration.png",
+      "caption": "axstyle_fairytale_animation, storybook illustration, whimsical atmosphere, soft painterly details, charming characters, magical gentle composition, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/kids_illustration.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/006_kids_illustration.png",
+      "caption": "axstyle_fairytale_animation, children book illustration, warm colors, friendly shapes, soft textures, gentle storytelling composition, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/cartoon.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/007_cartoon.png",
+      "caption": "axstyle_fairytale_animation, western cartoon animation, simplified expressive shapes, clean outlines, playful color palette, animation-ready design, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/cel_shading.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/008_cel_shading.png",
+      "caption": "axstyle_fairytale_animation, cel-shaded animation style, hard-edged shadow shapes, clean flat colors, crisp readable forms, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    },
+    {
+      "source": "/Users/r.amoroso/Documents/AXSTUDIO/public/style-previews/family_3d_animation.webp",
+      "image": "/Users/r.amoroso/Documents/AXSTUDIO/modal-workers/comfyui-clean/style_training/datasets/fairytale_animation_v0/images/009_family_3d_animation.png",
+      "caption": "axstyle_fairytale_animation, family-friendly stylized cinematic animation, expressive stylized characters, soft cinematic lighting, charming emotional look, non-photorealistic, clear readable subject, correct eyes, correct hands, no logos, no text"
+    }
+  ]
+}

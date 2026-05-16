@@ -7,7 +7,7 @@ import { AxStudioLogo } from './AxStudioLogo'
 export type WorkspaceSidebarSection = 'projects' | 'images' | 'characters' | 'video' | 'editor'
 
 function navButtonClass(active: boolean): string {
-  return `mt-2 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors ${
+  return `mt-1.5 flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-left text-sm font-medium transition-colors ${
     active
       ? 'bg-zinc-800 text-white'
       : 'text-zinc-400 hover:bg-zinc-800 hover:text-white'
@@ -34,8 +34,8 @@ export function WorkspaceSidebar({ active }: { active: WorkspaceSidebarSection }
 
   return (
     <>
-      <aside className="flex w-64 shrink-0 flex-col border-r border-zinc-800">
-        <div className="p-6">
+      <aside className="flex w-56 shrink-0 flex-col border-r border-zinc-800 xl:w-60">
+        <div className="px-5 py-4">
           <AxStudioLogo />
         </div>
 
@@ -82,7 +82,7 @@ export function WorkspaceSidebar({ active }: { active: WorkspaceSidebarSection }
           </button>
 
           {projects.length > 0 && (
-            <div className="mt-6">
+            <div className="mt-5">
               <h4 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
                 Progetti recenti
               </h4>
@@ -91,7 +91,7 @@ export function WorkspaceSidebar({ active }: { active: WorkspaceSidebarSection }
                   key={project.id}
                   type="button"
                   onClick={() => openProject(project.id)}
-                  className="flex w-full items-center gap-2 truncate rounded-lg px-3 py-2 text-left text-sm text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+                  className="flex w-full items-center gap-2 truncate rounded-lg px-3 py-1.5 text-left text-sm text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
                 >
                   <Folder className="h-4 w-4 shrink-0" />
                   <span className="truncate">{project.name}</span>
@@ -101,7 +101,7 @@ export function WorkspaceSidebar({ active }: { active: WorkspaceSidebarSection }
           )}
         </nav>
 
-        <div className="border-t border-zinc-800 p-4">
+        <div className="border-t border-zinc-800 p-3">
           <button
             type="button"
             onClick={() => setIsCreating(true)}

@@ -4,6 +4,7 @@ import { setupCSP } from './csp'
 import { registerExportHandlers } from './export/export-handler'
 import { stopExportProcess } from './export/ffmpeg-utils'
 import { registerAppHandlers } from './ipc/app-handlers'
+import { registerAppStorageHandlers } from './ipc/app-storage-handlers'
 import { registerFileHandlers } from './ipc/file-handlers'
 import { registerLogHandlers } from './ipc/log-handlers'
 import { registerVideoProcessingHandlers } from './ipc/video-processing-handlers'
@@ -32,6 +33,7 @@ if (!gotLock) {
   logAppVersion()
 
   registerAppHandlers()
+  registerAppStorageHandlers()
   registerFileHandlers()
   registerLogHandlers()
   registerExportHandlers()
@@ -66,6 +68,7 @@ if (!gotLock) {
   })
 
   app.on('window-all-closed', () => {
+    logger.info('[app] window-all-closed')
     if (process.platform !== 'darwin') {
       stopPythonBackend()
       app.quit()
@@ -79,6 +82,7 @@ if (!gotLock) {
   })
 
   app.on('before-quit', () => {
+    logger.info('[app] before-quit')
     stopExportProcess()
     stopPythonBackend()
   })

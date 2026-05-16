@@ -1,0 +1,36 @@
+{
+  "style_id": "epic_fantasy",
+  "trigger_token": "ax_epic_fantasy_v1",
+  "validation_prompts": [
+    {
+      "name": "schoolboy_epic_fantasy",
+      "prompt": "ax_epic_fantasy_v1, cheerful boy walking to school reimagined as a young fantasy hero, backpack, readable face, readable hands, full body, grand magical academy kingdom, warm heroic morning light, monumental castle, rich painterly fantasy atmosphere"
+    },
+    {
+      "name": "kingdom_overlook",
+      "prompt": "ax_epic_fantasy_v1, young hero overlooking a vast ancient kingdom from a cliff, strong silhouette, cloak in wind, dramatic sky, castle city, mountains, river valley, golden rim light, epic fantasy illustration"
+    },
+    {
+      "name": "dragon_scene",
+      "prompt": "ax_epic_fantasy_v1, original dragon flying above a distant mountain citadel, tiny hero below for scale, storm clouds, magical glow, cinematic fantasy lighting, rich painterly textures"
+    },
+    {
+      "name": "throne_hall",
+      "prompt": "ax_epic_fantasy_v1, grand ancient throne hall with banners and warm torchlight, young traveler standing in foreground, readable hands, monumental architecture, deep shadows, legendary fantasy atmosphere"
+    }
+  ],
+  "scoring_criteria": [
+    "epic_fantasy style fidelity",
+    "monumental scale",
+    "heroic silhouette",
+    "lighting quality",
+    "environment quality",
+    "creature and magic quality",
+    "face quality",
+    "hand quality",
+    "cinematic composition",
+    "difference from fairytale_3d",
+    "difference from concept_art",
+    "absence of franchise or IP imitation"
+  ]
+}

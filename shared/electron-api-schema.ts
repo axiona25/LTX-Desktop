@@ -178,6 +178,10 @@ export const electronAPISchemas = {
     input: z.object({ srcPath: z.string(), projectId: z.string() }),
     output: ipcResult({ path: z.string() }),
   },
+  copyImageToCharacterLibrary: {
+    input: z.object({ srcPath: z.string() }),
+    output: ipcResult({ path: z.string() }),
+  },
   makeThumbnailsForProjectAsset: {
     input: z.object({ path: z.string(), type: z.enum(['video', 'image']) }),
     output: ipcResult({
@@ -330,6 +334,10 @@ export type ElectronAPI = InvokeAPI & {
   removePythonSetupProgress: () => void
   onBackendHealthStatus: (cb: (data: BackendHealthStatus) => void) => (() => void)
   getPathForFile: (file: File) => string
+  readAppStorageItem: (key: string) => { success: true; value: string | null } | { success: false; error: string }
+  writeAppStorageItem: (key: string, value: string) => { success: true } | { success: false; error: string }
+  removeAppStorageItem: (key: string) => { success: true } | { success: false; error: string }
+  listAppStorageKeys: (prefix?: string) => { success: true; keys: string[] } | { success: false; error: string }
   platform: string
   hfGatingEnabled: boolean
 }

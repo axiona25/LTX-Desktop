@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Images, Loader2, AlertCircle, UserRound, Video } from 'lucide-react'
 import { ApiClient, type ApiSuccessOf } from './lib/api-client'
-import { ProjectProvider } from './contexts/ProjectContext'
+import { ProjectProvider, useProjects } from './contexts/ProjectContext'
 import { ViewProvider, useView } from './contexts/ViewContext'
 import { KeyboardShortcutsProvider } from './contexts/KeyboardShortcutsContext'
 import { AppSettingsProvider, useAppSettings } from './contexts/AppSettingsContext'
@@ -25,6 +25,7 @@ import { Button } from './components/ui/button'
 import { useItalianUi } from './lib/italian-ui'
 import { ImageGallerySidebar } from './components/ImageGallerySidebar'
 import { MediaLibrarySidebar } from './components/MediaLibrarySidebar'
+import { CHARACTER_INFO_OPEN_EVENT, LIBRARY_PANEL_OPEN_EVENT } from './lib/sidebar-events'
 
 type SetupState = 'loading' | { needsSetup: boolean; needsLicense: boolean }
 type RequiredModelsGateState = 'checking' | 'missing' | 'ready'
@@ -36,6 +37,7 @@ function AppContent() {
   useItalianUi()
 
   const { currentView } = useView()
+  const { activeProject } = useProjects()
   const { connected, processStatus, isLoading: backendLoading } = useBackend()
   const { settings, saveLtxApiKey, saveFalApiKey, forceApiGenerations, isLoaded, runtimePolicyLoaded } = useAppSettings()
 
@@ -71,6 +73,10 @@ function AppContent() {
   const isLibraryOpen = activeLibraryPanel !== null
 
   useEffect(() => {
+    setActiveLibraryPanel(null)
+  }, [currentView])
+
+  useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail
       if (detail?.tab) setSettingsInitialTab(detail.tab)
@@ -79,6 +85,17 @@ function AppContent() {
     window.addEventListener('open-settings', handler)
     return () => window.removeEventListener('open-settings', handler)
   }, [])
+
+  useEffect(() => {
+    const closeLibraryForCharacterInfo = () => setActiveLibraryPanel(null)
+    window.addEventListener(CHARACTER_INFO_OPEN_EVENT, closeLibraryForCharacterInfo)
+    return () => window.removeEventListener(CHARACTER_INFO_OPEN_EVENT, closeLibraryForCharacterInfo)
+  }, [])
+
+  useEffect(() => {
+    if (!activeLibraryPanel) return
+    window.dispatchEvent(new CustomEvent(LIBRARY_PANEL_OPEN_EVENT, { detail: { panel: activeLibraryPanel } }))
+  }, [activeLibraryPanel])
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -515,7 +532,13 @@ function AppContent() {
   }
 
   return (
-    <div className="relative h-screen w-screen">
+    <div
+      className="relative h-screen w-screen"
+      style={{
+        ['--ax-library-sidebar-width' as string]: isLibraryOpen ? '380px' : '0px',
+        ['--ax-workspace-sidebar-width' as string]: '240px',
+      }}
+    >
       <div
         className="h-full min-w-0 transition-[margin] duration-300"
         style={{ marginRight: isLibraryOpen ? 380 : 0 }}
@@ -562,9 +585,23 @@ function AppContent() {
         )
       })()}
 
-      <ImageGallerySidebar open={activeLibraryPanel === 'images'} onClose={() => setActiveLibraryPanel(null)} />
-      <MediaLibrarySidebar kind="characters" open={activeLibraryPanel === 'characters'} onClose={() => setActiveLibraryPanel(null)} />
-      <MediaLibrarySidebar kind="videos" open={activeLibraryPanel === 'videos'} onClose={() => setActiveLibraryPanel(null)} />
+      <ImageGallerySidebar
+        open={activeLibraryPanel === 'images'}
+        onClose={() => setActiveLibraryPanel(null)}
+        projectId={currentView === 'project' ? activeProject?.id ?? null : null}
+      />
+      <MediaLibrarySidebar
+        kind="characters"
+        open={activeLibraryPanel === 'characters'}
+        onClose={() => setActiveLibraryPanel(null)}
+        projectId={currentView === 'project' ? activeProject?.id ?? null : null}
+      />
+      <MediaLibrarySidebar
+        kind="videos"
+        open={activeLibraryPanel === 'videos'}
+        onClose={() => setActiveLibraryPanel(null)}
+        projectId={currentView === 'project' ? activeProject?.id ?? null : null}
+      />
 
       <LogViewer isOpen={isLogViewerOpen} onClose={() => setIsLogViewerOpen(false)} />
       <SettingsModal
